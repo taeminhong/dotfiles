@@ -12,3 +12,7 @@ Just clone this repository and load bootstrap.sh like below:
 
 bootstrap.sh was borrowed from mathiasbynens/dotfiles.
 Thank you, Mathias Bynens.
+
+# P.S.
+
+I'm not a native speaker. Just feel free to correct me.
