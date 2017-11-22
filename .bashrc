@@ -125,7 +125,7 @@ fi
 if [ -f ~/.fzf.bash ]; then
     source ~/.fzf.bash
     # find all files include hidden ones
-    export FZF_DEFAULT_COMMAND='find .'
+    export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git -d 7'
     export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 fi
 
