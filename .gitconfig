@@ -1,0 +1,36 @@
+# This is Git's per-user configuration file.
+[core]
+	excludesfile = ~/.gitignore_global
+[user]
+	name = Taemin Hong
+	email = taeminhong@outlook.com
+[alias]
+
+	# View whole history graph. See http://stackoverflow.com/a/9074343
+	graph1 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
+	graph2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''	  %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
+	graph3 = log --graph --decorate --all
+	graph = !"git graph1"
+
+	# View abbreviated SHA, description, and history graph of the latest 20 commits
+	l = log --pretty=oneline -n 20 --graph --abbrev-commit
+
+	# View the current working tree status using the short format
+	s = status -s
+
+	# Show the diff between the latest commit and the current state
+	d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
+
+	# Amend message of most recent commit.
+	amend = commit --amend
+
+	# Fix the most recent commit without amending commit message
+	fix = commit --amend -CHEAD
+
+	wip = !"git add . && git commit -m 'wip'"
+
+	c = commit
+	co = checkout
+
+[push]
+	default = simple
