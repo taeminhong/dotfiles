@@ -105,7 +105,8 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-RC_PLATFORM_SPECIFIC=".bashrc.$(uname)"
+PLATFORM=$(expr $(uname) : '^\([a-zA-Z]*\)')
+RC_PLATFORM_SPECIFIC=".bashrc.$PLATFORM"
 if [ -f ~/$RC_PLATFORM_SPECIFIC ]; then
     . ~/$RC_PLATFORM_SPECIFIC
 fi
