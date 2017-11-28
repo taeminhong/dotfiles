@@ -125,8 +125,13 @@ fi
 # Command line fuzzy finder: https://github.com/junegunn/fzf
 if [ -f ~/.fzf.bash ]; then
     source ~/.fzf.bash
-    # find all files include hidden ones
-    export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git -d 7'
+    # fd support --exclude option from version 5.0.0
+    if fd -d 0 --exclude .git >/dev/null 2>&1; then
+        # find all files include hidden ones
+        export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git -d 7'
+    else
+	export FZF_DEFAULT_COMMAND='fd --type f --hidden -d 7 | grep -v "^.git"'
+    fi
     export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 fi
 
