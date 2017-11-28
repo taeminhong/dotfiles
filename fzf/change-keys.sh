@@ -1,3 +1,5 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-patch -u ~/.fzf/shell/key-bindings.bash  <./settings/fzf/key-binding.patch 
+pushd $(dirname ${BASH_SOURCE})
+patch -u ~/.fzf/shell/key-bindings.bash  <./key-binding.patch
+popd
