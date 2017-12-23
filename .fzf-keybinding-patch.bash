@@ -2,6 +2,9 @@
 bind '"\C-t": transpose-chars'
 bind '"\ec": capitalize-word'
 
+# Alt-j cd into the selected directory
+bind '"\ej": " \C-e\C-u`__fzf_cd__`\e\C-e\er\C-m"'
+
 # Alt-i - Paste the selected file path into the command line
 if [ $BASH_VERSINFO -gt 3 ]; then
     bind -x '"\ei": "fzf-file-widget"'
