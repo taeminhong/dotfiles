@@ -1,0 +1,1 @@
+alias orange='ssh orange'
