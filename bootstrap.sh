@@ -2,8 +2,16 @@
 
 cd "$(dirname "${BASH_SOURCE}")";
 
+function platform() {
+	name=$(expr $(uname) : '^\([a-zA-Z]*\)')
+	case $name in
+		CYGWIN|MINGW|MSYS) echo "Windows";;
+		Darwin) echo "Mac";;
+		*) echo $name;;
+	esac
+}
+
 function doIt() {
-	platform=$(expr $(uname) : '^\([a-zA-Z]*\)')
 	rsync --exclude ".git/" \
 		--exclude ".DS_Store" \
 		--exclude ".osx" \
@@ -11,10 +19,10 @@ function doIt() {
 		--exclude "README.md" \
 		--exclude "fzf*" \
 		--exclude "keyboard" \
-		--exclude "Darwin" \
+		--exclude "Mac" \
 		--exclude "Linux" \
-		--exclude "MSYS" \
-		-avh --no-perms . $platform/ ~;
+		--exclude "Windows" \
+		-avh --no-perms . "$(platform)/" ~;
 	source ~/.bash_profile;
 }
 
