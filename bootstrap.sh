@@ -3,14 +3,18 @@
 cd "$(dirname "${BASH_SOURCE}")";
 
 function doIt() {
+	platform=$(expr $(uname) : '^\([a-zA-Z]*\)')
 	rsync --exclude ".git/" \
 		--exclude ".DS_Store" \
 		--exclude ".osx" \
 		--exclude "bootstrap.sh" \
 		--exclude "README.md" \
-                --exclude "fzf*" \
-                --exclude "keyboard" \
-		-avh --no-perms . ~;
+		--exclude "fzf*" \
+		--exclude "keyboard" \
+		--exclude "Darwin" \
+		--exclude "Linux" \
+		--exclude "MSYS" \
+		-avh --no-perms . $platform/ ~;
 	source ~/.bash_profile;
 }
 

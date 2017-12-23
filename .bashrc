@@ -105,10 +105,8 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-PLATFORM=$(expr $(uname) : '^\([a-zA-Z]*\)')
-RC_PLATFORM_SPECIFIC=".bashrc.$PLATFORM"
-if [ -f ~/$RC_PLATFORM_SPECIFIC ]; then
-    . ~/$RC_PLATFORM_SPECIFIC
+if [ -f ~/.bashrc.platform-specific ]; then
+    . ~/.bashrc.platform-specific
 fi
 
 # enable programmable completion features (you don't need to enable
