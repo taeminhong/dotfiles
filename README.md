@@ -15,4 +15,4 @@ Thank you, Mathias Bynens.
 
 # P.S.
 
-I'm not a native speaker. Just feel free to correct me.
+I'm not a native speaker. Please feel free to send me PR if you find any mistakes.
