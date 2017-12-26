@@ -19,3 +19,5 @@ White=208,208,208
 BoldWhite=245,245,245
 BoldAsFont=no
 CursorType=block
+Locale=en_US
+Charset=UTF-8
