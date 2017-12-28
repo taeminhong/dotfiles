@@ -5,10 +5,10 @@ cd "$(dirname "${BASH_SOURCE}")";
 function append_line() {
 	set -e
 
-	line="$1"
-	file="$2"
-	pattern="$3"
-	lineno=""
+	local line="$1"
+	local file="$2"
+	local pattern="$3"
+	local lineno=""
 
 	if [ -f "$file" ]; then
 		lineno=$(grep -nF "$pattern" "$file" | sed 's/:.*//' | tr '\n' ' ')
@@ -21,7 +21,7 @@ function append_line() {
 }
 
 function platform() {
-	name=$(expr $(uname) : '^\([a-zA-Z]*\)')
+	local name=$(expr $(uname) : '^\([a-zA-Z]*\)')
 	case $name in
 		CYGWIN|MINGW|MSYS) echo "Windows";;
 		Darwin) echo "Mac";;
@@ -30,7 +30,7 @@ function platform() {
 }
 
 function doIt() {
-	fzf_patch=".fzf-keybinding-patch.bash"
+	local fzf_patch=".fzf-keybinding-patch.bash"
 	rsync --exclude ".git/" \
 		--exclude ".DS_Store" \
 		--exclude ".osx" \
