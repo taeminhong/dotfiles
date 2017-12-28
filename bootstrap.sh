@@ -20,6 +20,20 @@ function append_line() {
     set +e
 }
 
+function commands_exist() {
+    for c in $@; do
+        if ! command -v $c >/dev/null 2>&1; then
+            exit $?
+        fi
+    done
+}
+
+function install_tpm() {
+    if commands_exist tmux git && [ ! -d ~/.tmux/plugins/tpm ]; then
+        git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+    fi
+}
+
 function platform() {
     local name=$(expr $(uname) : '^\([a-zA-Z]*\)')
     case $name in
@@ -43,6 +57,7 @@ function doIt() {
           --exclude "Windows" \
           -avh --no-perms . "$(platform)/" ~;
     append_line "[ -f ~/$fzf_patch ] && source ~/$fzf_patch" ~/.fzf.bash "$fzf_patch"
+    install_tpm
     source ~/.bash_profile;
 }
 
