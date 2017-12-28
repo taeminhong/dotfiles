@@ -2,6 +2,24 @@
 
 cd "$(dirname "${BASH_SOURCE}")";
 
+function append_line() {
+	set -e
+
+	line="$1"
+	file="$2"
+	pattern="$3"
+	lineno=""
+
+	if [ -f "$file" ]; then
+		lineno=$(grep -nF "$pattern" "$file" | sed 's/:.*//' | tr '\n' ' ')
+		if [ -z "$lineno" ]; then
+		    echo "$line" >> "$file"
+		fi
+	fi
+
+	set +e
+}
+
 function platform() {
 	name=$(expr $(uname) : '^\([a-zA-Z]*\)')
 	case $name in
@@ -12,6 +30,7 @@ function platform() {
 }
 
 function doIt() {
+	fzf_patch=".fzf-keybinding-patch.bash"
 	rsync --exclude ".git/" \
 		--exclude ".DS_Store" \
 		--exclude ".osx" \
@@ -23,6 +42,7 @@ function doIt() {
 		--exclude "Linux" \
 		--exclude "Windows" \
 		-avh --no-perms . "$(platform)/" ~;
+	append_line "[ -f ~/$fzf_patch ] && source ~/$fzf_patch" ~/.fzf.bash "$fzf_patch"
 	source ~/.bash_profile;
 }
 
