@@ -4,10 +4,17 @@
 ;; You may delete these explanatory comments.
 (package-initialize)
 
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+
 ;; indentation
 (setq-default indent-tabs-mode nil)
 (setq default-tab-width 8)
 (setq python-indent-offset 4)
+;; use 4 spaces in js, but 2 spaces in json by default
+(setq js2-basic-offset 4)
+(setq json-reformat:indent-width 2)
+(add-hook 'json-mode-hook
+          (lambda () (setq-local js-indent-level 2)))
 
 ;; C/C++
 (add-hook 'c-mode-hook
@@ -65,7 +72,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages (quote (counsel swiper projectile fzf ag vue-mode))))
+ '(package-selected-packages
+   (quote
+    (json-mode js2-mode csharp-mode counsel swiper projectile fzf ag vue-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
