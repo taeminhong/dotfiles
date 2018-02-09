@@ -72,6 +72,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(js2-missing-semi-one-line-override t)
+ '(js2-strict-missing-semi-warning nil)
  '(package-selected-packages
    (quote
     (json-mode js2-mode csharp-mode counsel swiper projectile fzf ag vue-mode))))
