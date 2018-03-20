@@ -121,7 +121,7 @@ if ! shopt -oq posix; then
 fi
 
 # Command line fuzzy finder: https://github.com/junegunn/fzf
-if [ -f ~/.fzf.bash ]; then
+if [ -o emacs ] && [ -f ~/.fzf.bash ]; then
     source ~/.fzf.bash
     # fd supports --exclude option from version 5.0.0
     if fd -d 0 --exclude .git >/dev/null 2>&1; then
