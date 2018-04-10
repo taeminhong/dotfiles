@@ -22,9 +22,7 @@ function append_line() {
 
 function commands_exist() {
     for c in $@; do
-        if ! command -v $c >/dev/null 2>&1; then
-            exit $?
-        fi
+        command -v $c >/dev/null 2>&1 || return $?
     done
 }
 
