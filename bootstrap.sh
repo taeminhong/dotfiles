@@ -50,8 +50,6 @@ function doIt() {
           --exclude ".osx" \
           --exclude "bootstrap.sh" \
           --exclude "README.md" \
-          --exclude "fzf*" \
-          --exclude "keyboard" \
           --exclude "Mac" \
           --exclude "Linux" \
           --exclude "Windows" \
