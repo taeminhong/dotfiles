@@ -30,6 +30,7 @@
 (use-package ivy
   :init
   (setq ivy-use-virtual-buffers nil)
+  (setq ivy-use-selectable-prompt t)
   :bind ("C-x b" . 'ivy-switch-buffer))
 
 (use-package counsel
