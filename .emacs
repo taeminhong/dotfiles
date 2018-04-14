@@ -27,7 +27,7 @@
 	  (lambda () (c-set-style "BSD")))
 
 ;; Ivy/Counsel/Swiper
-(setq ivy-use-virtual-buffers t)
+(setq ivy-use-virtual-buffers nil)
 
 ;; key bindings
 (global-set-key [(f5)] 'compile)
