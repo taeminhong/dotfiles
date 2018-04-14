@@ -27,22 +27,29 @@
 	  (lambda () (c-set-style "BSD")))
 
 ;; Ivy/Counsel/Swiper
-(setq ivy-use-virtual-buffers nil)
+(use-package ivy
+  :init
+  (setq ivy-use-virtual-buffers nil)
+  :bind ("C-x b" . 'ivy-switch-buffer))
+
+(use-package counsel
+  :bind (("M-x" . 'counsel-M-x)
+         ("C-x C-f" . 'counsel-find-file)
+         ("C-h f" . 'counsel-describe-function)
+         ("C-h v" . 'counsel-describe-variable)
+         ("C-c k" . 'counsel-ag)
+         ("C-c g" . 'counsel-git)
+         ("C-c j" . 'counsel-git-grep)))
+
+;; fzf
+(use-package fzf
+  :bind ("C-c f" . 'fzf))
 
 ;; key bindings
 (global-set-key [(f5)] 'compile)
 (global-set-key [(f6)] 'shell)
 (global-set-key "\M-g" 'goto-line)
-(global-set-key (kbd "M-x") 'counsel-M-x)
-(global-set-key (kbd "C-x C-f") 'counsel-find-file)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
-(global-set-key (kbd "C-h f") 'counsel-describe-function)
-(global-set-key (kbd "C-h v") 'counsel-describe-variable)
-(global-set-key (kbd "C-c k") 'counsel-ag)
-(global-set-key (kbd "C-c g") 'counsel-git)
-(global-set-key (kbd "C-c j") 'counsel-git-grep)
-(global-set-key (kbd "C-c f") 'fzf)
-(global-set-key (kbd "C-x b") 'ivy-switch-buffer)
 
 ;; Packages
 ;; This code came from https://www.emacswiki.org/emacs/ELPA
@@ -78,7 +85,7 @@
  '(js2-strict-missing-semi-warning nil)
  '(package-selected-packages
    (quote
-    (json-mode js2-mode csharp-mode counsel swiper projectile fzf ag vue-mode))))
+    (use-package json-mode js2-mode csharp-mode counsel swiper projectile fzf ag vue-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
