@@ -32,6 +32,8 @@
   (setq ivy-use-virtual-buffers nil)
   (setq ivy-use-selectable-prompt t)
   (setq ivy-display-style nil)
+  :config
+  (ivy-mode 1)
   :bind ("C-x b" . 'ivy-switch-buffer))
 
 (use-package counsel
