@@ -32,6 +32,11 @@
   (setq ivy-use-virtual-buffers nil)
   (setq ivy-use-selectable-prompt t)
   (setq ivy-display-style nil)
+  ;; Butter fuzzy match support in Ivy
+  ;; see https://oremacs.com/2016/01/06/ivy-flx/
+  (setq ivy-re-builders-alist
+        '((t . ivy--regex-fuzzy)))
+  (setq ivy-initial-inputs-alist nil)
   :config
   (ivy-mode 1))
 
@@ -87,7 +92,7 @@
  '(js2-strict-missing-semi-warning nil)
  '(package-selected-packages
    (quote
-    (smex use-package json-mode js2-mode csharp-mode counsel swiper projectile fzf ag vue-mode))))
+    (flx smex use-package json-mode js2-mode csharp-mode counsel swiper projectile fzf ag vue-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
