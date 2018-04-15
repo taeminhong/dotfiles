@@ -33,15 +33,13 @@
   (setq ivy-use-selectable-prompt t)
   (setq ivy-display-style nil)
   :config
-  (ivy-mode 1)
-  :bind ("C-x b" . 'ivy-switch-buffer))
+  (ivy-mode 1))
+
 
 (use-package counsel
-  :bind (("M-x" . 'counsel-M-x)
-         ("C-x C-f" . 'counsel-find-file)
-         ("C-h f" . 'counsel-describe-function)
-         ("C-h v" . 'counsel-describe-variable)
-         ("C-c k" . 'counsel-ag)
+  :config
+  (counsel-mode 1)
+  :bind (("C-c k" . 'counsel-ag)
          ("C-c g" . 'counsel-git)
          ("C-c j" . 'counsel-git-grep)))
 
