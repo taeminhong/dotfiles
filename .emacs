@@ -4,6 +4,10 @@
 ;; You may delete these explanatory comments.
 (package-initialize)
 
+;; Suppress ls-dired warning in OSX
+(setq dired-use-ls-dired
+      (not (string-equal system-type "darwin")))
+
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 
 ;; indentation
