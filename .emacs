@@ -54,11 +54,6 @@
 (setq scroll-step           1
       scroll-conservatively 10000)
 
-;; Prevent automatic change of default-directory
-(add-hook 'find-file-hook
-          (lambda ()
-            (setq default-directory command-line-default-directory)))
-
 ;; Sensible Emacs
 (load-file "~/.emacs.d/sensible-defaults.el")
 (sensible-defaults/use-all-settings)
