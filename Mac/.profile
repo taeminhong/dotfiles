@@ -5,10 +5,10 @@
 # the files are located in the bash-doc package.
 
 # MacPort
-PATH="/opt/local/bin:/opt/local/sbin:$PATH"
+PATH=/opt/local/bin:/opt/local/sbin:$PATH
 
 # allow running commands installed by `pip install --user`
-PATH="~/Library/Python/3.4/bin:$PATH"
+PATH=~/Library/Python/3.4/bin:$PATH
 
 # Cargo is a package manager for Rust
-PATH="~/.cargo/bin:$PATH"
+PATH=~/.cargo/bin:$PATH

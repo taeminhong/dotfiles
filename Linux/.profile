@@ -9,4 +9,4 @@
 #umask 022
 
 # Cargo is a package manager for Rust
-PATH="~/.cargo/bin:$PATH"
+PATH=~/.cargo/bin:$PATH
