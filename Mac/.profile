@@ -4,9 +4,11 @@
 # see /usr/share/doc/bash/examples/startup-files for examples.
 # the files are located in the bash-doc package.
 
-# the default umask is set in /etc/profile; for setting the umask
-# for ssh logins, install and configure the libpam-umask package.
-#umask 022
+# MacPort
+PATH="/opt/local/bin:/opt/local/sbin:$PATH"
+
+# allow running commands installed by `pip install --user`
+PATH="~/Library/Python/3.4/bin:$PATH"
 
 # Cargo is a package manager for Rust
 PATH="~/.cargo/bin:$PATH"

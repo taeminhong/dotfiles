@@ -133,11 +133,6 @@ if [ -o emacs ] && [ -f ~/.fzf.bash ]; then
     export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 fi
 
-# Cargo is a package manager for Rust
-if [ -d ~/.cargo/bin ]; then
-    export PATH="$PATH:~/.cargo/bin"
-fi
-
 # Console command corrector: https://github.com/nvbn/thefuck
 if command -v thefuck >/dev/null 2>&1; then
      eval "$(thefuck --alias)"

@@ -1,7 +1,3 @@
-# allow running commands installed by `pip install --user`
-PATH="$PATH:~/Library/Python/3.4/bin"
-export PATH
-
 # emacs imitation of joe.
 export GIT_EDITOR=jmacs
 
