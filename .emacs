@@ -46,11 +46,8 @@
   (counsel-mode 1)
   :bind (("C-c k" . 'counsel-ag)
          ("C-c g" . 'counsel-git)
+         ("C-c f" . 'counsel-fzf)
          ("C-c j" . 'counsel-git-grep)))
-
-;; fzf
-(use-package fzf
-  :bind ("C-c f" . 'fzf))
 
 ;; key bindings
 (global-set-key [(f5)] 'compile)
@@ -92,7 +89,7 @@
  '(js2-strict-missing-semi-warning nil)
  '(package-selected-packages
    (quote
-    (flx smex use-package json-mode js2-mode csharp-mode counsel swiper projectile fzf ag vue-mode))))
+    (flx smex use-package json-mode js2-mode csharp-mode counsel swiper projectile ag vue-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
