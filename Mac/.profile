@@ -4,11 +4,19 @@
 # see /usr/share/doc/bash/examples/startup-files for examples.
 # the files are located in the bash-doc package.
 
+addpath() {
+    case ":$PATH:" in
+        *":$1:"*) :;;
+        *) PATH="$1:$PATH";;
+    esac
+}
+
 # MacPort
-PATH=/opt/local/bin:/opt/local/sbin:$PATH
+addpath /opt/local/bin
+addpath /opt/local/sbin
 
 # allow running commands installed by `pip install --user`
-PATH=~/Library/Python/3.4/bin:$PATH
+addpath ~/Library/Python/3.4/bin
 
 # Cargo is a package manager for Rust
-PATH=~/.cargo/bin:$PATH
+addpath ~/.cargo/bin

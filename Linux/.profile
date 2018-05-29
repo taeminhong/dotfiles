@@ -8,5 +8,12 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
+addpath() {
+    case ":$PATH:" in
+        *":$1:"*) :;;
+        *) PATH="$1:$PATH";;
+    esac
+}
+
 # Cargo is a package manager for Rust
-PATH=~/.cargo/bin:$PATH
+addpath ~/.cargo/bin
