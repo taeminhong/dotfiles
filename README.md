@@ -10,7 +10,7 @@ Just clone this repository and load bootstrap.sh like below:
 
 # Thanks to
 
-bootstrap.sh was borrowed from mathiasbynens/dotfiles.
+bootstrap.sh was adapted from mathiasbynens/dotfiles.
 Thank you, Mathias Bynens.
 
 # P.S.
