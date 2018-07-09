@@ -42,16 +42,34 @@ function platform() {
 }
 
 function doIt() {
+    local workspace=$(mktemp -d)
     local fzf_patch=".fzf-keybinding-patch.bash"
-    rsync --exclude ".git/" \
+    rsync --exclude "$workspace" \
+          --exclude ".git/" \
           --exclude ".DS_Store" \
           --exclude ".osx" \
           --exclude "bootstrap.sh" \
+          --exclude "append-platform-specific.sh" \
           --exclude "README.md" \
           --exclude "Mac" \
           --exclude "Linux" \
           --exclude "Windows" \
-          -avh --no-perms . "$(platform)/" ~;
+          -ah --no-perms . $workspace
+
+    local suffix=".platform-specific"
+    local dir=$(platform)
+    if [ -d "$dir" ]; then
+        rsync --exclude ".DS_Store" \
+              --exclude ".osx" \
+              --exclude "*$suffix" \
+              -ah --no-perms $dir/ $workspace
+        find $dir -type f -name "*$suffix" \
+             -exec ./append-platform-specific.sh $dir $workspace $suffix {} \;
+    fi
+
+    rsync -cavh --no-perms $workspace/ ~
+    rm -rf $workspace
+
     append_line "[ -f ~/$fzf_patch ] && source ~/$fzf_patch" ~/.fzf.bash "$fzf_patch"
     install_tpm
     source ~/.bash_profile;
