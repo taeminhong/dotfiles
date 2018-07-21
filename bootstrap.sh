@@ -44,8 +44,7 @@ function platform() {
 function doIt() {
     local workspace=$(mktemp -d)
     local fzf_patch=".fzf-keybinding-patch.bash"
-    rsync --exclude "$workspace" \
-          --exclude ".git/" \
+    rsync --exclude ".git/" \
           --exclude ".DS_Store" \
           --exclude ".osx" \
           --exclude "bootstrap.sh" \
