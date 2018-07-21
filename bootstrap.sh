@@ -59,12 +59,14 @@ function doIt() {
     local suffix=".platform-specific"
     local dir=$(platform)
     if [ -d "$dir" ]; then
+        cd $dir
         rsync --exclude ".DS_Store" \
               --exclude ".osx" \
               --exclude "*$suffix" \
-              -ah --no-perms $dir/ $workspace
-        find $dir -type f -name "*$suffix" \
-             -exec ./append-platform-specific.sh $dir $workspace $suffix {} \;
+              -ah --no-perms ./ $workspace
+        find . -type f -name "*$suffix" \
+             -exec ../append-platform-specific.sh $workspace $suffix {} \;
+        cd ..
     fi
 
     rsync -cavh --no-perms $workspace/ ~
