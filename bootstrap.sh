@@ -41,6 +41,15 @@ function platform() {
     esac
 }
 
+function apply_platform_specific() {
+    local source="$1"
+    local target="$2"
+    [ -d "$source" ] && find "$source" -type f -not -name ".DS_Store" -not -name ".osx" \
+            | sed -e p -e "s#^$source#$target#" \
+            | tr "\n" "\0" \
+            | xargs -0 -n2 ./append.sh
+}
+
 function doIt() {
     local workspace=$(mktemp -d)
     local fzf_patch=".fzf-keybinding-patch.bash"
@@ -53,14 +62,8 @@ function doIt() {
           --exclude "Mac" \
           --exclude "Linux" \
           --exclude "Windows" \
-          -ah --no-perms . $workspace
-
-    local dir=$(platform)
-    [ -d "$dir" ] && find "$dir" -type f -not -name ".DS_Store" -not -name ".osx" \
-            | sed -e p -e "s#^$dir#$workspace#" \
-            | tr "\n" "\0" \
-            | xargs -0 -n2 ./append.sh
-
+          -ah --no-perms . "$workspace"
+    apply_platform_specific "$(platform)" "$workspace"
     rsync -cavh --no-perms $workspace/ ~
     rm -rf $workspace
 
