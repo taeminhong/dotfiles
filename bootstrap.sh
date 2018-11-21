@@ -48,25 +48,18 @@ function doIt() {
           --exclude ".DS_Store" \
           --exclude ".osx" \
           --exclude "bootstrap.sh" \
-          --exclude "append-platform-specific.sh" \
+          --exclude "append.sh" \
           --exclude "README.md" \
           --exclude "Mac" \
           --exclude "Linux" \
           --exclude "Windows" \
           -ah --no-perms . $workspace
 
-    local suffix=".platform-specific"
     local dir=$(platform)
-    if [ -d "$dir" ]; then
-        cd $dir
-        rsync --exclude ".DS_Store" \
-              --exclude ".osx" \
-              --exclude "*$suffix" \
-              -ah --no-perms ./ $workspace
-        find . -type f -name "*$suffix" \
-             -exec ../append-platform-specific.sh $workspace $suffix {} \;
-        cd ..
-    fi
+    [ -d "$dir" ] && find "$dir" -type f -not -name ".DS_Store" -not -name ".osx" \
+            | sed -e p -e "s#^$dir#$workspace#" \
+            | tr "\n" "\0" \
+            | xargs -0 -n2 ./append.sh
 
     rsync -cavh --no-perms $workspace/ ~
     rm -rf $workspace
