@@ -133,3 +133,11 @@ fi
 if command -v thefuck >/dev/null 2>&1; then
      eval "$(thefuck --alias)"
 fi
+
+# NVM
+if [ -d ~/.nvm ]; then
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    # nvm bash_completion
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+fi
