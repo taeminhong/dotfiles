@@ -1,6 +1,8 @@
 ThemeFile=dracula
 BoldAsFont=no
 CursorType=block
+CursorColour=255,0,255
+CursorBlinks=yes
 Locale=en_US
 Charset=UTF-8
 FontHeight=11
