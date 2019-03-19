@@ -22,3 +22,4 @@ CursorType=block
 Locale=en_US
 Charset=UTF-8
 FontHeight=11
+Term=xterm-256color
