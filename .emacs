@@ -69,6 +69,9 @@
 (load-file "~/.emacs.d/sensible-defaults.el")
 (sensible-defaults/use-all-settings)
 
+;; Look and feel
+(setq frame-background-mode 'dark)
+
 ;; Linum mode
 (setq linum-format "%4d ")
 
