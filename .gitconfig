@@ -42,6 +42,7 @@
 
 [advice]
 	detachedHead = false
+	statusHints = false
 
 [svn]
 	# push empty directory removals back to svn as directory deletes
