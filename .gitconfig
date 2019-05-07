@@ -26,6 +26,8 @@
 	c = commit
 	co = checkout
 	root = rev-parse --show-toplevel
+	glance = show --name-status --oneline
+	name-status = show --name-status --format=""
 [push]
 	default = simple
 
