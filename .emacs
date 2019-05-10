@@ -54,6 +54,7 @@
 (global-set-key [(f6)] 'shell)
 (global-set-key "\M-g" 'goto-line)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
+(windmove-default-keybindings)
 
 ;; Packages
 ;; This code came from https://www.emacswiki.org/emacs/ELPA
