@@ -54,6 +54,7 @@
 (global-set-key [(f6)] 'shell)
 (global-set-key "\M-g" 'goto-line)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
+(global-set-key (kbd "M-o") 'other-window)
 (windmove-default-keybindings)
 
 ;; Packages
