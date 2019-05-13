@@ -4,6 +4,28 @@
 ;; You may delete these explanatory comments.
 (package-initialize)
 
+(require 'misc)
+
+(defun my-kill-word (n)
+  (interactive "^p")
+  (while (< 0 n)
+    (if (looking-at-p "\\w")
+        (kill-word 1)
+      (let ((beg (point))
+            (end (save-excursion (forward-to-word 1) (point))))
+        (kill-region beg end)))
+    (setq n (1- n))))
+
+(defun my-backward-kill-word (n)
+  (interactive "^p")
+  (while (< 0 n)
+    (if (looking-back "\\w" (- (point) 1))
+        (backward-kill-word 1)
+      (let ((beg (point))
+            (end (save-excursion (backward-to-word 1) (point))))
+        (kill-region beg end)))
+    (setq n (1- n))))
+
 ;; Suppress ls-dired warning in OSX
 (setq dired-use-ls-dired
       (not (string-equal system-type "darwin")))
@@ -55,6 +77,8 @@
 (global-set-key "\M-g" 'goto-line)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "M-o") 'other-window)
+(global-set-key (kbd "M-d") 'my-kill-word)
+(global-set-key (kbd "<M-DEL>") 'my-backward-kill-word)
 (windmove-default-keybindings)
 
 ;; Packages
