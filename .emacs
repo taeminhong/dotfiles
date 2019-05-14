@@ -86,6 +86,9 @@
 ;; Scheme
 (setq scheme-program-name "guile")
 
+(load-file "~/.emacs.d/move-lines.el")
+(move-lines-binding)
+
 ;; Misc
 (setq help-window-select t)
 
