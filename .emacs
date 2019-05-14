@@ -76,6 +76,7 @@
 
 ;; Linum mode
 (setq linum-format "%4d ")
+(add-hook 'find-file-hook 'linum-mode)
 
 ;; create temporary buffer
 (defun generate-buffer ()
