@@ -32,7 +32,7 @@
   (setq ivy-use-virtual-buffers nil)
   (setq ivy-use-selectable-prompt t)
   (setq ivy-display-style nil)
-  ;; Butter fuzzy match support in Ivy
+  ;; Better fuzzy match support in Ivy
   ;; see https://oremacs.com/2016/01/06/ivy-flx/
   (setq ivy-re-builders-alist
         '((t . ivy--regex-fuzzy)))
