@@ -115,6 +115,8 @@
 
 ;; Misc
 (setq help-window-select t)
+(desktop-save-mode 1)
+(setq desktop-path '("." "~/.emacs.d/" "~"))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
