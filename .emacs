@@ -136,3 +136,4 @@
  )
 (put 'narrow-to-page 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
+(put 'magit-clean 'disabled nil)
