@@ -6,6 +6,45 @@
 
 (require 'misc)
 
+(defun my-forward-word-begin (n)
+  (interactive "^p")
+  (let (word-begin
+        word-end
+        subword-end-p)
+    (while (< 0 n)
+      (save-excursion
+        (forward-to-word 1)
+        (setq word-begin (point)))
+      (save-excursion
+        (forward-word 1)
+        (setq word-end (point))
+        (setq subword-end-p (looking-at-p "\\w")))
+      (if (or (< word-begin word-end) (not subword-end-p))
+          (goto-char word-begin)
+        (goto-char word-end))
+      (setq n (1- n)))))
+
+(defun my-backward-word-end (n)
+  (interactive "^p")
+  (let (word-begin
+        word-end
+        subword-begin-p)
+    (while (< 0 n)
+      (save-excursion
+        (backward-to-word 1)
+        (setq word-end (point)))
+      (save-excursion
+        (backward-word 1)
+        (setq word-begin (point))
+        (setq subword-begin-p (looking-back "\\w" (1- (point)))))
+      (if (and (< word-end word-begin) subword-begin-p)
+          (goto-char word-begin)
+        (goto-char word-end))
+      (setq n (1- n)))))
+
+(defalias 'my-backward-word-begin 'backward-word)
+(defalias 'my-forward-word-end 'forward-word)
+
 (defun my-kill-word (n)
   (interactive "^p")
   (while (< 0 n)
@@ -79,6 +118,10 @@
 (global-set-key (kbd "M-o") 'other-window)
 (global-set-key (kbd "M-d") 'my-kill-word)
 (global-set-key (kbd "<M-DEL>") 'my-backward-kill-word)
+(global-set-key (kbd "<C-right>") 'my-forward-word-begin)
+(global-set-key (kbd "<C-left>") 'my-backward-word-begin)
+(global-set-key (kbd "<M-left>") 'my-backward-word-end)
+(global-set-key (kbd "<M-right>") 'my-forward-word-end)
 (windmove-default-keybindings)
 
 ;; Packages
