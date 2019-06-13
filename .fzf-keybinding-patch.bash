@@ -2,6 +2,10 @@ if [ -o emacs ]; then
     # roll back keybindings
     bind '"\C-t": transpose-chars'
     bind '"\ec": capitalize-word'
+    bind '"\C-r": reverse-search-history'
+
+    # Alt-p Paste the selected command from history into the command line
+    bind '"\ep": " \C-e\C-u`__fzf_history__`\e\C-e\e^\er"'
 
     # Alt-j cd into the selected directory
     bind '"\ej": " \C-e\C-u`__fzf_cd__`\e\C-e\er\C-m"'
