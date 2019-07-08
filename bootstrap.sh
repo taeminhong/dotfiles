@@ -2,24 +2,6 @@
 
 cd "$(dirname "${BASH_SOURCE}")";
 
-function append_line() {
-    set -e
-
-    local line="$1"
-    local file="$2"
-    local pattern="$3"
-    local lineno=""
-
-    if [ -f "$file" ]; then
-        lineno=$(grep -nF "$pattern" "$file" | sed 's/:.*//' | tr '\n' ' ')
-        if [ -z "$lineno" ]; then
-            echo "$line" >> "$file"
-        fi
-    fi
-
-    set +e
-}
-
 function commands_exist() {
     for c in $@; do
         command -v $c >/dev/null 2>&1 || return $?
@@ -41,35 +23,19 @@ function platform() {
     esac
 }
 
-function apply_platform_specific() {
-    local source="$1"
-    local target="$2"
-    [ -d "$source" ] && find "$source" -type f -not -name ".DS_Store" -not -name ".osx" \
-            | sed -e p -e "s#^$source#$target#" \
-            | tr "\n" "\0" \
-            | xargs -0 -n2 ./append.sh
+function make_target() {
+    local target=$(platform)
+    if [ -d "$target" ]; then
+        echo "$target"
+    else
+        echo default
+    fi
 }
 
 function doIt() {
     local workspace=$(mktemp -d)
-    local fzf_patch=".fzf-keybinding-patch.bash"
-    rsync --exclude ".git/" \
-          --exclude ".DS_Store" \
-          --exclude ".osx" \
-          --exclude "bootstrap.sh" \
-          --exclude "append.sh" \
-          --exclude "README.md" \
-          --exclude "Mac" \
-          --exclude "Linux" \
-          --exclude "Windows" \
-          -ah --no-perms . "$workspace"
-    apply_platform_specific "$(platform)" "$workspace"
-    rsync -cavh --no-perms $workspace/ ~
-    rm -rf $workspace
-
-    append_line "[ -f ~/$fzf_patch ] && source ~/$fzf_patch" ~/.fzf.bash "$fzf_patch"
-    install_tpm
-    source ~/.bash_profile;
+    trap "rm -rf $workspace" EXIT
+    make workspace=$workspace $(make_target) && cp -a $workspace/. ~ && install_tpm && source ~/.bash_profile;
 }
 
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
