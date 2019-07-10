@@ -15,27 +15,36 @@ function install_tpm() {
 }
 
 function platform() {
-    local name=$(expr $(uname) : '^\([a-zA-Z]*\)')
-    case $name in
-        CYGWIN|MINGW|MSYS) echo "Windows";;
-        Darwin) echo "Mac";;
-        *) echo $name;;
+    local kernel=$(uname -s)
+    case $kernel in
+        CYGWIN*|MSYS*|MINGW*) echo Windows;;
+        Darwin) echo Mac;;
+        *) echo $kernel;;
     esac
 }
 
-function make_target() {
-    local target=$(platform)
-    if [ -d "$target" ]; then
-        echo "$target"
-    else
-        echo default
-    fi
-}
-
 function doIt() {
-    local workspace=$(mktemp -d)
-    trap "rm -rf $workspace" EXIT
-    make workspace=$workspace $(make_target) && cp -a $workspace/. ~ && install_tpm && source ~/.bash_profile;
+    rsync -Rpgol \
+	  .bash_aliases \
+	  .bash_logout \
+	  .bash_profile \
+	  .bashrc \
+	  .profile \
+	  .emacs \
+	  .emacs.d/sensible-defaults.el \
+	  .emacs.d/move-lines.el \
+	  .gitconfig \
+	  .gitignore_global \
+	  .ssh/config \
+	  .tmux.conf \
+	  .fzf-keybinding-patch.bash \
+          .minttyrc \
+	  ~
+    source ~/.bash_profile
+    install_tpm
+    # Run platform-specific code
+    local setup="$(platform)/setup"
+    test -x $setup && $setup
 }
 
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
@@ -47,4 +56,8 @@ else
         doIt;
     fi;
 fi;
-unset doIt;
+
+unset doIt
+unset install_tpm
+unset commands_exist
+unset platform
