@@ -9,7 +9,7 @@
 #umask 022
 
 addpath() {
-    if [ -n "$1" -a -d "$1" ]; then
+    if [ -d "$1" ]; then
         case ":$PATH:" in
             *":$1:"*) ;;
             *) PATH="$1:$PATH";;
