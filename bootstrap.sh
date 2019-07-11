@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-cd "$(dirname "${BASH_SOURCE}")";
+cd "$(dirname "${BASH_SOURCE}")"
 
 function commands_exist() {
     for c in $@; do
@@ -23,43 +23,33 @@ function platform() {
     esac
 }
 
-function doIt() {
-    # rsync might be better than mkdir and cp, but it's not available on Git for Windows
-    cp -a \
-       .bash_aliases \
-       .bash_logout \
-       .bash_profile \
-       .bashrc \
-       .profile \
-       .emacs \
-       .gitconfig \
-       .gitignore_global \
-       .tmux.conf \
-       .fzf-keybinding-patch.bash \
-       .minttyrc \
-       ~
-    mkdir -p ~/.emacs.d && \
-        cp -a .emacs.d/{sensible-defaults.el,move-lines.el} ~/.emacs.d
-    mkdir -p ~/.ssh && \
-        cp -a .ssh/config ~/.ssh
-    source ~/.bash_profile
-    install_tpm
-    # Run platform-specific code
-    local setup="$(platform)/setup"
-    test -x $setup && $setup
+function execute() {
+    test -x "$1" && "$1"
 }
 
-if [ "$1" == "--force" -o "$1" == "-f" ]; then
-    doIt;
-else
-    read -p "This may overwrite existing files in your home directory. Are you sure? (y/n) " -n 1;
-    echo "";
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-        doIt;
-    fi;
-fi;
+# rsync is more suitable in this task, but it's not available on Git for Windows
+cp -a \
+   .bash_aliases \
+   .bash_logout \
+   .bash_profile \
+   .bashrc \
+   .profile \
+   .emacs \
+   .gitconfig \
+   .gitignore_global \
+   .tmux.conf \
+   .fzf-keybinding-patch.bash \
+   .minttyrc \
+   ~
+mkdir -p ~/.emacs.d && \
+    cp -a .emacs.d/{sensible-defaults.el,move-lines.el} ~/.emacs.d
+mkdir -p ~/.ssh && \
+    cp -a .ssh/config ~/.ssh
+source ~/.bash_profile
+install_tpm
+# Run platform-specific code
+execute "$(platform)/setup"
 
-unset doIt
 unset install_tpm
 unset commands_exist
 unset platform
