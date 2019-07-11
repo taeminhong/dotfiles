@@ -24,22 +24,24 @@ function platform() {
 }
 
 function doIt() {
-    rsync -Rpgol \
-	  .bash_aliases \
-	  .bash_logout \
-	  .bash_profile \
-	  .bashrc \
-	  .profile \
-	  .emacs \
-	  .emacs.d/sensible-defaults.el \
-	  .emacs.d/move-lines.el \
-	  .gitconfig \
-	  .gitignore_global \
-	  .ssh/config \
-	  .tmux.conf \
-	  .fzf-keybinding-patch.bash \
-          .minttyrc \
-	  ~
+    # rsync might be better than mkdir and cp, but it's not available on Git for Windows
+    cp -a \
+       .bash_aliases \
+       .bash_logout \
+       .bash_profile \
+       .bashrc \
+       .profile \
+       .emacs \
+       .gitconfig \
+       .gitignore_global \
+       .tmux.conf \
+       .fzf-keybinding-patch.bash \
+       .minttyrc \
+       ~
+    mkdir -p ~/.emacs.d && \
+        cp -a .emacs.d/{sensible-defaults.el,move-lines.el} ~/.emacs.d
+    mkdir -p ~/.ssh && \
+        cp -a .ssh/config ~/.ssh
     source ~/.bash_profile
     install_tpm
     # Run platform-specific code
