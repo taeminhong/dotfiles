@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 cd "$(dirname "${BASH_SOURCE}")"
 
 function commands_exist {
