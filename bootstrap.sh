@@ -2,19 +2,19 @@
 
 cd "$(dirname "${BASH_SOURCE}")"
 
-function commands_exist() {
+function commands_exist {
     for c in $@; do
         command -v $c >/dev/null 2>&1 || return $?
     done
 }
 
-function install_tpm() {
+function install_tpm {
     if commands_exist tmux git && [ ! -d ~/.tmux/plugins/tpm ]; then
         git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
     fi
 }
 
-function platform() {
+function platform {
     local kernel=$(uname -s)
     case $kernel in
         CYGWIN*|MSYS*|MINGW*) echo Windows;;
@@ -23,7 +23,7 @@ function platform() {
     esac
 }
 
-function execute() {
+function execute {
     test -x "$1" && "$1"
 }
 
