@@ -51,3 +51,4 @@ execute "$(platform)/setup"
 unset install_tpm
 unset commands_exist
 unset platform
+unset execute
