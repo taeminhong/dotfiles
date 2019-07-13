@@ -9,6 +9,3 @@
 # https://unix.stackexchange.com/a/119675
 # https://www.gnu.org/software/bash/manual/html_node/Bash-Startup-Files.html#Bash-Startup-Files
 [[ -e ~/.bashrc  ]] && source ~/.bashrc
-
-# Use the same prompt in non-login shells
-export PS1
