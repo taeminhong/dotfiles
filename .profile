@@ -8,14 +8,12 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
+export DEFAULT_PATH=${DEFAULT_PATH:-$PATH}
+PATH=$DEFAULT_PATH
+
 addpath() {
-    if [ -d "$1" ]; then
-        case ":$PATH:" in
-            *":$1:"*) ;;
-            *) PATH="$1:$PATH";;
-        esac
-    fi
-}
+    test -d "$1" && PATH="$1:$PATH"
+ }
 
 # MacPort
 addpath /opt/local/bin
