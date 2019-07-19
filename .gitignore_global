@@ -6,3 +6,7 @@
 # Emacs lockfiles
 .\#*
 .emacs.desktop*
+
+# Emacs directory-local variable
+.dir-locals.el
+.dir-locals-2.el
