@@ -159,6 +159,23 @@
 (setq help-window-select t)
 (desktop-save-mode 1)
 (setq desktop-path '("." "~/.emacs.d/" "~"))
+(electric-pair-mode 1)
+(defun my-electric-pair-conservative-inhibit (char)
+  "Customized version of `electric-pair-pair-conservative-inhibit'"
+  (or
+   ;; I find it more often preferable not to pair when the
+   ;; same char is next.
+   (eq char (char-after))
+   ;; Don't pair up when we insert the second of "" or """
+   (and (eq char ?\")
+        (eq char (char-before))
+	(eq char (char-before (1- (point)))))
+   ;; It is preferable not to pair next to a word.
+   (eq (char-syntax (following-char)) ?w)
+   ;; Don't pair " at the end of a word.
+   (and (eq char ?\")
+        (eq (char-syntax (char-before (1- (point)))) ?w))))
+(setq electric-pair-inhibit-predicate 'my-electric-pair-conservative-inhibit)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
