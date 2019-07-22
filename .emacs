@@ -158,7 +158,7 @@
 ;; Misc
 (setq help-window-select t)
 (desktop-save-mode 1)
-(setq desktop-path '("." "~/.emacs.d/" "~"))
+(setq desktop-path '("."))
 (electric-pair-mode 1)
 (defun my-electric-pair-conservative-inhibit (char)
   "Customized version of `electric-pair-pair-conservative-inhibit'"
