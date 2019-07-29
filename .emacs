@@ -182,7 +182,7 @@
  '(js2-strict-missing-semi-warning nil)
  '(package-selected-packages
    (quote
-    (glsl-mode magit flx smex use-package json-mode js2-mode csharp-mode counsel swiper projectile ag vue-mode))))
+    (company pcre2el glsl-mode magit flx smex use-package json-mode js2-mode csharp-mode counsel swiper projectile ag vue-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
