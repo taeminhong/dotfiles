@@ -1,0 +1,5 @@
+#!/bin/sh
+
+ruledir="$HOME/.config/karabiner/assets/complex_modifications"
+mkdir -p "ruledir"
+"$(dirname "$0")/generate-karabiner-rules" | python -m json.tool > "$ruledir/taemin.json"
