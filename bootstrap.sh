@@ -38,6 +38,7 @@ cp -a \
    .tmux.conf \
    .fzf-keybinding-patch.bash \
    .minttyrc \
+   .inputrc \
    ~
 mkdir -p ~/.emacs.d && \
     cp -a .emacs.d/{sensible-defaults.el,move-lines.el} ~/.emacs.d
