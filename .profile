@@ -19,7 +19,7 @@ addpath() {
 addpath /opt/local/bin
 addpath /opt/local/sbin
 # allow running commands installed by `pip install --user` on the Mac
-addpath "$HOME/Library/Python/3.4/bin"
+addpath "$HOME/Library/Python/3.6/bin"
 # Cargo, a package manager for Rust
 addpath "$HOME/.cargo/bin"
 # Yarn, a package manager for JS
