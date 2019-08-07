@@ -85,12 +85,6 @@ else
 fi
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
-
-# Console command corrector: https://github.com/nvbn/thefuck
-if command -v thefuck >/dev/null 2>&1; then
-     eval "$(thefuck --alias)"
-fi
-
 # NVM
 if [ -d ~/.nvm ]; then
     export NVM_DIR="$HOME/.nvm"
