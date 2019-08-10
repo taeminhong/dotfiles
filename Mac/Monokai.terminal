@@ -143,6 +143,8 @@
 	<false/>
 	<key>Bell</key>
 	<false/>
+	<key>ConvertNewlinesOnPaste</key>
+	<false/>
 	<key>CursorBlink</key>
 	<true/>
 	<key>CursorColor</key>
