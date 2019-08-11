@@ -170,6 +170,7 @@
    (eq (char-syntax (following-char)) ?w)
    ;; Don't pair " at the end of a word.
    (and (eq char ?\")
+        (> (point) 2)
         (eq (char-syntax (char-before (1- (point)))) ?w))))
 (setq electric-pair-inhibit-predicate 'my-electric-pair-conservative-inhibit)
 
