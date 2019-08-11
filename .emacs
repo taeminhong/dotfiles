@@ -173,6 +173,7 @@
         (> (point) 2)
         (eq (char-syntax (char-before (1- (point)))) ?w))))
 (setq electric-pair-inhibit-predicate 'my-electric-pair-conservative-inhibit)
+(setq electric-pair-skip-whitespace nil)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
