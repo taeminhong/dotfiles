@@ -39,6 +39,7 @@ cp -a \
    .fzf-keybinding-patch.bash \
    .minttyrc \
    .inputrc \
+   z.sh \
    ~
 mkdir -p ~/.emacs.d && \
     cp -a .emacs.d/{sensible-defaults.el,move-lines.el} ~/.emacs.d

@@ -93,6 +93,9 @@ if [ -d ~/.nvm ]; then
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 fi
 
+# z - jump around (https://github.com/rupa/z)
+. ~/z.sh
+
 # Prevent forward-search keybinding from being overriden by XON/XOFF flow control
 stty -ixon
 
