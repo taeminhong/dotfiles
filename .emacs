@@ -146,7 +146,7 @@
   (switch-to-buffer (make-temp-name "scratch")))
 
 ;; Scheme
-(setq scheme-program-name "guile")
+(setq scheme-program-name "racket")
 
 (load-file "~/.emacs.d/move-lines.el")
 (move-lines-binding)
