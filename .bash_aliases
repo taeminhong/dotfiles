@@ -1,8 +1,3 @@
-# SSH
-alias orange='ssh orange'
-alias svnorange='ssh svn@orange'
-alias peanut='ssh peanut'
-
 # FreeBSD's ls doen't support --color option
 if ls --color > /dev/null 2>&1; then
     alias ls='ls --color=auto'
