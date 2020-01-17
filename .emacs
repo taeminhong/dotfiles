@@ -112,7 +112,6 @@
 ;; key bindings
 (global-set-key [(f5)] 'compile)
 (global-set-key [(f6)] 'shell)
-(global-set-key "\M-g" 'goto-line)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "M-o") 'other-window)
 (global-set-key (kbd "M-d") 'my-kill-word)
