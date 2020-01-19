@@ -113,10 +113,8 @@
 (global-set-key (kbd "M-o") 'other-window)
 (global-set-key (kbd "M-d") 'my-kill-word)
 (global-set-key (kbd "<M-DEL>") 'my-backward-kill-word)
-(global-set-key (kbd "<C-right>") 'my-forward-word-begin)
-(global-set-key (kbd "<C-left>") 'my-backward-word-begin)
-(global-set-key (kbd "<M-left>") 'my-backward-word-end)
-(global-set-key (kbd "<M-right>") 'my-forward-word-end)
+(global-set-key (kbd "M-f") 'my-forward-word-begin)
+(global-set-key (kbd "M-e") 'forward-word)
 (windmove-default-keybindings)
 
 ;; Packages
