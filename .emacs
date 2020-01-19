@@ -42,9 +42,6 @@
         (goto-char word-end))
       (setq n (1- n)))))
 
-(defalias 'my-backward-word-begin 'backward-word)
-(defalias 'my-forward-word-end 'forward-word)
-
 (defun my-kill-word (n)
   (interactive "^p")
   (while (< 0 n)
