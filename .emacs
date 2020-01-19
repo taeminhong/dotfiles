@@ -24,24 +24,6 @@
         (goto-char word-end))
       (setq n (1- n)))))
 
-(defun my-backward-word-end (n)
-  (interactive "^p")
-  (let (word-begin
-        word-end
-        subword-begin-p)
-    (while (< 0 n)
-      (save-excursion
-        (backward-to-word 1)
-        (setq word-end (point)))
-      (save-excursion
-        (backward-word 1)
-        (setq word-begin (point))
-        (setq subword-begin-p (looking-back "\\w" (1- (point)))))
-      (if (and (< word-end word-begin) subword-begin-p)
-          (goto-char word-begin)
-        (goto-char word-end))
-      (setq n (1- n)))))
-
 (defun my-kill-word (n)
   (interactive "^p")
   (while (< 0 n)
