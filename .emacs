@@ -6,7 +6,7 @@
 
 (require 'misc)
 
-(defun my-forward-word-begin (n)
+(defun my-forward-to-word (n)
   (interactive "^p")
   (let (word-begin
         word-end
@@ -95,7 +95,7 @@
 (global-set-key (kbd "M-o") 'other-window)
 (global-set-key (kbd "M-d") 'my-kill-word)
 (global-set-key (kbd "<M-DEL>") 'my-backward-kill-word)
-(global-set-key (kbd "M-f") 'my-forward-word-begin)
+(global-set-key (kbd "M-f") 'my-forward-to-word)
 (global-set-key (kbd "M-e") 'forward-word)
 (windmove-default-keybindings)
 
