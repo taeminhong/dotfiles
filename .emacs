@@ -44,6 +44,70 @@
         (kill-region beg end)))
     (setq n (1- n))))
 
+(defun last-sexp-in-list ()
+  (condition-case nil
+      (save-excursion
+        (forward-sexp) nil)
+    (scan-error nil t)))
+
+(defun no-more-sexpp ()
+  (let ((prev-point (point)))
+    (condition-case err
+      (save-excursion
+        (forward-sexp)
+        (backward-sexp)
+        (forward-sexp)
+        (<= (point) prev-point))
+      (scan-error nil t))))
+
+(defun my-next-sexp-iter (start-point n)
+  (when (> n 0)
+    (cond ((last-sexp-in-list)
+           (when (= (point) start-point)
+             (forward-sexp)))
+          ((no-more-sexpp)
+           (forward-sexp))
+          (t
+           (forward-sexp)
+           (backward-sexp)
+           (if (> (point) start-point)
+               (my-next-sexp-iter (point) (- n 1))
+             (progn (forward-sexp)
+                    (my-next-sexp-iter start-point n)))))))
+
+(defun my-next-sexp (n)
+  (interactive "^p")
+  (cond ((< n 0) (backward-sexp (- n)))
+        (t (my-next-sexp-iter (point) n))))
+
+(defun my-prev-defun (n)
+  (interactive "^p")
+  (beginning-of-defun n))
+
+(defun my-next-defun (n)
+  (interactive "^p")
+  (cond ((< n 0) (beginning-of-defun (- n)))
+        ((> n 0) (my-next-defun-iter (point) n))))
+
+(defun no-more-defunp ()
+  (let ((prev-point (point)))
+    (save-excursion
+      (end-of-defun)
+      (beginning-of-defun)
+      (end-of-defun)
+      (<= (point) prev-point))))
+
+(defun my-next-defun-iter (start-point n)
+  (when (> n 0)
+    (cond ((= start-point (point-max)) (signal 'end-of-buffer (point)))
+          ((no-more-defunp) (goto-char (point-max)))
+          (t (end-of-defun)
+             (beginning-of-defun)
+             (if (> (point) start-point)
+                 (my-next-defun-iter (point) (- n 1))
+               (progn (end-of-defun)
+                      (my-next-defun-iter start-point n)))))))
+
 ;; Suppress ls-dired warning in OSX
 (setq dired-use-ls-dired
       (not (string-equal system-type "darwin")))
@@ -97,6 +161,10 @@
 (global-set-key (kbd "<M-DEL>") 'my-backward-kill-word)
 (global-set-key (kbd "M-f") 'my-forward-to-word)
 (global-set-key (kbd "M-e") 'forward-word)
+(global-set-key (kbd "C-M-f") 'my-next-sexp)
+(global-set-key (kbd "C-M-e") 'forward-sexp)
+(global-set-key (kbd "C-M-n") 'my-next-defun)
+(global-set-key (kbd "C-M-p") 'my-prev-defun)
 (windmove-default-keybindings)
 
 ;; Packages
