@@ -44,13 +44,13 @@
         (kill-region beg end)))
     (setq n (1- n))))
 
-(defun last-sexp-in-list ()
+(defun last-sexp-in-list-p ()
   (condition-case nil
       (save-excursion
         (forward-sexp) nil)
     (scan-error nil t)))
 
-(defun no-more-sexpp ()
+(defun no-more-sexp-p ()
   (let ((prev-point (point)))
     (condition-case err
       (save-excursion
@@ -61,19 +61,20 @@
       (scan-error nil t))))
 
 (defun my-next-sexp-iter (start-point n)
-  (when (> n 0)
-    (cond ((last-sexp-in-list)
-           (when (= (point) start-point)
-             (forward-sexp)))
-          ((no-more-sexpp)
-           (forward-sexp))
-          (t
-           (forward-sexp)
-           (backward-sexp)
-           (if (> (point) start-point)
-               (my-next-sexp-iter (point) (- n 1))
-             (progn (forward-sexp)
-                    (my-next-sexp-iter start-point n)))))))
+  (cond ((<= n 0) (point))
+        ((last-sexp-in-list-p)
+         (when (= (point) start-point)
+           ;; raise a scan error
+           (forward-sexp)))
+        ((no-more-sexp-p)
+         (forward-sexp))
+        (t
+         (forward-sexp)
+         (backward-sexp)
+         (if (> (point) start-point)
+             (my-next-sexp-iter (point) (- n 1))
+           (progn (forward-sexp)
+                  (my-next-sexp-iter start-point n))))))
 
 (defun my-next-sexp (n)
   (interactive "^p")
