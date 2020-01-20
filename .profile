@@ -1,17 +1,12 @@
-# ~/.profile: executed by the command interpreter for login shells.
-# This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
-# exists.
-# see /usr/share/doc/bash/examples/startup-files for examples.
-# the files are located in the bash-doc package.
-
-# the default umask is set in /etc/profile; for setting the umask
-# for ssh logins, install and configure the libpam-umask package.
-#umask 022
+# This file is sourced by many kinds of shells, like bash, dash and zsh
+# So be aware of portability.
+# Git coding guidelines will help you write portable shell scripts
+# https://github.com/git/git/blob/master/Documentation/CodingGuidelines
 
 export DEFAULT_PATH=${DEFAULT_PATH:-$PATH}
 PATH=$DEFAULT_PATH
 
-addpath() {
+addpath () {
     test -d "$1" && PATH="$1:$PATH"
  }
 

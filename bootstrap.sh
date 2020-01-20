@@ -32,6 +32,7 @@ cp -a \
    .bash_profile \
    .bashrc \
    .profile \
+   .zprofile \
    .emacs \
    .gitconfig \
    .gitignore_global \
