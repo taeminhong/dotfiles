@@ -80,14 +80,16 @@
   (cond ((< n 0) (backward-sexp (- n)))
         (t (my-next-sexp-iter (point) n))))
 
-(defun my-prev-defun (n)
-  (interactive "^p")
-  (beginning-of-defun n))
-
 (defun my-next-defun (n)
   (interactive "^p")
-  (cond ((< n 0) (beginning-of-defun (- n)))
-        ((> n 0) (my-next-defun-iter (point) n))))
+  (cond ((< n 0)
+         (beginning-of-defun (- n)))
+        ((> n 0)
+         (or (not (eq this-command 'my-next-defun))
+             (eq last-command 'my-next-defun)
+             (and transient-mark-mode mark-active)
+             (push-mark))
+         (my-next-defun-iter (point) n))))
 
 (defun no-more-defunp ()
   (let ((prev-point (point)))
@@ -98,15 +100,21 @@
       (<= (point) prev-point))))
 
 (defun my-next-defun-iter (start-point n)
-  (when (> n 0)
-    (cond ((= start-point (point-max)) (signal 'end-of-buffer (point)))
-          ((no-more-defunp) (goto-char (point-max)))
-          (t (end-of-defun)
-             (beginning-of-defun)
-             (if (> (point) start-point)
-                 (my-next-defun-iter (point) (- n 1))
-               (progn (end-of-defun)
-                      (my-next-defun-iter start-point n)))))))
+  (cond ((<= n 0) (point))
+        ((= start-point (point-max))
+         (signal 'end-of-buffer (point)))
+        ((no-more-defunp)
+         (goto-char (point-max))
+         (my-next-defun-iter (point) (- n 1)))
+        (t
+         (goto-char (save-excursion
+                      (end-of-defun)
+                      (beginning-of-defun)
+                      (point)))
+         (if (> (point) start-point)
+             (my-next-defun-iter (point) (- n 1))
+           (progn (goto-char (save-excursion (end-of-defun) (point)))
+                  (my-next-defun-iter start-point n))))))
 
 ;; Suppress ls-dired warning in OSX
 (setq dired-use-ls-dired
@@ -164,7 +172,7 @@
 (global-set-key (kbd "C-M-f") 'my-next-sexp)
 (global-set-key (kbd "C-M-e") 'forward-sexp)
 (global-set-key (kbd "C-M-n") 'my-next-defun)
-(global-set-key (kbd "C-M-p") 'my-prev-defun)
+(global-set-key (kbd "C-M-p") 'beginning-of-defun)
 (windmove-default-keybindings)
 
 ;; Packages
