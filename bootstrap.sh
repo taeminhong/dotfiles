@@ -1,29 +1,41 @@
-cd "$(dirname "${BASH_SOURCE}")"
+#!/bin/sh
 
-function commands_exist {
-    for c in $@; do
-        command -v $c >/dev/null 2>&1 || return $?
+commands_exist () {
+    for c in "$@"
+    do
+        command -v "$c" >/dev/null 2>&1 || return $?
     done
 }
 
-function install_tpm {
-    if commands_exist tmux git && [ ! -d ~/.tmux/plugins/tpm ]; then
+install_tpm () {
+    if commands_exist tmux git && test ! -d ~/.tmux/plugins/tpm
+    then
         git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
     fi
 }
 
-function platform {
-    local kernel=$(uname -s)
+platform () {
+    kernel=$(uname -s)
     case $kernel in
         CYGWIN*|MSYS*|MINGW*) echo Windows;;
         Darwin) echo Mac;;
-        *) echo $kernel;;
+        *) echo "$kernel";;
     esac
+    unset kernel
 }
 
-function execute {
+execute () {
     test -x "$1" && "$1"
 }
+
+# cd to the directory that contains this script.
+source="$0"
+if test -L "$0"
+then
+    source="$(readlink "$0")"
+fi
+cd "$(dirname "${source}")" || exit 1
+unset source
 
 # rsync is more suitable in this task, but it's not available on Git for Windows
 cp -a \
@@ -44,15 +56,10 @@ cp -a \
    z.sh \
    ~
 mkdir -p ~/.emacs.d && \
-    cp -a .emacs.d/{sensible-defaults.el,move-lines.el} ~/.emacs.d
+    cp -a .emacs.d/sensible-defaults.el .emacs.d/move-lines.el ~/.emacs.d
 mkdir -p ~/.ssh && \
     cp -a .ssh/config ~/.ssh
-source ~/.bash_profile
+
 install_tpm
 # Run platform-specific code
 execute "$(platform)/setup"
-
-unset install_tpm
-unset commands_exist
-unset platform
-unset execute
