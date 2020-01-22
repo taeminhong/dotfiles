@@ -55,10 +55,8 @@ cp -a \
    .inputrc \
    z.sh \
    ~
-mkdir -p ~/.emacs.d && \
-    cp -a .emacs.d/sensible-defaults.el .emacs.d/move-lines.el ~/.emacs.d
-mkdir -p ~/.ssh && \
-    cp -a .ssh/config ~/.ssh
+mkdir -p ~/.emacs.d && cp -a .emacs.d/local ~/.emacs.d
+mkdir -p ~/.ssh && cp -a .ssh/config ~/.ssh
 
 install_tpm
 # Run platform-specific code

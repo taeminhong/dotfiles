@@ -4,6 +4,10 @@
 ;; You may delete these explanatory comments.
 (package-initialize)
 
+(let ((default-directory "~/.emacs.d/local"))
+  (normal-top-level-add-to-load-path '("."))
+  (normal-top-level-add-subdirs-to-load-path))
+
 (require 'misc)
 
 (defun my-forward-to-word (n)
@@ -187,7 +191,7 @@
       scroll-conservatively 10000)
 
 ;; Sensible Emacs
-(load-file "~/.emacs.d/sensible-defaults.el")
+(require 'sensible-defaults)
 (sensible-defaults/use-all-settings)
 
 ;; Look and feel
@@ -201,7 +205,7 @@
 ;; Scheme
 (setq scheme-program-name "racket")
 
-(load-file "~/.emacs.d/move-lines.el")
+(require 'move-lines)
 (move-lines-binding)
 
 ;; Misc

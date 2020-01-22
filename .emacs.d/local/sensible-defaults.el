@@ -224,3 +224,4 @@ this setting."
         `((".*" ,temporary-file-directory t))))
 
 ;;; sensible-defaults.el ends here
+(provide 'sensible-defaults)
