@@ -139,4 +139,83 @@
         (> (point) 2)
         (eq (char-syntax (char-before (1- (point)))) ?w))))
 
+(defun end-of-defun-spaces (n)
+  (cl-assert (> n 0))
+  (progn (dotimes (_ n)
+           (let ((old-point (point)))
+             (end-of-defun)
+             (let ((beg (save-excursion (beginning-of-defun-comments) (point))))
+               (if (< old-point beg)
+                   (goto-char beg))))
+           (skip-chars-forward "[:space:]\n")
+           (skip-chars-backward "[:space:]"))))
+
+(defun expand-defun-mark (arg beg end)
+  (cond ((> arg 0)
+         (end-of-defun-spaces arg)
+         (setq end (point))
+         (push-mark beg nil t)
+         (goto-char end))
+        (t
+         (goto-char beg)
+         ;; beginning-of-defun behaves
+         ;; strange with zero arg - see
+         ;; https://lists.gnu.org/r/bug-gnu-emacs/2017-02/msg00196.html
+         (unless (= arg -1)
+           (beginning-of-defun (1- (- arg))))
+         (push-mark end nil t))))
+
+(defun turning-back-mark-defun-p ()
+  (and transient-mark-mode
+       mark-active
+       (= (point) (mark))
+       (eq this-command last-command)
+       (or (eq last-command 'my-mark-defun-back)
+           (eq last-command 'my-mark-defun))))
+
+(defun my-mark-defun (&optional arg)
+  "Put mark at beginning of this defun, point at beginning of next defun.
+The defun marked is the one that contains point or follows point.
+With positive ARG, mark this and that many next defuns; with negative
+ARG, change the direction of marking.
+
+If the mark is active, it marks the next or previous defun(s) after
+the one(s) already marked."
+  (interactive "p")
+  (setq arg (or arg 1))
+  ;; There is no `my-mark-defun-back' function - see
+  ;; https://lists.gnu.org/r/bug-gnu-emacs/2016-11/msg00079.html
+  ;; for explanation
+  (when (eq last-command 'my-mark-defun-back)
+    (setq arg (- arg)))
+  (when (< arg 0)
+    (setq this-command 'my-mark-defun-back))
+  (cond ((or (use-region-p) (turning-back-mark-defun-p))
+         (if (>= arg 0)
+             (end-of-defun-spaces arg)
+           (beginning-of-defun-comments (- arg))))
+        (t
+         (let ((opoint (point))
+               beg end)
+           (push-mark opoint)
+           ;; Try first in this order for the sake of languages with nested
+           ;; functions where several can end at the same place as with the
+           ;; offside rule, e.g. Python.
+           (beginning-of-defun-comments)
+           (setq beg (point))
+           (end-of-defun-spaces 1)
+           (setq end (point))
+           (when (or (and (<= (point) opoint)
+                          (> arg 0))
+                     (= beg (point-min))) ; we were before the first defun!
+             ;; beginning-of-defun moved back one defun so we got the wrong
+             ;; one.  If ARG < 0, however, we actually want to go back.
+             (goto-char opoint)
+             (end-of-defun-spaces 1)
+             (setq end (point))
+             (beginning-of-defun-comments)
+             (setq beg (point)))
+           (goto-char beg)
+           (expand-defun-mark arg beg end)))))
+
 (provide 'taemin)

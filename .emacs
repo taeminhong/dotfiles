@@ -65,6 +65,7 @@
 (global-set-key (kbd "C-M-e") 'forward-sexp)
 (global-set-key (kbd "C-M-n") 'my-next-defun)
 (global-set-key (kbd "C-M-p") 'beginning-of-defun)
+(global-set-key (kbd "C-M-h") 'my-mark-defun)
 (windmove-default-keybindings)
 
 ;; Packages
