@@ -75,6 +75,24 @@
   (cond ((< n 0) (backward-sexp (- n)))
         (t (my-next-sexp-iter (point) n))))
 
+(defun make-range (beg end)
+  (cons beg end))
+
+(defun beginning (range)
+  (car range))
+
+(defun end (range)
+  (cdr range))
+
+(defun nearby-defun (pos)
+  (let (end)
+    (save-excursion
+      (goto-char pos)
+      (end-of-defun)
+      (setq end (point))
+      (beginning-of-defun)
+      (make-range (point) end))))
+
 (defun my-next-defun (n)
   (interactive "^p")
   (cond ((< n 0)
@@ -86,30 +104,23 @@
              (push-mark))
          (my-next-defun-iter (point) n))))
 
-(defun no-more-defunp ()
-  (let ((prev-point (point)))
-    (save-excursion
-      (end-of-defun)
-      (beginning-of-defun)
-      (end-of-defun)
-      (<= (point) prev-point))))
-
 (defun my-next-defun-iter (start-point n)
-  (cond ((<= n 0) (point))
+  (cl-assert (<= start-point (point)))
+  (cond ((<= n 0)
+         (point))
         ((= start-point (point-max))
-         (signal 'end-of-buffer (point)))
-        ((no-more-defunp)
-         (goto-char (point-max))
-         (my-next-defun-iter (point) (- n 1)))
+         (signal 'end-of-buffer start-point))
         (t
-         (goto-char (save-excursion
-                      (end-of-defun)
-                      (beginning-of-defun)
-                      (point)))
-         (if (> (point) start-point)
-             (my-next-defun-iter (point) (- n 1))
-           (progn (goto-char (save-excursion (end-of-defun) (point)))
-                  (my-next-defun-iter start-point n))))))
+         (let ((nearby (nearby-defun (point))))
+           (cond ((> (beginning nearby) start-point)
+                  (goto-char (beginning nearby))
+                  (my-next-defun-iter (beginning nearby) (- n 1)))
+                 ((> (end nearby) (point))
+                  (goto-char (end nearby))
+                  (my-next-defun-iter start-point n))
+                 (t
+                  (goto-char (point-max))
+                  (my-next-defun-iter (point-max) (- n 1))))))))
 
 (defun my-electric-pair-conservative-inhibit (char)
   "Customized version of `electric-pair-pair-conservative-inhibit'"
