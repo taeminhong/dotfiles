@@ -66,6 +66,9 @@
 (global-set-key (kbd "C-M-n") 'my-next-defun)
 (global-set-key (kbd "C-M-p") 'beginning-of-defun)
 (global-set-key (kbd "C-M-h") 'my-mark-defun)
+(global-set-key (kbd "C-s") 'isearch-forward-regexp)
+(global-set-key (kbd "C-r") 'isearch-backward-regexp)
+(global-set-key (kbd "M-%") 'query-replace-regexp)
 (windmove-default-keybindings)
 
 ;; Packages
