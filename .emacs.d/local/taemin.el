@@ -166,12 +166,10 @@
          (push-mark end nil t))))
 
 (defun turning-back-mark-defun-p ()
-  (and transient-mark-mode
-       mark-active
+  (and (region-active-p)
        (= (point) (mark))
        (eq this-command last-command)
-       (or (eq last-command 'my-mark-defun-back)
-           (eq last-command 'my-mark-defun))))
+       (member last-command '(my-mark-defun-back my-mark-defun))))
 
 (defun my-mark-defun (&optional arg)
   "Put mark at beginning of this defun, point at beginning of next defun.
