@@ -216,4 +216,107 @@ the one(s) already marked."
            (goto-char beg)
            (taemin--expand-defun-mark arg beg end)))))
 
+(defun taemin--beginning-of-line-p (pos)
+  (save-excursion
+    (goto-char pos)
+    (= pos (line-beginning-position))))
+
+(defun taemin--full-line-region-p ()
+  (and (use-region-p)
+       (taemin--beginning-of-line-p (region-beginning))
+       (or (taemin--beginning-of-line-p (region-end))
+           (= (region-end) (point-max)))))
+
+(defun taemin--do-mark-line (n)
+  (cond ((> n 0)
+         (beginning-of-line)
+         (push-mark (point) nil t)
+         (forward-line n))
+        ((< n 0)
+         (forward-line 1)
+         (push-mark (point) nil t)
+         (forward-line n)
+         (beginning-of-line))))
+
+(defun taemin--span-to-line-boundaries ()
+  (cl-assert (region-active-p))
+  (let ((old-mark (mark))
+        (old-point (point)))
+    (cond ((< old-point old-mark)
+           (goto-char old-mark)
+           (unless (= old-mark (line-beginning-position))
+             (forward-line))
+           (set-mark (point))
+           (goto-char old-point)
+           (beginning-of-line))
+          (t
+           (goto-char old-mark)
+           (set-mark (line-beginning-position))
+           (goto-char old-point)
+           (unless (= old-point (line-beginning-position))
+             (forward-line))))))
+
+(defun taemin--forward-line-unless-zero (n)
+  (unless (= n 0)
+    (forward-line n)))
+
+(defun taemin--expand-line-region (n)
+  (if (taemin--full-line-region-p)
+      (forward-line n)
+    (when (and (< (count-lines (mark) (point)) 2)
+               (not (taemin--same-sign-p n (- (point) (mark)))))
+      (exchange-point-and-mark)
+      (cl-assert (taemin--same-sign-p n (- (point) (mark)))))
+    (taemin--span-to-line-boundaries)
+    (taemin--forward-line-unless-zero
+     (if (not (taemin--same-sign-p n (- (point) (mark))))
+         n
+       (taemin--damp-to-zero n)))))
+
+(defun taemin--same-sign-p (a b &optional exclude-zero)
+  (if exclude-zero
+      (> (* a b) 0)
+    (>= (* a b) 0)))
+
+(defun taemin--damp-to-zero (n &optional delta)
+  (setq delta (or delta 1))
+  (cond ((> n 0) (- n 1))
+        ((< n 0) (+ n 1))
+        (t n)))
+
+(defun taemin--mark-line-interactive (arg)
+  (defun reset-arg-and-this-command (n)
+    (setq arg n)
+    (setq this-command
+          (cond ((< n 0) 'taemin-mark-line-back)
+                ((> n 0) 'taemin-mark-line)
+                (t 'taemin-mark-zero))))
+  (if (eq last-command 'taemin-mark-line-back)
+      (reset-arg-and-this-command (- arg))
+    (reset-arg-and-this-command arg))
+  (cond ((= arg 0))
+        ((region-active-p)
+         (cond ((member last-command '(taemin-mark-line taemin-mark-line-back))
+                (forward-line arg))
+               ((= (point) (mark))
+                (taemin--do-mark-line arg))
+               (t
+                (when (< (point) (mark))
+                  (reset-arg-and-this-command (- arg)))
+                (taemin--expand-line-region arg))))
+        (t
+         (taemin--do-mark-line arg))))
+
+(defun taemin--mark-line-non-interactive (arg)
+  (cond ((= arg 0))
+        ((region-active-p) (taemin--expand-line-region arg))
+        (t (taemin--do-mark-line arg))))
+
+(defun taemin-mark-line (&optional n)
+  (interactive "p")
+  (setq n (or n 1))
+  (if (called-interactively-p 'any)
+      (taemin--mark-line-interactive n)
+    (taemin--mark-line-non-interactive n)))
+
 (provide 'taemin)

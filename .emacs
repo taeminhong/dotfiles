@@ -72,6 +72,7 @@
 (global-set-key (kbd "C-s") 'isearch-forward-regexp)
 (global-set-key (kbd "C-r") 'isearch-backward-regexp)
 (global-set-key (kbd "M-%") 'query-replace-regexp)
+(global-set-key (kbd "M-#") 'taemin-mark-line)
 (windmove-default-keybindings)
 
 ;; Packages
