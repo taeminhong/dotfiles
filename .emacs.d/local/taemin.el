@@ -171,6 +171,62 @@
        (eq this-command last-command)
        (member last-command '(taemin-mark-defun-back taemin-mark-defun))))
 
+(defun taemin--do-mark-defun (arg)
+  (let ((opoint (point))
+        beg end)
+    (push-mark opoint)
+    ;; Try first in this order for the sake of languages with nested
+    ;; functions where several can end at the same place as with the
+    ;; offside rule, e.g. Python.
+    (beginning-of-defun-comments)
+    (setq beg (point))
+    (taemin--end-of-defun-spaces 1)
+    (setq end (point))
+    (when (or (and (<= (point) opoint)
+                   (> arg 0))
+              (= beg (point-min))) ; we were before the first defun!
+      ;; beginning-of-defun moved back one defun so we got the wrong
+      ;; one.  If ARG < 0, however, we actually want to go back.
+      (goto-char opoint)
+      (taemin--end-of-defun-spaces 1)
+      (setq end (point))
+      (beginning-of-defun-comments)
+      (setq beg (point)))
+    (goto-char beg)
+    (taemin--expand-defun-mark arg beg end)))
+
+(defun taemin--append-defun-region (arg)
+  (if (> arg 0)
+      (taemin--end-of-defun-spaces arg)
+    (beginning-of-defun-comments (- arg))))
+
+(defun taemin--mark-defun-interactive (arg)
+  (defun reset-arg-and-this-command (n)
+    (setq arg n)
+    (setq this-command (cond ((> n 0) 'taemin-mark-defun)
+                             ((< n 0) 'taemin-mark-defun-back)
+                             (t 'taemin-mark-defun-zero))))
+  (if (eq last-command 'taemin-mark-defun-back)
+      (reset-arg-and-this-command (- arg))
+    (reset-arg-and-this-command arg))
+  (cond ((= arg 0))
+        ((region-active-p)
+         (cond ((member last-command '(taemin-mark-defun taemin-mark-defun-back))
+                (taemin--append-defun-region arg))
+               ((= (point) (mark))
+                (taemin--do-mark-defun arg))
+               (t
+                (when (< (point) (mark))
+                  (reset-arg-and-this-command (- arg)))
+                (taemin--append-defun-region arg))))
+        (t
+         (taemin--do-mark-defun arg))))
+
+(defun taemin--mark-defun--non-interactive (arg)
+  (cond ((= arg 0))
+        ((use-region-p) (taemin--append-defun-region arg))
+        (t (taemin--do-mark-defun arg))))
+
 (defun taemin-mark-defun (&optional arg)
   "Put mark at beginning of this defun, point at beginning of next defun.
 The defun marked is the one that contains point or follows point.
@@ -181,40 +237,9 @@ If the mark is active, it marks the next or previous defun(s) after
 the one(s) already marked."
   (interactive "p")
   (setq arg (or arg 1))
-  ;; There is no `taemin-mark-defun-back' function - see
-  ;; https://lists.gnu.org/r/bug-gnu-emacs/2016-11/msg00079.html
-  ;; for explanation
-  (when (eq last-command 'taemin-mark-defun-back)
-    (setq arg (- arg)))
-  (when (< arg 0)
-    (setq this-command 'taemin-mark-defun-back))
-  (cond ((or (use-region-p) (taemin--turning-back-mark-defun-p))
-         (if (>= arg 0)
-             (taemin--end-of-defun-spaces arg)
-           (beginning-of-defun-comments (- arg))))
-        (t
-         (let ((opoint (point))
-               beg end)
-           (push-mark opoint)
-           ;; Try first in this order for the sake of languages with nested
-           ;; functions where several can end at the same place as with the
-           ;; offside rule, e.g. Python.
-           (beginning-of-defun-comments)
-           (setq beg (point))
-           (taemin--end-of-defun-spaces 1)
-           (setq end (point))
-           (when (or (and (<= (point) opoint)
-                          (> arg 0))
-                     (= beg (point-min))) ; we were before the first defun!
-             ;; beginning-of-defun moved back one defun so we got the wrong
-             ;; one.  If ARG < 0, however, we actually want to go back.
-             (goto-char opoint)
-             (taemin--end-of-defun-spaces 1)
-             (setq end (point))
-             (beginning-of-defun-comments)
-             (setq beg (point)))
-           (goto-char beg)
-           (taemin--expand-defun-mark arg beg end)))))
+  (if (called-interactively-p 'any)
+      (taemin--mark-defun-interactive arg)
+    (taemin--mark-defun--non-interactive arg)))
 
 (defun taemin--beginning-of-line-p (pos)
   (save-excursion
