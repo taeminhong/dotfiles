@@ -4,35 +4,18 @@
 ;; You may delete these explanatory comments.
 (package-initialize)
 
+(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                         ("marmalade" . "https://marmalade-repo.org/packages/")
+                         ("melpa" . "https://melpa.org/packages/")))
+
 (let ((default-directory "~/.emacs.d/local"))
   (normal-top-level-add-to-load-path '("."))
   (normal-top-level-add-subdirs-to-load-path))
 
-;; Suppress ls-dired warning in OSX
-(setq dired-use-ls-dired
-      (not (string-equal system-type "darwin")))
+;; This is only needed once, near the top of the file
+(eval-when-compile
+  (require 'use-package))
 
-(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-
-;; indentation
-(setq-default indent-tabs-mode nil)
-(setq python-indent-offset 4)
-;; use 4 spaces in js, but 2 spaces in json by default
-(setq js2-basic-offset 4)
-(setq json-reformat:indent-width 2)
-(add-hook 'json-mode-hook
-          (lambda () (setq-local js-indent-level 2)))
-
-;; C/C++
-(add-hook 'c-mode-hook
-	  (lambda () (c-set-style "BSD")))
-(add-hook 'c++-mode-hook
-	  (lambda () (c-set-style "BSD")))
-
-(add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
-(add-hook 'scheme-mode-hook #'rainbow-delimiters-mode)
-
-;; Ivy/Counsel/Swiper
 (use-package ivy
   :init
   (setq ivy-use-virtual-buffers nil)
@@ -46,7 +29,6 @@
   :config
   (ivy-mode 1))
 
-
 (use-package counsel
   :config
   (counsel-mode 1)
@@ -55,7 +37,55 @@
          ("C-c f" . 'counsel-fzf)
          ("C-c j" . 'counsel-git-grep)))
 
-;; key bindings
+(require 'move-lines)
+(move-lines-binding)
+
+(require 'taemin)
+
+(require 'sensible-defaults)
+(sensible-defaults/use-all-settings)
+
+(require 'windmove)
+(windmove-default-keybindings)
+
+;; JavaScript
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+;; use 4 spaces in js, but 2 spaces in json by default
+(setq js2-basic-offset 4)
+(setq json-reformat:indent-width 2)
+(add-hook 'json-mode-hook
+          (lambda () (setq-local js-indent-level 2)))
+
+;; Python
+(setq python-indent-offset 4)
+
+;; C/C++
+(add-hook 'c-mode-hook
+	  (lambda () (c-set-style "BSD")))
+(add-hook 'c++-mode-hook
+	  (lambda () (c-set-style "BSD")))
+
+;; Lisp
+(add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
+(add-hook 'scheme-mode-hook #'rainbow-delimiters-mode)
+(setq scheme-program-name "racket")
+
+;; Misc
+(setq-default indent-tabs-mode nil)
+(setq frame-background-mode 'dark)
+(setq help-window-select t)
+(setq scroll-step 1)
+(setq scroll-conservatively 10000)
+(desktop-save-mode 1)
+(setq desktop-path '("."))
+(electric-pair-mode 1)
+(setq electric-pair-inhibit-predicate 'taemin-electric-pair-conservative-inhibit)
+(setq electric-pair-skip-whitespace nil)
+;; Suppress ls-dired warning in OSX
+(setq dired-use-ls-dired
+      (not (string-equal system-type "darwin")))
+
+;; global key bindings
 (global-set-key [(f5)] 'compile)
 (global-set-key [(f6)] 'shell)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
@@ -69,45 +99,6 @@
 (global-set-key (kbd "C-r") 'isearch-backward-regexp)
 (global-set-key (kbd "M-%") 'query-replace-regexp)
 (global-set-key (kbd "M-#") 'taemin-mark-line)
-(windmove-default-keybindings)
-
-;; Packages
-;; This code came from https://www.emacswiki.org/emacs/ELPA
-(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                         ("marmalade" . "https://marmalade-repo.org/packages/")
-                         ("melpa" . "https://melpa.org/packages/")))
-
-;; Smooth scroll
-(setq scroll-step           1
-      scroll-conservatively 10000)
-
-(require 'taemin)
-
-;; Sensible Emacs
-(require 'sensible-defaults)
-(sensible-defaults/use-all-settings)
-
-;; Look and feel
-(setq frame-background-mode 'dark)
-
-;; create temporary buffer
-(defun generate-buffer ()
-  (interactive)
-  (switch-to-buffer (make-temp-name "scratch")))
-
-;; Scheme
-(setq scheme-program-name "racket")
-
-(require 'move-lines)
-(move-lines-binding)
-
-;; Misc
-(setq help-window-select t)
-(desktop-save-mode 1)
-(setq desktop-path '("."))
-(electric-pair-mode 1)
-(setq electric-pair-inhibit-predicate 'taemin-electric-pair-conservative-inhibit)
-(setq electric-pair-skip-whitespace nil)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

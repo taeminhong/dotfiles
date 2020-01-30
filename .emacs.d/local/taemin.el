@@ -344,4 +344,9 @@ the one(s) already marked."
       (taemin--mark-line-interactive n)
     (taemin--mark-line-non-interactive n)))
 
+(defun taemin-generate-buffer ()
+  "create a temporary buffer"
+  (interactive)
+  (switch-to-buffer (make-temp-name "scratch")))
+
 (provide 'taemin)
