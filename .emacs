@@ -31,6 +31,7 @@
 
 (use-package counsel
   :config
+  (setq ivy-initial-inputs-alist nil)
   (counsel-mode 1)
   :bind (("C-c k" . 'counsel-ag)
          ("C-c g" . 'counsel-git)
