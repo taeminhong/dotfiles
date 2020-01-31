@@ -65,7 +65,9 @@
 	  (lambda () (c-set-style "BSD")))
 
 ;; Lisp
+(add-hook 'emacs-lisp-mode-hook #'paredit-mode)
 (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
+(add-hook 'scheme-mode-hook #'paredit-mode)
 (add-hook 'scheme-mode-hook #'rainbow-delimiters-mode)
 (setq scheme-program-name "racket")
 
