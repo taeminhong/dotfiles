@@ -21,11 +21,9 @@
   (setq ivy-use-virtual-buffers nil)
   (setq ivy-use-selectable-prompt t)
   (setq ivy-display-style nil)
-  ;; Better fuzzy match support in Ivy
-  ;; see https://oremacs.com/2016/01/06/ivy-flx/
-  (setq ivy-re-builders-alist
-        '((t . ivy--regex-fuzzy)))
   (setq ivy-initial-inputs-alist nil)
+  (setq ivy-re-builders-alist
+        '((t . ivy--regex-plus)))
   :config
   (ivy-mode 1))
 
