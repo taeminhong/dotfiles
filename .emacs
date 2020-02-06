@@ -79,9 +79,6 @@
 (setq scroll-conservatively 10000)
 (desktop-save-mode 1)
 (setq desktop-path '("."))
-(electric-pair-mode 1)
-(setq electric-pair-inhibit-predicate 'taemin-electric-pair-conservative-inhibit)
-(setq electric-pair-skip-whitespace nil)
 ;; Suppress ls-dired warning in OSX
 (setq dired-use-ls-dired
       (not (string-equal system-type "darwin")))
