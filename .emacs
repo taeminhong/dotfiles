@@ -87,6 +87,10 @@
 (use-package paredit-mode
   :hook (emacs-lisp-mode scheme-mode))
 
+(use-package adjust-parens
+  :hook ((emacs-lisp-mode . adjust-parens-mode)
+         (scheme-mode . adjust-parens-mode)))
+
 ;; Misc
 (use-package taemin
   :bind (("M-d" . taemin-kill-word)
@@ -129,7 +133,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (avy flx rainbow-delimiters geiser paredit company pcre2el glsl-mode magit smex use-package json-mode js2-mode csharp-mode counsel ag vue-mode))))
+    (adjust-parens avy flx rainbow-delimiters geiser paredit company pcre2el glsl-mode magit smex use-package json-mode js2-mode csharp-mode counsel ag vue-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
