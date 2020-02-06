@@ -36,6 +36,10 @@
          ("C-c f" . 'counsel-fzf)
          ("C-c j" . 'counsel-git-grep)))
 
+(use-package avy
+  :bind (("M-g l" . 'avy-goto-line)
+         ("M-g c" . 'avy-goto-subword-1)))
+
 (require 'move-lines)
 (move-lines-binding)
 
@@ -107,7 +111,7 @@
  '(js2-strict-missing-semi-warning nil)
  '(package-selected-packages
    (quote
-    (flx rainbow-delimiters geiser paredit company pcre2el glsl-mode magit smex use-package json-mode js2-mode csharp-mode counsel ag vue-mode))))
+    (avy flx rainbow-delimiters geiser paredit company pcre2el glsl-mode magit smex use-package json-mode js2-mode csharp-mode counsel ag vue-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
