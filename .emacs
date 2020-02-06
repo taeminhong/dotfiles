@@ -91,6 +91,9 @@
   :hook ((emacs-lisp-mode . adjust-parens-mode)
          (scheme-mode . adjust-parens-mode)))
 
+(use-package magit
+  :bind (("C-x g" . 'magit-status)))
+
 ;; Misc
 (use-package taemin
   :bind (("M-d" . taemin-kill-word)
