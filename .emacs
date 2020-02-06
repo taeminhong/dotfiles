@@ -40,27 +40,26 @@
   :bind (("M-g l" . 'avy-goto-line)
          ("M-g c" . 'avy-goto-subword-1)))
 
-(require 'move-lines)
-(move-lines-binding)
+(use-package js2-mode
+  :init
+  (setq js2-missing-semi-one-line-override t)
+  (setq js2-strict-missing-semi-warning nil)
+  (setq js2-basic-offset 4)
+  :mode "\\.js\\'")
 
-(require 'taemin)
+(use-package json-mode
+  :init
+  ;; use 4 spaces in js, but 2 spaces in json by default
+  (setq json-reformat:indent-width 2)
+  (add-hook 'json-mode-hook
+            (lambda () (setq-local js-indent-level 2))))
 
-(require 'sensible-defaults)
-(sensible-defaults/use-all-settings)
-
-(require 'windmove)
-(windmove-default-keybindings)
-
-;; JavaScript
-(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-;; use 4 spaces in js, but 2 spaces in json by default
-(setq js2-basic-offset 4)
-(setq json-reformat:indent-width 2)
-(add-hook 'json-mode-hook
-          (lambda () (setq-local js-indent-level 2)))
-
-;; Python
-(setq python-indent-offset 4)
+;; The package is "python" but the mode is "python-mode":
+(use-package python
+  :init
+  (setq python-indent-offset 4)
+  :mode ("\\.py\\'" . python-mode)
+  :interpreter ("python" . python-mode))
 
 ;; C/C++
 (add-hook 'c-mode-hook
@@ -69,13 +68,40 @@
 	  (lambda () (c-set-style "BSD")))
 
 ;; Lisp
-(add-hook 'emacs-lisp-mode-hook #'paredit-mode)
-(add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
-(add-hook 'scheme-mode-hook #'paredit-mode)
-(add-hook 'scheme-mode-hook #'rainbow-delimiters-mode)
-(setq scheme-program-name "racket")
+(use-package rainbow-delimiters
+  :init
+  (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
+  (add-hook 'scheme-mode-hook #'rainbow-delimiters-mode)
+  :config
+  ;; Don't use the :custom-face keyword.
+  ;; It's going to mess up the custom-set-faces list at bottommost.
+  (face-spec-set 'rainbow-delimiters-depth-1-face '((t (:foreground "dark orange"))))
+  (face-spec-set 'rainbow-delimiters-depth-2-face '((t (:foreground "magenta"))))
+  (face-spec-set 'rainbow-delimiters-depth-3-face '((t (:foreground "chartreuse"))))
+  (face-spec-set 'rainbow-delimiters-depth-4-face '((t (:foreground "deep sky blue"))))
+  (face-spec-set 'rainbow-delimiters-depth-5-face '((t (:foreground "yellow"))))
+  (face-spec-set 'rainbow-delimiters-depth-6-face '((t (:foreground "orchid"))))
+  (face-spec-set 'rainbow-delimiters-depth-7-face '((t (:foreground "spring green"))))
+  (face-spec-set 'rainbow-delimiters-depth-8-face '((t (:foreground "sienna1")))))
+
+(use-package paredit-mode
+  :hook (emacs-lisp-mode scheme-mode))
 
 ;; Misc
+(use-package taemin
+  :bind (("M-d" . taemin-kill-word)
+         ("<M-DEL>" . taemin-backward-kill-word)
+         ("C-M-p" . beginning-of-defun)
+         ("C-M-n" . taemin-next-defun)
+         ("C-M-h" . taemin-mark-defun)
+         ("M-#" . taemin-mark-line)))
+
+(require 'move-lines)
+(move-lines-binding)
+(require 'sensible-defaults)
+(sensible-defaults/use-all-settings)
+(require 'windmove)
+(windmove-default-keybindings)
 (setq-default indent-tabs-mode nil)
 (setq frame-background-mode 'dark)
 (setq help-window-select t)
@@ -92,23 +118,15 @@
 (global-set-key [(f6)] 'shell)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "M-o") 'other-window)
-(global-set-key (kbd "M-d") 'taemin-kill-word)
-(global-set-key (kbd "<M-DEL>") 'taemin-backward-kill-word)
-(global-set-key (kbd "C-M-n") 'taemin-next-defun)
-(global-set-key (kbd "C-M-p") 'beginning-of-defun)
-(global-set-key (kbd "C-M-h") 'taemin-mark-defun)
 (global-set-key (kbd "C-s") 'isearch-forward-regexp)
 (global-set-key (kbd "C-r") 'isearch-backward-regexp)
 (global-set-key (kbd "M-%") 'query-replace-regexp)
-(global-set-key (kbd "M-#") 'taemin-mark-line)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(js2-missing-semi-one-line-override t)
- '(js2-strict-missing-semi-warning nil)
  '(package-selected-packages
    (quote
     (avy flx rainbow-delimiters geiser paredit company pcre2el glsl-mode magit smex use-package json-mode js2-mode csharp-mode counsel ag vue-mode))))
@@ -117,14 +135,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(rainbow-delimiters-depth-1-face ((t (:foreground "dark orange"))))
- '(rainbow-delimiters-depth-2-face ((t (:foreground "deep pink"))))
- '(rainbow-delimiters-depth-3-face ((t (:foreground "chartreuse"))))
- '(rainbow-delimiters-depth-4-face ((t (:foreground "deep sky blue"))))
- '(rainbow-delimiters-depth-5-face ((t (:foreground "yellow"))))
- '(rainbow-delimiters-depth-6-face ((t (:foreground "orchid"))))
- '(rainbow-delimiters-depth-7-face ((t (:foreground "spring green"))))
- '(rainbow-delimiters-depth-8-face ((t (:foreground "sienna1")))))
+ )
 (put 'narrow-to-page 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
 (put 'magit-clean 'disabled nil)
