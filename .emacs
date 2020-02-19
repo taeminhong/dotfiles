@@ -101,7 +101,8 @@
          ("C-M-p" . beginning-of-defun)
          ("C-M-n" . taemin-next-defun)
          ("C-M-h" . taemin-mark-defun)
-         ("M-#" . taemin-mark-line)))
+         ("M-#" . taemin-mark-line)
+         ("<f5>" . taemin-compile)))
 
 (require 'move-lines)
 (move-lines-binding)
@@ -121,7 +122,6 @@
       (not (string-equal system-type "darwin")))
 
 ;; global key bindings
-(global-set-key [(f5)] 'compile)
 (global-set-key [(f6)] 'shell)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "M-o") 'other-window)

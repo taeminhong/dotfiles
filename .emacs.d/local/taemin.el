@@ -349,4 +349,10 @@ the one(s) already marked."
   (interactive)
   (switch-to-buffer (make-temp-name "scratch")))
 
+(defun taemin-compile ()
+  "Run compile and select the compilation window"
+  (interactive)
+  (call-interactively 'compile)
+  (select-window (get-buffer-window "*compilation*")))
+
 (provide 'taemin)
