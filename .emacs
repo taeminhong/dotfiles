@@ -117,6 +117,7 @@
 (setq scroll-conservatively 10000)
 (desktop-save-mode 1)
 (setq desktop-path '("."))
+(setq isearch-allow-scroll t)
 ;; Suppress ls-dired warning in OSX
 (setq dired-use-ls-dired
       (not (string-equal system-type "darwin")))
