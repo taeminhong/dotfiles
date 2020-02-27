@@ -61,6 +61,11 @@
   :mode ("\\.py\\'" . python-mode)
   :interpreter ("python" . python-mode))
 
+(use-package ibuffer
+  :bind (:map ibuffer-mode-map
+              ("M-o")
+              ("M-g")))
+
 ;; C/C++
 (add-hook 'c-mode-hook
 	  (lambda () (c-set-style "BSD")))
