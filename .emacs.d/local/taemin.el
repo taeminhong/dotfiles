@@ -1,4 +1,9 @@
 (require 'misc)
+(require 'diff)
+
+(defmacro taemin-bound-and-true-p (var)
+  "Return the value of symbol VAR if it is bound, else nil."
+  `(and (boundp (quote ,var)) ,var))
 
 (defun taemin-forward-to-word (n)
   (interactive "^p")
@@ -354,5 +359,49 @@ the one(s) already marked."
   (interactive)
   (call-interactively 'compile)
   (select-window (get-buffer-window "*compilation*")))
+
+(defun taemin--read-file-name-default (fmt dir default-filename mustmatch initial predicate)
+  (let ((basename (file-name-nondirectory default-filename)))
+    (if (taemin-bound-and-true-p ivy-mode)
+        (read-file-name (format fmt "")
+                        (file-name-directory default-filename)
+                        nil
+                        mustmatch
+                        basename
+                        predicate)
+      (read-file-name (format fmt
+                              (concat "(default " basename ")"))
+                      dir
+                      default-filename
+                      mustmatch
+                      initial
+                      predicate))))
+
+(defun taemin-diff (old new &optional switches no-async)
+  "Find and display the differences between OLD and NEW files.
+When called interactively, read NEW, then OLD, using the
+minibuffer.  The default for NEW is the current buffer's file
+name, and the default for OLD is a backup file for NEW, if one
+exists.  If NO-ASYNC is non-nil, call diff synchronously.
+
+When called interactively with a prefix argument, prompt
+interactively for diff switches.  Otherwise, the switches
+specified in the variable `diff-switches' are passed to the diff command."
+  (interactive
+   (let* ((newf (if (and buffer-file-name (file-exists-p buffer-file-name))
+                    (taemin--read-file-name-default "Diff new file %s:"
+                                                    nil buffer-file-name t nil nil)
+		  (read-file-name "Diff new file: " nil nil t)))
+          (oldf (file-newest-backup newf)))
+     (setq oldf (if (and oldf (file-exists-p oldf))
+		    (taemin--read-file-name-default "Diff original file %s:"
+                                                    (file-name-directory oldf)
+                                                    oldf t nil nil)
+		  (read-file-name "Diff original file: "
+				  (file-name-directory newf) nil t)))
+     (list oldf newf (diff-switches))))
+  (display-buffer
+   (diff-no-select old new switches no-async))
+  (select-window (get-buffer-window "*Diff*")))
 
 (provide 'taemin)
