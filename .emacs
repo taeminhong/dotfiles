@@ -110,6 +110,7 @@
 (sensible-defaults/use-all-settings)
 (require 'windmove)
 (windmove-default-keybindings)
+(defalias 'elisp-repl 'ielm)
 (setq-default indent-tabs-mode nil)
 (setq frame-background-mode 'dark)
 (setq help-window-select t)
