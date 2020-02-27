@@ -109,8 +109,6 @@
 (global-set-key (kbd "<f5>") 'taemin-compile)
 (defalias 'diff 'taemin-diff)
 
-(require 'move-lines)
-(move-lines-binding)
 (require 'sensible-defaults)
 (sensible-defaults/use-all-settings)
 
