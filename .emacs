@@ -102,8 +102,6 @@
 (require 'taemin)
 (global-set-key (kbd "M-d") 'taemin-kill-word)
 (global-set-key (kbd "<M-DEL>") 'taemin-backward-kill-word)
-(global-set-key (kbd "C-M-p") 'beginning-of-defun)
-(global-set-key (kbd "C-M-n") 'taemin-next-defun)
 (global-set-key (kbd "C-M-h") 'taemin-mark-defun)
 (global-set-key (kbd "M-#") 'taemin-mark-line)
 (global-set-key (kbd "<f5>") 'taemin-compile)
