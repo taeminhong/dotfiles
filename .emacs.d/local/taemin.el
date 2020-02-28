@@ -404,4 +404,29 @@ specified in the variable `diff-switches' are passed to the diff command."
    (diff-no-select old new switches no-async))
   (select-window (get-buffer-window "*Diff*")))
 
+(defun taemin--format-region (fmt beg end sub-from sub-to)
+  (let ((text (delete-and-extract-region beg end)))
+    (insert (format fmt (substring text sub-from sub-to)))))
+
+(defun taemin-toggle-parens ()
+  "Replace enclosing parentheses with square brackets and vice versa"
+  (interactive)
+  (let* ((old-point (point))
+         (beg (save-excursion
+                (up-list -1 t t)
+                (when (looking-at-p "\"")
+                  (up-list -1 t t))
+                (point)))
+         (end (save-excursion
+                (goto-char beg)
+                (forward-sexp)
+                (point))))
+    ;; Delete and paste back a character; nothing will change.
+    ;; Doing this because we want the cursor stay even after undo.
+    (insert (delete-and-extract-region (- (point) 1) (point)))
+    (goto-char (- end 1))
+    (cond ((looking-at-p ")") (taemin--format-region "[%s]" beg end 1 -1))
+          ((looking-at-p "]") (taemin--format-region "(%s)" beg end 1 -1)))
+    (goto-char old-point)))
+
 (provide 'taemin)
