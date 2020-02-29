@@ -97,7 +97,9 @@
          (scheme-mode . adjust-parens-mode)))
 
 (use-package magit
-  :bind (("C-x g" . 'magit-status)))
+  :bind (("C-x g" . 'magit-status))
+  :config
+  (put 'magit-clean 'disabled nil))
 
 (require 'taemin)
 (global-set-key (kbd "M-d") 'taemin-kill-word)
@@ -150,4 +152,3 @@
  )
 (put 'narrow-to-page 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
-(put 'magit-clean 'disabled nil)
