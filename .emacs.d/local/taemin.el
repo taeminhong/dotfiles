@@ -1,5 +1,6 @@
 (require 'misc)
 (require 'diff)
+(require 'etags)
 
 (defmacro taemin-bound-and-true-p (var)
   "Return the value of symbol VAR if it is bound, else nil."
@@ -428,5 +429,51 @@ specified in the variable `diff-switches' are passed to the diff command."
     (cond ((looking-at-p ")") (taemin--format-region "[%s]" beg end 1 -1))
           ((looking-at-p "]") (taemin--format-region "(%s)" beg end 1 -1)))
     (goto-char old-point)))
+
+(defun taemin-visit-tags-table (file &optional local)
+  "Tell tags commands to use tags table file FILE.
+FILE should be the name of a file created with the `etags' program.
+A directory name is ok too; it means file TAGS in that directory.
+
+Normally \\[visit-tags-table] sets the global value of `tags-file-name'.
+With a prefix arg, set the buffer-local value instead.  When called
+from Lisp, if the optional arg LOCAL is non-nil, set the local value.
+When you find a tag with \\[find-tag], the buffer it finds the tag
+in is given a local value of this variable which is the name of the tags
+file the tag was in."
+  (interactive (list (taemin--read-file-name-default
+                      "Visit tags table %s: "
+                      default-directory
+                      (expand-file-name "TAGS" default-directory)
+                      t nil nil)
+		     current-prefix-arg))
+  (or (stringp file) (signal 'wrong-type-argument (list 'stringp file)))
+  ;; Bind tags-file-name so we can control below whether the local or
+  ;; global value gets set.
+  ;; Calling visit-tags-table-buffer with tags-file-name set to FILE will
+  ;; initialize a buffer for FILE and set tags-file-name to the
+  ;; fully-expanded name.
+  (let ((tags-file-name file)
+        (cbuf (current-buffer)))
+    (save-excursion
+      (or (visit-tags-table-buffer file)
+	  (signal 'file-missing (list "Visiting tags table"
+				      "No such file or directory"
+				      file)))
+      ;; Set FILE to the expanded name.  Do that in the buffer we
+      ;; started from, because visit-tags-table-buffer switches
+      ;; buffers after updating tags-file-name, so if tags-file-name
+      ;; is local in the buffer we started, that value is only visible
+      ;; in that buffer.
+      (setq file (with-current-buffer cbuf tags-file-name))))
+  (if local
+      (progn
+        ;; Force recomputation of tags-completion-table.
+        (setq-local tags-completion-table nil)
+        ;; Set the local value of tags-file-name.
+        (setq-local tags-file-name file))
+    ;; Set the global value of tags-file-name.
+    (setq-default tags-file-name file)
+    (setq tags-completion-table nil)))
 
 (provide 'taemin)

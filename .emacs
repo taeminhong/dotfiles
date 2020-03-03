@@ -108,6 +108,7 @@
 (global-set-key (kbd "M-#") 'taemin-mark-line)
 (global-set-key (kbd "<f5>") 'taemin-compile)
 (defalias 'diff 'taemin-diff)
+(defalias 'visit-tags-table 'taemin-visit-tags-table)
 
 (require 'sensible-defaults)
 (sensible-defaults/use-all-settings)
