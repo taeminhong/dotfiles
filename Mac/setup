@@ -2,7 +2,7 @@
 
 ruledir="$HOME/.config/karabiner/assets/complex_modifications"
 mkdir -p "ruledir"
-"$(dirname "$0")/generate-karabiner-rules" | python -m json.tool > "$ruledir/taemin.json"
+"$(dirname "$0")/generate-karabiner-rules" >"$ruledir/taemin.json"
 
 # Make rebase safer on MacOS
 # For more details see https://www.git-tower.com/blog/make-git-rebase-safe-on-osx/

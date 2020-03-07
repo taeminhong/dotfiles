@@ -98,4 +98,4 @@ const macbookRightControlKeyRules = {
     ]
 }
 
-console.log(JSON.stringify(macbookRightControlKeyRules))
+console.log(JSON.stringify(macbookRightControlKeyRules, null, 4))
