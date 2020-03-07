@@ -66,6 +66,10 @@
               ("M-o")
               ("M-g")))
 
+(use-package diff-mode
+  :bind (:map diff-mode-map
+              ("M-o")))
+
 ;; C/C++
 (add-hook 'c-mode-hook
 	  (lambda () (c-set-style "BSD")))
