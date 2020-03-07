@@ -1,0 +1,9 @@
+# This file will be used if the shell is invoked for interactive use and
+# the environment variable ENV is set to this file.
+
+. ~/.aliases
+
+. ~/z.sh
+
+# Prevent forward-search keybinding from being overriden by XON/XOFF flow control
+stty -ixon

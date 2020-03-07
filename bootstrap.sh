@@ -39,11 +39,12 @@ unset source
 
 # rsync is more suitable in this task, but it's not available on Git for Windows
 cp -a \
-   .bash_aliases \
    .bash_logout \
    .bash_profile \
    .bashrc \
    .profile \
+   .shrc \
+   .aliases \
    .zprofile \
    .zshrc \
    .emacs \

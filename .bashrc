@@ -8,6 +8,8 @@ case $- in
       *) return;;
 esac
 
+. ~/.shrc
+
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
@@ -51,15 +53,6 @@ esac
 # colored GCC warnings and errors
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
-# Alias definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
-# See /usr/share/doc/bash-doc/examples in the bash-doc package.
-
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
-fi
-
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
@@ -92,12 +85,6 @@ if [ -d ~/.nvm ]; then
     # nvm bash_completion
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 fi
-
-# z - jump around (https://github.com/rupa/z)
-. ~/z.sh
-
-# Prevent forward-search keybinding from being overriden by XON/XOFF flow control
-stty -ixon
 
 # MacPort bash-completion
 if [ -f /opt/local/etc/profile.d/bash_completion.sh ]; then
