@@ -67,7 +67,7 @@ fi
 # Command line fuzzy finder: https://github.com/junegunn/fzf
 if [ -o emacs -a -f ~/.fzf.bash ]; then
     source ~/.fzf.bash
-    [ -f ~/.fzf-keybinding-patch.bash ] && source ~/.fzf-keybinding-patch.bash
+    source ~/.fzf-keybinding-patch.bash
 fi
 # fd supports --exclude option from version 5.0.0
 if fd -d 0 --exclude .git >/dev/null 2>&1; then
