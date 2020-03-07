@@ -98,3 +98,5 @@ fi
 
 # Autocorrect typo in path names when `cd`ing
 shopt -s cdspell
+
+. ~/z.sh

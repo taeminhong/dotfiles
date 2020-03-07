@@ -2,7 +2,6 @@
 # the environment variable ENV is set to this file.
 
 . ~/.aliases
-. ~/z.sh
 . ~/tmux.sh
 
 # Prevent forward-search keybinding from being overriden by XON/XOFF flow control
