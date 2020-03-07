@@ -55,6 +55,7 @@ cp -a \
    .minttyrc \
    .inputrc \
    z.sh \
+   tmux.sh \
    ~
 mkdir -p ~/.emacs.d && cp -a .emacs.d/local ~/.emacs.d
 mkdir -p ~/.ssh && cp -a .ssh/config ~/.ssh
