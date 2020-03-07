@@ -60,5 +60,15 @@ mkdir -p ~/.emacs.d && cp -a .emacs.d/local ~/.emacs.d
 mkdir -p ~/.ssh && cp -a .ssh/config ~/.ssh
 
 install_tpm
+
+# FreeBSD's ls doen't support --color option
+if ls --color >/dev/null 2>&1
+then
+    printf "\nalias ls='ls --color=auto'\n" >>~/.aliases
+elif ls -G >/dev/null 2>&1
+then
+    printf "\nalias ls='ls -G'\n" >>~/.aliases
+fi
+
 # Run platform-specific code
 execute "$(platform)/setup"
