@@ -37,18 +37,29 @@ if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
 fi
 
-# set a fancy prompt (non-color, unless we know we "want" color)
-case "$TERM" in
-    xterm-color|*-256color)
-        PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\W\[\033[00m\]\$ ';;
-    *)
-        PS1='${debian_chroot:+($debian_chroot)}\u@\h:\W\$ ';;
-esac
+_build_prompt () {
+    local exitcode=$?
+    local sigil='\$'
+    if [ "$exitcode" != 0 ]; then
+        sigil='!'
+    fi
+    local chroot="${debian_chroot:+($debian_chroot)}"
+    # set a fancy prompt (non-color, unless we know we "want" color)
+    # if colors is not empty, ${colors[0]} should refer the default color.
+    # for details of ANSI escape code, visit https://en.wikipedia.org/wiki/ANSI_escape_code
+    local colors=()
+    case "$TERM" in
+        xterm-color|*-256color)
+            colors=('\[\033[00m\]' '\[\033[01;32m\]' '\[\033[01;34m\]');;
+    esac
+    PS1="${chroot}${colors[1]}\u@\h${colors[0]}:${colors[2]}\W${colors[0]}${sigil} "
 
-# If this is an xterm set the title to user@host:dir
-case "$TERM" in
-    xterm*|rxvt*) PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \W\a\]$PS1";;
-esac
+    # If this is an xterm set the title to user@host:dir
+    case "$TERM" in
+        xterm*|rxvt*) PS1="\[\e]0;${chroot}\u@\h: \W\a\]${PS1}";;
+    esac
+}
+PROMPT_COMMAND=_build_prompt
 
 # colored GCC warnings and errors
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
