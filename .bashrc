@@ -42,20 +42,25 @@ fi
 
 _build_prompt () {
     local exitcode=$?
-    local sigil='\$'
-    if [ "$exitcode" != 0 ]; then
-        sigil='!'
-    fi
     local chroot="${debian_chroot:+($debian_chroot)}"
     # set a fancy prompt (non-color, unless we know we "want" color)
-    # if colors is not empty, ${colors[0]} should refer the default color.
     # for details of ANSI escape code, visit https://en.wikipedia.org/wiki/ANSI_escape_code
-    local colors=()
+    local reset red green blue
     case "$TERM" in
         xterm-color|*-256color)
-            colors=('\[\033[00m\]' '\[\033[01;32m\]' '\[\033[01;34m\]');;
+            reset='\[\033[00m\]'
+            green='\[\033[01;32m\]'
+            blue='\[\033[01;34m\]'
+            red='\[\033[01;31m\]'
+            ;;
     esac
-    PS1="${TERM_TITLE}${chroot}${colors[1]}\u@\h ${colors[2]}\W${colors[0]} ${sigil} "
+
+    PS1="${TERM_TITLE}${chroot}${green}\u@\h ${blue}\W "
+    if [ "$exitcode" = 0 ]; then
+        PS1+="${reset}\\$ "
+    else
+        PS1+="${red}!${reset} "
+    fi
 }
 PROMPT_COMMAND=_build_prompt
 

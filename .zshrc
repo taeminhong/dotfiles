@@ -4,6 +4,6 @@
 WORDCHARS='*?_.[]~=&;!#$%^(){}<>'
 
 # change sigil to red exclamation mark if the last command has failed.
-PROMPT='%B%F{green}%n@%m %F{blue}%1~ %f%b%(?.%#.!) '
+PROMPT='%B%F{green}%n@%m %F{blue}%1~ %(?.%f%b%#.%F{red}!%f%b) '
 
 . ~/z.sh
