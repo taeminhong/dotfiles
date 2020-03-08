@@ -55,7 +55,7 @@ _build_prompt () {
         xterm-color|*-256color)
             colors=('\[\033[00m\]' '\[\033[01;32m\]' '\[\033[01;34m\]');;
     esac
-    PS1="${TERM_TITLE}${chroot}${colors[1]}\u@\h${colors[0]}:${colors[2]}\W${colors[0]}${sigil} "
+    PS1="${TERM_TITLE}${chroot}${colors[1]}\u@\h ${colors[2]}\W${colors[0]} ${sigil} "
 }
 PROMPT_COMMAND=_build_prompt
 
