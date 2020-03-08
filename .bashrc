@@ -52,12 +52,7 @@ _build_prompt () {
         xterm-color|*-256color)
             colors=('\[\033[00m\]' '\[\033[01;32m\]' '\[\033[01;34m\]');;
     esac
-    PS1="${chroot}${colors[1]}\u@\h${colors[0]}:${colors[2]}\W${colors[0]}${sigil} "
-
-    # If this is an xterm set the title to user@host:dir
-    case "$TERM" in
-        xterm*|rxvt*) PS1="\[\e]0;${chroot}\u@\h: \W\a\]${PS1}";;
-    esac
+    PS1="${TERM_TITLE}${chroot}${colors[1]}\u@\h${colors[0]}:${colors[2]}\W${colors[0]}${sigil} "
 }
 PROMPT_COMMAND=_build_prompt
 
