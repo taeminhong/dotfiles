@@ -49,9 +49,9 @@ _build_prompt () {
     case "$TERM" in
         xterm-color|*-256color)
             reset='\[\033[00m\]'
-            green='\[\033[01;32m\]'
-            blue='\[\033[01;34m\]'
-            red='\[\033[01;31m\]'
+            green='\[\033[00;32m\]'
+            blue='\[\033[00;34m\]'
+            red='\[\033[00;31m\]'
             ;;
     esac
 
