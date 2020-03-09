@@ -55,11 +55,14 @@ _build_prompt () {
             ;;
     esac
 
-    PS1="${TERM_TITLE}${chroot}${green}\u@\h ${blue}\W "
+    PS1="${TERM_TITLE}${chroot}"
+    if [ -n "$SSH_CLIENT" ]; then
+        PS1+="${green}\u@\h "
+    fi
     if [ "$exitcode" = 0 ]; then
-        PS1+="${reset}\\$ "
+        PS1+="${blue}\W ${reset}\\$ "
     else
-        PS1+="${red}!${reset} "
+        PS1+="${blue}\W ${red}!${reset} "
     fi
 }
 PROMPT_COMMAND=_build_prompt
