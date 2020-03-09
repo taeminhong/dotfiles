@@ -125,6 +125,7 @@
 (setq help-window-select t)
 (setq scroll-step 1)
 (setq scroll-conservatively 10000)
+(setq scroll-margin 1)
 (desktop-save-mode 1)
 (setq desktop-path '("."))
 (setq isearch-allow-scroll t)
