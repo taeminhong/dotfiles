@@ -79,7 +79,8 @@
 ;; Lisp
 (use-package rainbow-delimiters
   :hook ((emacs-lisp-mode . rainbow-delimiters-mode)
-         (scheme-mode . rainbow-delimiters-mode))
+         (scheme-mode . rainbow-delimiters-mode)
+         (clojure-mode . rainbow-delimiters-mode))
   :config
   ;; Don't use the :custom-face keyword.
   ;; It's going to mess up the custom-set-faces list at bottommost.
@@ -93,11 +94,12 @@
   (face-spec-set 'rainbow-delimiters-depth-8-face '((t (:foreground "sienna1")))))
 
 (use-package paredit-mode
-  :hook (emacs-lisp-mode scheme-mode))
+  :hook (emacs-lisp-mode scheme-mode clojure-mode))
 
 (use-package adjust-parens
   :hook ((emacs-lisp-mode . adjust-parens-mode)
-         (scheme-mode . adjust-parens-mode)))
+         (scheme-mode . adjust-parens-mode)
+         (clojure-mode . adjust-parens-mode)))
 
 (use-package magit
   :bind (("C-x g" . 'magit-status))
@@ -148,7 +150,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (adjust-parens avy flx rainbow-delimiters geiser paredit company pcre2el glsl-mode magit smex use-package json-mode js2-mode csharp-mode counsel ag vue-mode))))
+    (cider adjust-parens avy flx rainbow-delimiters geiser paredit company pcre2el glsl-mode magit smex use-package json-mode js2-mode csharp-mode counsel ag vue-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
