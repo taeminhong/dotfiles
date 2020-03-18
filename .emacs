@@ -40,6 +40,13 @@
   :bind (("M-g l" . 'avy-goto-line)
          ("M-g c" . 'avy-goto-subword-1)))
 
+(use-package which-key
+  :init
+  (setq which-key-add-column-padding 2)
+  (setq which-key-separator "-")
+  :config
+  (which-key-mode))
+
 (use-package js2-mode
   :init
   (setq js2-missing-semi-one-line-override t)
@@ -150,7 +157,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (cider adjust-parens avy flx rainbow-delimiters geiser paredit company pcre2el glsl-mode magit smex use-package json-mode js2-mode csharp-mode counsel ag vue-mode))))
+    (which-key cider adjust-parens avy flx rainbow-delimiters geiser paredit company pcre2el glsl-mode magit smex use-package json-mode js2-mode csharp-mode counsel ag vue-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
