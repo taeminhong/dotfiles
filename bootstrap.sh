@@ -71,5 +71,13 @@ then
     printf "\nalias ls='ls -G'\n" >>~/.aliases
 fi
 
+# -Z flag to choose-tree has been supported since tmux 2.7
+# https://raw.githubusercontent.com/tmux/tmux/2.7/CHANGES
+if printf "$(tmux -V | awk '{print $2}')\n2.7\n" | sort -c 2>/dev/null
+then
+    # choose-window is an alias to choose-tree
+    perl -i -pe 's/(choose-(tree|window)) -Z/$1/' ~/.tmux.conf
+fi
+
 # Run platform-specific code
 execute "$(platform)/setup"
