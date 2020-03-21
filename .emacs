@@ -81,6 +81,11 @@
   :bind (:map diff-mode-map
               ("M-o")))
 
+(use-package haskell-mode
+  :config
+  (add-hook 'haskell-mode-hook
+            (lambda () (interactive-haskell-mode))))
+
 ;; C/C++
 (add-hook 'c-mode-hook
 	  (lambda () (c-set-style "BSD")))
@@ -161,7 +166,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (emamux anaconda-mode which-key cider adjust-parens avy flx rainbow-delimiters geiser paredit company pcre2el glsl-mode magit smex use-package json-mode js2-mode csharp-mode counsel ag vue-mode))))
+    (haskell-mode emamux anaconda-mode which-key cider adjust-parens avy flx rainbow-delimiters geiser paredit company pcre2el glsl-mode magit smex use-package json-mode js2-mode csharp-mode counsel ag vue-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
