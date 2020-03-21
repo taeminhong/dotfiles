@@ -64,6 +64,7 @@
 ;; The package is "python" but the mode is "python-mode":
 (use-package python
   :init
+  (setq python-shell-interpreter "python3")
   (setq python-indent-offset 4)
   :mode ("\\.py\\'" . python-mode)
   :interpreter ("python" . python-mode))
