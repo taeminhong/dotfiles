@@ -68,6 +68,9 @@
   :mode ("\\.py\\'" . python-mode)
   :interpreter ("python" . python-mode))
 
+(use-package anaconda-mode
+  :hook (python-mode))
+
 (use-package ibuffer
   :bind (:map ibuffer-mode-map
               ("M-o")
@@ -157,7 +160,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (which-key cider adjust-parens avy flx rainbow-delimiters geiser paredit company pcre2el glsl-mode magit smex use-package json-mode js2-mode csharp-mode counsel ag vue-mode))))
+    (anaconda-mode which-key cider adjust-parens avy flx rainbow-delimiters geiser paredit company pcre2el glsl-mode magit smex use-package json-mode js2-mode csharp-mode counsel ag vue-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
