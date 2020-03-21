@@ -20,5 +20,8 @@ addpath "$HOME/Library/Python/3.6/bin"
 addpath "$HOME/.cargo/bin"
 # Yarn, a package manager for JS
 addpath "$HOME/.yarn/bin"
+# Haskell
+addpath "$HOME/.ghcup/bin"
+addpath "$HOME/.cabal/bin"
 
 unset addpath
