@@ -79,5 +79,11 @@ then
     perl -i -pe 's/(choose-(tree|window)) -Z/$1/' ~/.tmux.conf
 fi
 
+# Old systems might not recognize "screen-256color"
+if ! infocmp screen-256color >/dev/null 2>&1
+then
+    perl -i -ne 'print if !/screen-256color/' ~/.tmux.conf
+fi
+
 # Run platform-specific code
 execute "$(platform)/setup"
