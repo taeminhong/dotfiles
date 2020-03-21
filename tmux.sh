@@ -5,7 +5,7 @@
 _tmux () {
     if test $# -eq 0
     then
-        \tmux a || \tmux new -s ${TMUX_DEFAULT_SESSION:-home}
+        \tmux a || \tmux new -s home
     else
         \tmux "$@"
     fi
