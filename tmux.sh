@@ -5,7 +5,7 @@
 _tmux () {
     if test $# -eq 0
     then
-        \tmux a || \tmux new -s home
+        \tmux a || \tmux new -s home -c "$HOME"
     else
         \tmux "$@"
     fi
