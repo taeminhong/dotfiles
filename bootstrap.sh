@@ -54,6 +54,7 @@ cp -a \
    .fzf-keybinding-patch.bash \
    .minttyrc \
    .inputrc \
+   .ghci \
    z.sh \
    tmux.sh \
    ~
