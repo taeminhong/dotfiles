@@ -266,8 +266,7 @@ the one(s) already marked."
         ((< n 0)
          (forward-line 1)
          (push-mark (point) nil t)
-         (forward-line n)
-         (beginning-of-line))))
+         (taemin--forward-line n))))
 
 (defun taemin--span-to-line-boundaries ()
   (cl-assert (region-active-p))
@@ -287,19 +286,23 @@ the one(s) already marked."
            (unless (= old-point (line-beginning-position))
              (forward-line))))))
 
-(defun taemin--forward-line-unless-zero (n)
-  (unless (= n 0)
-    (forward-line n)))
+(defun taemin--forward-line (n)
+  (cond ((= n 0) 0)
+        ((> n 0) (forward-line n))
+        ((= (point) (line-beginning-position)) (forward-line n))
+        (t (forward-line (+ n 1)))))
 
 (defun taemin--expand-line-region (n)
+  (cl-assert (not (= n 0)))
+  (cl-assert (use-region-p))
   (if (taemin--full-line-region-p)
-      (forward-line n)
+      (taemin--forward-line n)
     (when (and (< (count-lines (mark) (point)) 2)
                (not (taemin--same-sign-p n (- (point) (mark)))))
       (exchange-point-and-mark)
       (cl-assert (taemin--same-sign-p n (- (point) (mark)))))
     (taemin--span-to-line-boundaries)
-    (taemin--forward-line-unless-zero
+    (taemin--forward-line
      (if (not (taemin--same-sign-p n (- (point) (mark))))
          n
        (taemin--damp-to-zero n)))))
@@ -328,7 +331,7 @@ the one(s) already marked."
   (cond ((= arg 0))
         ((region-active-p)
          (cond ((member last-command '(taemin-mark-line taemin-mark-line-back))
-                (forward-line arg))
+                (taemin--forward-line arg))
                ((= (point) (mark))
                 (taemin--do-mark-line arg))
                (t
@@ -340,7 +343,7 @@ the one(s) already marked."
 
 (defun taemin--mark-line-non-interactive (arg)
   (cond ((= arg 0))
-        ((region-active-p) (taemin--expand-line-region arg))
+        ((use-region-p) (taemin--expand-line-region arg))
         (t (taemin--do-mark-line arg))))
 
 (defun taemin-mark-line (&optional n)
