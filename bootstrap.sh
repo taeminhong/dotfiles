@@ -25,7 +25,10 @@ platform () {
 }
 
 execute () {
-    test -x "$1" && "$1"
+    if test -x "$1"
+    then
+        "$1"
+    fi
 }
 
 # cd to the directory that contains this script.
