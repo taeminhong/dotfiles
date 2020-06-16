@@ -14,4 +14,9 @@ else
 fi
 unset short_prompt
 
+if [ -z "$INSIDE_EMACS" ] && [ -f ~/.fzf.zsh ]; then
+    . ~/.fzf.zsh
+    . ~/.fzf-keybinding-patch.zsh
+fi
+
 . ~/z.sh

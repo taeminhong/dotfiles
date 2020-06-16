@@ -54,6 +54,7 @@ cp -a \
    .gitconfig \
    .gitignore_global \
    .fzf-keybinding-patch.bash \
+   .fzf-keybinding-patch.zsh \
    .minttyrc \
    .inputrc \
    .ghci \
