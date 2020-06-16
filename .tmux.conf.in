@@ -33,9 +33,9 @@ unbind %
 # Splitting and joining panes
 bind b break-pane -d
 bind B break-pane
-bind j choose-tree -Z "join-pane -s '%%'"
-bind s choose-window -Z "join-pane -dt '%%'"
-bind S choose-tree -Z "swap-pane -s '%%'"
+bind j %CHOOSE-TREE-ZOOM% "join-pane -s '%%'"
+bind s %CHOOSE-WINDOW-ZOOM% "join-pane -dt '%%'"
+bind S %CHOOSE-TREE-ZOOM% "swap-pane -s '%%'"
 
 # Session
 bind a command-prompt -p "attach session to:" "attach-session -t '%%'"
@@ -89,7 +89,7 @@ set -g @continuum-restore 'on'
 ####################
 # Design
 
-set -g default-terminal "screen-256color"
+%SET-256-COLOR%
 
 # window status
 set -g status-left '[#S] '

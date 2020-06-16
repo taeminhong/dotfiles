@@ -53,7 +53,6 @@ cp -a \
    .emacs \
    .gitconfig \
    .gitignore_global \
-   .tmux.conf \
    .fzf-keybinding-patch.bash \
    .minttyrc \
    .inputrc \
@@ -64,6 +63,7 @@ cp -a \
 mkdir -p ~/.emacs.d && cp -a .emacs.d/local ~/.emacs.d
 mkdir -p ~/.ssh && cp -a .ssh/config ~/.ssh
 
+./gen-tmux-conf .tmux.conf.in >~/.tmux.conf
 install_tpm
 
 # FreeBSD's ls doen't support --color option
@@ -73,20 +73,6 @@ then
 elif ls -G >/dev/null 2>&1
 then
     printf "\nalias ls='ls -G'\n" >>~/.aliases
-fi
-
-# -Z flag to choose-tree has been supported since tmux 2.7
-# https://raw.githubusercontent.com/tmux/tmux/2.7/CHANGES
-if printf "$(tmux -V | awk '{print $2}')\n2.7\n" | sort -c 2>/dev/null
-then
-    # choose-window is an alias to choose-tree
-    perl -i -pe 's/(choose-(tree|window)) -Z/$1/' ~/.tmux.conf
-fi
-
-# Old systems might not recognize "screen-256color"
-if ! infocmp screen-256color >/dev/null 2>&1
-then
-    perl -i -ne 'print if !/screen-256color/' ~/.tmux.conf
 fi
 
 # Run platform-specific code
