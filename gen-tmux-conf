@@ -1,14 +1,37 @@
 #!/bin/sh
 
+tmux_version="$(tmux -V | cut -d' ' -f2)"
+
+le_ver () {
+    printf "$1\n$2\n" | sort -Vc >/dev/null 2>&1
+}
+
+lt_ver () {
+    test "$1" != "$2" && le_ver "$1" "$2"
+}
+
 # -Z flag to choose-tree has been supported since tmux 2.7
 # https://raw.githubusercontent.com/tmux/tmux/2.7/CHANGES
-if printf "$(tmux -V | awk '{print $2}')\n2.7\n" | sort -c 2>/dev/null
+if lt_ver "$tmux_version" 2.7
 then
     choose_tree_zoom="choose-tree"
     choose_window_zoom="choose-window"
 else
     choose_tree_zoom="choose-tree -Z"
     choose_window_zoom="choose-window -Z"
+fi
+
+# swap-window has changed its behavior from the tmux 3.0
+# if you want keep the focus on the window that was originally focused,
+# -d option is needed.
+# https://github.com/tmux/tmux/issues/1879
+if lt_ver "$tmux_version" 3.0
+then
+    move_window_left="swap-window -t -1"
+    move_window_right="swap-window -t +1"
+else
+    move_window_left="swap-window -d -t -1"
+    move_window_right="swap-window -d -t +1"
 fi
 
 # Old systems might not recognize "screen-256color"
@@ -20,4 +43,6 @@ fi
 sed -e "s/%CHOOSE-TREE-ZOOM%/$choose_tree_zoom/g" \
     -e "s/%CHOOSE-WINDOW-ZOOM%/$choose_window_zoom/g" \
     -e "s/%SET-256-COLOR%/$set_256_color/g" \
+    -e "s/%MOVE-WINDOW-LEFT%/$move_window_left/g" \
+    -e "s/%MOVE-WINDOW-RIGHT%/$move_window_right/g" \
     "$@" /dev/null
