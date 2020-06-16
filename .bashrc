@@ -82,7 +82,7 @@ if ! shopt -oq posix; then
 fi
 
 # Command line fuzzy finder: https://github.com/junegunn/fzf
-if [ -o emacs -a -f ~/.fzf.bash ]; then
+if [ -z "$INSIDE_EMACS" ] && [ -f ~/.fzf.bash ]; then
     source ~/.fzf.bash
     source ~/.fzf-keybinding-patch.bash
 fi
