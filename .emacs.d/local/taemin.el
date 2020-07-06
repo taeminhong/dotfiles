@@ -364,6 +364,38 @@ the one(s) already marked."
   (call-interactively 'compile)
   (select-window (get-buffer-window "*compilation*")))
 
+(defun taemin-locate-project-directory (path)
+  (cl-some (lambda (name) (locate-dominating-file path name))
+           '(".git" ".svn" ".hg" ".projectile")))
+
+(defun taemin-project-compile (command &optional comint)
+  "Compile from the project root directory and select the compilation window.
+The concept of a project root directory is pretty simple -
+just a folder containing VCS repo (e.g. git) or .projectile file in it.
+No project root directory found, then this compiles from the buffer's default-directory."
+  (interactive
+   (list
+    (let ((command (eval compile-command)))
+      (if (or compilation-read-command current-prefix-arg)
+	  (compilation-read-command command)
+	command))
+    (consp current-prefix-arg)))
+  (unless (equal command (eval compile-command))
+    (setq compile-command command))
+  (save-some-buffers (not compilation-ask-about-save)
+                     compilation-save-buffers-predicate)
+  (let ((rootdir (or (taemin-locate-project-directory default-directory)
+                     default-directory)))
+    ;; Make a temporary buffer which will store project root directory path
+    ;; in default-directory variable.
+    ;; So that compilation-start can obtain the project root directory via
+    ;; the default-directory variable.
+    (with-temp-buffer
+      (cd rootdir)
+      (setq-default compilation-directory default-directory)
+      (compilation-start command comint)
+      (select-window (get-buffer-window "*compilation*")))))
+
 (defun taemin--read-file-name-default (fmt dir default-filename mustmatch initial predicate)
   (let ((basename (file-name-nondirectory default-filename)))
     (if (taemin-bound-and-true-p ivy-mode)
