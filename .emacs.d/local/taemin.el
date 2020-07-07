@@ -358,11 +358,34 @@ the one(s) already marked."
   (interactive)
   (switch-to-buffer (make-temp-name "scratch")))
 
-(defun taemin-compile ()
-  "Run compile and select the compilation window"
-  (interactive)
-  (call-interactively 'compile)
-  (select-window (get-buffer-window "*compilation*")))
+(defun taemin--compile-command (read)
+  (let ((command (eval compile-command)))
+   (if (or compilation-read-command read)
+       (compilation-read-command command)
+     command)))
+
+(defun taemin-compile (command &optional comint directory)
+  "Compile from the DIRECTORY and select the compilation window.
+Instead of a string, DIRECTORY can be a function taking a one string argument
+and returning a directory.
+The function will be called with a command string.
+If the function returns nil, buffer's default-directory will be used."
+  (interactive
+   (list
+    (taemin--compile-command current-prefix-arg)
+    (consp current-prefix-arg)))
+  (unless (equal command (eval compile-command))
+    (setq compile-command command))
+  (save-some-buffers (not compilation-ask-about-save)
+                     compilation-save-buffers-predicate)
+  (with-temp-buffer
+    (cd (or (if (functionp directory)
+                (funcall directory command)
+              directory)
+            default-directory))
+    (setq-default compilation-directory default-directory)
+    (compilation-start command comint)
+    (select-window (get-buffer-window "*compilation*"))))
 
 (defun taemin-locate-project-directory (path)
   (cl-some (lambda (name) (locate-dominating-file path name))
@@ -375,26 +398,12 @@ just a folder containing VCS repo (e.g. git) or .projectile file in it.
 No project root directory found, then this compiles from the buffer's default-directory."
   (interactive
    (list
-    (let ((command (eval compile-command)))
-      (if (or compilation-read-command current-prefix-arg)
-	  (compilation-read-command command)
-	command))
+    (taemin--compile-command current-prefix-arg)
     (consp current-prefix-arg)))
-  (unless (equal command (eval compile-command))
-    (setq compile-command command))
-  (save-some-buffers (not compilation-ask-about-save)
-                     compilation-save-buffers-predicate)
-  (let ((rootdir (or (taemin-locate-project-directory default-directory)
-                     default-directory)))
-    ;; Make a temporary buffer which will store project root directory path
-    ;; in default-directory variable.
-    ;; So that compilation-start can obtain the project root directory via
-    ;; the default-directory variable.
-    (with-temp-buffer
-      (cd rootdir)
-      (setq-default compilation-directory default-directory)
-      (compilation-start command comint)
-      (select-window (get-buffer-window "*compilation*")))))
+  (taemin-compile command
+                  comint
+                  (lambda (_)
+                    (taemin-locate-project-directory default-directory))))
 
 (defun taemin--read-file-name-default (fmt dir default-filename mustmatch initial predicate)
   (let ((basename (file-name-nondirectory default-filename)))
