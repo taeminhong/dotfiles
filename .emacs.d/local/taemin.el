@@ -357,10 +357,23 @@ the one(s) already marked."
       (taemin--mark-line-interactive n)
     (taemin--mark-line-non-interactive n)))
 
-(defun taemin-generate-buffer ()
-  "create a temporary buffer"
+(define-minor-mode taemin-note-paper-mode
+  "Note paper mode."
+  nil
+  " Note-paper"
+  '()
+  (when taemin-note-paper-mode
+    (cd (getenv "PWD"))))
+
+(defun taemin-new-note-paper ()
+  "Create a note-paper buffer"
   (interactive)
-  (switch-to-buffer (make-temp-name "scratch")))
+  (switch-to-buffer (generate-new-buffer "untitled note"))
+  (let ((name (buffer-name))
+        (inhibit-message t))
+    (write-file (make-temp-file "emacs-notes"))
+    (rename-buffer name)
+    (taemin-note-paper-mode 1)))
 
 (defun taemin--compile-command (read)
   (let ((command (eval compile-command)))

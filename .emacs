@@ -129,6 +129,7 @@
 (global-set-key (kbd "M-#") 'taemin-mark-line)
 (global-set-key (kbd "<f5>") 'taemin-makefile-compile)
 (global-set-key (kbd "<S-f5>") 'taemin-project-compile)
+(global-set-key (kbd "C-c n") 'taemin-new-note-paper)
 (defalias 'diff 'taemin-diff)
 (defalias 'visit-tags-table 'taemin-visit-tags-table)
 
