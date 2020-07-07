@@ -7,7 +7,7 @@ export INITIAL_PATH=${INITIAL_PATH:-$PATH}
 
 addpath () {
     test -d "$1" && PATH="$1:$PATH"
- }
+}
 
 # Rebuild PATH
 PATH=$INITIAL_PATH
