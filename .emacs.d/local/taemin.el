@@ -6,6 +6,10 @@
   "Return the value of symbol VAR if it is bound, else nil."
   `(and (boundp (quote ,var)) ,var))
 
+(defvar taemin-makefile-regex-alist
+      '(("make" . "^\\(Makefile\\|makefile\\)$")
+        ("cabal" . "\\.cabal$")))
+
 (defun taemin-forward-to-word (n)
   (interactive "^p")
   (let (word-begin
@@ -404,6 +408,30 @@ No project root directory found, then this compiles from the buffer's default-di
                   comint
                   (lambda (_)
                     (taemin-locate-project-directory default-directory))))
+
+(defun taemin-assoc-makefile-regex (command)
+  (cl-some (lambda (pair)
+             (let ((regex (concat "^[[:space:]]*" (car pair))))
+               (if (string-match-p regex command)
+                   pair)))
+           taemin-makefile-regex-alist))
+
+(defun taemin-locate-makefile-directory (command)
+  (let ((regex (cdr (taemin-assoc-makefile-regex command))))
+    (locate-dominating-file default-directory
+                            (lambda (dir)
+                              (cl-some 'file-regular-p
+                                       (directory-files dir t regex))))))
+
+(defun taemin-makefile-compile (command &optional comint)
+  "Compile from the directory containig a makefile of the give command"
+  (interactive
+   (list
+    (taemin--compile-command current-prefix-arg)
+    (consp current-prefix-arg)))
+  (taemin-compile command
+                  comint
+                  'taemin-locate-makefile-directory))
 
 (defun taemin--read-file-name-default (fmt dir default-filename mustmatch initial predicate)
   (let ((basename (file-name-nondirectory default-filename)))

@@ -127,7 +127,7 @@
 (global-set-key (kbd "<M-DEL>") 'taemin-backward-kill-word)
 (global-set-key (kbd "C-M-h") 'taemin-mark-defun)
 (global-set-key (kbd "M-#") 'taemin-mark-line)
-(global-set-key (kbd "<f5>") 'taemin-compile)
+(global-set-key (kbd "<f5>") 'taemin-makefile-compile)
 (global-set-key (kbd "<S-f5>") 'taemin-project-compile)
 (defalias 'diff 'taemin-diff)
 (defalias 'visit-tags-table 'taemin-visit-tags-table)
