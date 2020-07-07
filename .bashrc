@@ -74,11 +74,16 @@ PROMPT_COMMAND=_build_prompt
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  fi
+    # Linux bash-completion
+    if [ -f /usr/share/bash-completion/bash_completion ]; then
+        . /usr/share/bash-completion/bash_completion
+    elif [ -f /etc/bash_completion ]; then
+        . /etc/bash_completion
+    fi
+    # MacPort bash-completion
+    if [ -f /opt/local/etc/profile.d/bash_completion.sh ]; then
+        . /opt/local/etc/profile.d/bash_completion.sh
+    fi
 fi
 
 # Command line fuzzy finder: https://github.com/junegunn/fzf
@@ -101,11 +106,6 @@ if [ -d ~/.nvm ]; then
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
     # nvm bash_completion
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-fi
-
-# MacPort bash-completion
-if [ -f /opt/local/etc/profile.d/bash_completion.sh ]; then
-    . /opt/local/etc/profile.d/bash_completion.sh
 fi
 
 # enable color support of ls
