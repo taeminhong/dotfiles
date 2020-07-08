@@ -1,19 +1,5 @@
 #!/bin/sh
 
-commands_exist () {
-    for c in "$@"
-    do
-        command -v "$c" >/dev/null 2>&1 || return $?
-    done
-}
-
-install_tpm () {
-    if commands_exist tmux git && test ! -d ~/.tmux/plugins/tpm
-    then
-        git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-    fi
-}
-
 platform () {
     kernel=$(uname -s)
     case $kernel in
@@ -64,8 +50,15 @@ cp -a \
 mkdir -p ~/.emacs.d && cp -a .emacs.d/local ~/.emacs.d
 mkdir -p ~/.ssh && cp -a .ssh/config ~/.ssh
 
-./gen-tmux-conf .tmux.conf.in >~/.tmux.conf
-install_tpm
+if command -v tmux >/dev/null 2>&1
+then
+    ./gen-tmux-conf .tmux.conf.in >~/.tmux.conf
+    # Install TPM
+    if command -v git >/dev/null 2>&1 && test ! -d ~/.tmux/plugins/tpm
+    then
+        git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+    fi
+fi
 
 # FreeBSD's ls doen't support --color option
 if ls --color >/dev/null 2>&1
