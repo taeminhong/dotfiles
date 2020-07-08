@@ -1,7 +1,7 @@
 #!/bin/sh
 
 ruledir="$HOME/.config/karabiner/assets/complex_modifications"
-mkdir -p "ruledir"
+mkdir -p "$ruledir"
 "$(dirname "$0")/generate-karabiner-rules" >"$ruledir/taemin.json"
 
 # Make rebase safer on MacOS
