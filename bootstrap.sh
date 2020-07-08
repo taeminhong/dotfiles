@@ -1,22 +1,5 @@
 #!/bin/sh
 
-platform () {
-    kernel=$(uname -s)
-    case $kernel in
-        CYGWIN*|MSYS*|MINGW*) echo Windows;;
-        Darwin) echo Mac;;
-        *) echo "$kernel";;
-    esac
-    unset kernel
-}
-
-execute () {
-    if test -x "$1"
-    then
-        "$1"
-    fi
-}
-
 # cd to the directory that contains this script.
 source="$0"
 if test -L "$0"
@@ -70,4 +53,12 @@ then
 fi
 
 # Run platform-specific code
-execute "$(platform)/setup"
+platform="$(uname -s)"
+case $platform in
+    CYGWIN*|MSYS*|MINGW*) platform="Windows";;
+    Darwin) platform="Mac";;
+esac
+if test -x "$platform/setup"
+then
+    "$platform/setup"
+fi
