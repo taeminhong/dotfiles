@@ -148,6 +148,7 @@
 (setq scroll-margin 1)
 (desktop-save-mode 1)
 (setq desktop-path '("."))
+(add-to-list 'desktop-globals-to-save 'compile-command)
 (setq isearch-allow-scroll t)
 (setq compilation-ask-about-save nil)
 (setq history-length 32)
