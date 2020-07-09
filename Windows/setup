@@ -10,7 +10,7 @@ git config --global difftool.tortoisediff.cmd "TortoiseMerge -mine \$REMOTE -bas
 git config --global mergetool.tortoisemerge.cmd "TortoiseMerge -base \$BASE -theirs \$REMOTE -mine \$LOCAL -merged \$MERGED"
 
 echo '
-# If this is an xterm set the title to user@host dir
+# If this is an xterm, change the window title to user@host dir
 case "$TERM" in
     xterm*|rxvt*)
         export TERM_TITLE="\\[\\e]0;\\u@\\h \\W\\a\\]";;
