@@ -151,6 +151,7 @@
 (add-to-list 'desktop-globals-to-save 'compile-command)
 (setq isearch-allow-scroll t)
 (setq compilation-ask-about-save nil)
+(setq compilation-scroll-output 'first-error)
 (setq history-length 32)
 ;; Suppress ls-dired warning in OSX
 (setq dired-use-ls-dired
