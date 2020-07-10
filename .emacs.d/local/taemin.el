@@ -401,8 +401,9 @@ If the function returns nil, buffer's default-directory will be used."
               directory)
             default-directory))
     (setq-default compilation-directory default-directory)
-    (compilation-start command comint)
-    (select-window (get-buffer-window "*compilation*"))))
+    (select-window
+     (get-buffer-window
+      (compilation-start command comint)))))
 
 (defun taemin-locate-project-directory (path)
   (cl-some (lambda (name) (locate-dominating-file path name))
@@ -486,9 +487,9 @@ specified in the variable `diff-switches' are passed to the diff command."
 		  (read-file-name "Diff original file: "
 				  (file-name-directory newf) nil t)))
      (list oldf newf (diff-switches))))
-  (display-buffer
-   (diff-no-select old new switches no-async))
-  (select-window (get-buffer-window "*Diff*")))
+  (select-window
+   (display-buffer
+    (diff-no-select old new switches no-async))))
 
 (defun taemin--format-region (fmt beg end sub-from sub-to)
   (let ((text (delete-and-extract-region beg end)))
