@@ -101,8 +101,8 @@ automatically append one."
   (setq require-final-newline t))
 
 (defun sensible-defaults/confirm-closing-emacs ()
-  "Ask if you're sure that you want to close Emacs."
-  (setq confirm-kill-emacs 'y-or-n-p))
+  "Don't ask if you're sure that you want to close Emacs."
+  (setq confirm-kill-emacs nil))
 
 (defun sensible-defaults/quiet-startup ()
   "Don't present the usual startup message, and clear the scratch
