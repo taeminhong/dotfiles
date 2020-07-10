@@ -561,4 +561,9 @@ file the tag was in."
     (setq-default tags-file-name file)
     (setq tags-completion-table nil)))
 
+(defun taemin-revert-buffer ()
+  "Revert buffer without being prompted and preserving modes"
+  (interactive)
+  (revert-buffer (not current-prefix-arg) t t))
+
 (provide 'taemin)
