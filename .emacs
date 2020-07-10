@@ -24,6 +24,7 @@
   (setq ivy-initial-inputs-alist nil)
   (setq ivy-re-builders-alist
         '((t . ivy--regex-plus)))
+  (setq ivy-extra-directories '("./"))
   :config
   (ivy-mode 1))
 
