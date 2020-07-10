@@ -18,7 +18,7 @@
 
 (use-package ivy
   :init
-  (setq ivy-use-virtual-buffers nil)
+  (setq ivy-use-virtual-buffers t)
   (setq ivy-use-selectable-prompt t)
   (setq ivy-display-style nil)
   (setq ivy-initial-inputs-alist nil)
