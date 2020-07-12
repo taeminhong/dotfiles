@@ -123,6 +123,10 @@
   :config
   (put 'magit-clean 'disabled nil))
 
+(use-package ag
+  :init
+  (setq ag-reuse-buffers t))
+
 (require 'taemin)
 (taemin-select-window-after-compilation t)
 (global-set-key (kbd "M-d") 'taemin-kill-word)
