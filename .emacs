@@ -35,7 +35,8 @@
   :bind (("C-c k" . 'counsel-ag)
          ("C-c g" . 'counsel-git)
          ("C-c f" . 'counsel-fzf)
-         ("C-c j" . 'counsel-git-grep)))
+         ("C-c j" . 'counsel-git-grep)
+         ("C-c p" . 'counsel-file-jump)))
 
 (use-package avy
   :bind (("M-g l" . 'avy-goto-line)
