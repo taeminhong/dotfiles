@@ -124,6 +124,7 @@
   (put 'magit-clean 'disabled nil))
 
 (require 'taemin)
+(taemin-select-window-after-compilation t)
 (global-set-key (kbd "M-d") 'taemin-kill-word)
 (global-set-key (kbd "<M-DEL>") 'taemin-backward-kill-word)
 (global-set-key (kbd "C-M-h") 'taemin-mark-defun)

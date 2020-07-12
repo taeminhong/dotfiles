@@ -381,6 +381,16 @@ the one(s) already marked."
        (compilation-read-command command)
      command)))
 
+(defun taemin--select-buffer-window (buf)
+  (select-window
+   (get-buffer-window buf))
+  buf)
+
+(defun taemin-select-window-after-compilation (select)
+  (if select
+      (advice-add 'compilation-start :filter-return #'taemin--select-buffer-window)
+    (advice-remove 'compilation-start #'taemin--select-buffer-window)))
+
 (defun taemin-compile (command &optional comint directory)
   "Compile from the DIRECTORY and select the compilation window.
 Instead of a string, DIRECTORY can be a function taking a one string argument
@@ -401,9 +411,7 @@ If the function returns nil, buffer's default-directory will be used."
               directory)
             default-directory))
     (setq-default compilation-directory default-directory)
-    (select-window
-     (get-buffer-window
-      (compilation-start command comint)))))
+    (compilation-start command comint)))
 
 (defun taemin-locate-project-directory (path)
   (cl-some (lambda (name) (locate-dominating-file path name))
