@@ -10,24 +10,6 @@
       '(("make" . "^\\(Makefile\\|makefile\\)$")
         ("cabal" . "\\.cabal$")))
 
-(defun taemin-forward-to-word (n)
-  (interactive "^p")
-  (let (word-begin
-        word-end
-        subword-end-p)
-    (while (< 0 n)
-      (save-excursion
-        (forward-to-word 1)
-        (setq word-begin (point)))
-      (save-excursion
-        (forward-word 1)
-        (setq word-end (point))
-        (setq subword-end-p (looking-at-p "\\w")))
-      (if (or (< word-begin word-end) (not subword-end-p))
-          (goto-char word-begin)
-        (goto-char word-end))
-      (setq n (1- n)))))
-
 (defun taemin-kill-word (n)
   (interactive "^p")
   (while (< 0 n)
@@ -47,43 +29,6 @@
             (end (save-excursion (backward-to-word 1) (point))))
         (kill-region beg end)))
     (setq n (1- n))))
-
-(defun taemin--last-sexp-in-list-p ()
-  (condition-case nil
-      (save-excursion
-        (forward-sexp) nil)
-    (scan-error nil t)))
-
-(defun taemin--no-more-sexp-p ()
-  (let ((prev-point (point)))
-    (condition-case err
-      (save-excursion
-        (forward-sexp)
-        (backward-sexp)
-        (forward-sexp)
-        (<= (point) prev-point))
-      (scan-error nil t))))
-
-(defun taemin-next-sexp-iter (start-point n)
-  (cond ((<= n 0) (point))
-        ((taemin--last-sexp-in-list-p)
-         (when (= (point) start-point)
-           ;; raise a scan error
-           (forward-sexp)))
-        ((taemin--no-more-sexp-p)
-         (forward-sexp))
-        (t
-         (forward-sexp)
-         (backward-sexp)
-         (if (> (point) start-point)
-             (taemin-next-sexp-iter (point) (- n 1))
-           (progn (forward-sexp)
-                  (taemin-next-sexp-iter start-point n))))))
-
-(defun taemin-next-sexp (n)
-  (interactive "^p")
-  (cond ((< n 0) (backward-sexp (- n)))
-        (t (taemin-next-sexp-iter (point) n))))
 
 (defun taemin--make-range (beg end)
   (cons beg end))
