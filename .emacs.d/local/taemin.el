@@ -10,25 +10,82 @@
       '(("make" . "^\\(Makefile\\|makefile\\)$")
         ("cabal" . "\\.cabal$")))
 
+(defun taemin--do-forward-word (direction line-boundary limit select)
+  (if (= (point) line-boundary)
+      (when (/= line-boundary limit)
+        (goto-char (+ line-boundary direction)))
+    (forward-word direction)
+    (goto-char (funcall select (point) line-boundary))))
+
+(defun taemin-forward-word (&optional n)
+  (interactive "^p")
+  (let ((limit          (if (< 0 n) (point-max) (point-min)))
+        (direction      (if (< 0 n) 1 -1))
+        (select         (if (< 0 n) #'min #'max))
+        (line-boundary  (if (< 0 n) (line-end-position) (line-beginning-position)))
+        (inc            (if (< 0 n) -1 1)))
+    (while (and (/= n 0)
+                (/= (point) limit))
+      (taemin--do-forward-word direction line-boundary limit select)
+      (setq n (+ n inc)))))
+
+(defun taemin-backward-word (&optional n)
+  (interactive "^p")
+  (taemin-forward-word (- n)))
+
+(defun taemin--do-kill-word (direction line-end limit skip-chars skip-syntax)
+  (let (whitespace-end
+        non-word-end ;; non-word-consistuent characters
+        word-beg)
+    ;; whitespace, non-word, and word can be obtained
+    ;; by PCRE (\s*)([^\s\w]*)\W*(\w*)
+    (save-excursion
+      (funcall skip-chars "[:space:]" line-end)
+      (setq whitespace-end (point))
+      (save-excursion
+        (funcall skip-syntax "^w" line-end)
+        (setq word-beg (point)))
+      (funcall skip-chars "^[:space:]" word-beg)
+      (setq non-word-end (point)))
+    ;; (point) <= whitespace-end <= non-word-end <= word-beg <= line-end
+    ;; if forward direction, otherwise
+    ;; line-end <= word-beg <= non-word-end <= whitespace-end <= (point)
+    (let ((compare (if (= direction 1) '<= '>=)))
+      (cl-assert (funcall compare (point) whitespace-end))
+      (cl-assert (funcall compare whitespace-end non-word-end))
+      (cl-assert (funcall compare non-word-end word-beg))
+      (cl-assert (funcall compare word-beg line-end)))
+    (cond ((= (point) line-end)
+           ;; kill newline character
+           (when (/= line-end limit)
+             (kill-region (point)
+                          (+ (point) direction))))
+          ((or (= line-end whitespace-end)
+               (< 1
+                  (abs (- (point) whitespace-end))))
+           ;; kill whitespaces only
+           (kill-region (point) whitespace-end))
+          ((= whitespace-end word-beg)
+           (kill-word direction))
+          (t
+           (kill-region (point) non-word-end)))))
+
 (defun taemin-kill-word (n)
   (interactive "^p")
-  (while (< 0 n)
-    (if (looking-at-p "\\w")
-        (kill-word 1)
-      (let ((beg (point))
-            (end (save-excursion (forward-to-word 1) (point))))
-        (kill-region beg end)))
-    (setq n (1- n))))
+  (let ((direction      (if (< 0 n) 1 -1))
+        (line-end       (if (< 0 n) (line-end-position) (line-beginning-position)))
+        (limit          (if (< 0 n) (point-max) (point-min)))
+        (skip-chars     (if (< 0 n) #'skip-chars-forward #'skip-chars-backward))
+        (skip-syntax    (if (< 0 n) #'skip-syntax-forward #'skip-syntax-backward))
+        (inc            (if (< 0 n) -1 1)))
+    (while (and (/= 0 n)
+                (/= (point) limit))
+      (taemin--do-kill-word direction line-end limit skip-chars skip-syntax)
+      (setq n (+ n inc)))))
 
 (defun taemin-backward-kill-word (n)
   (interactive "^p")
-  (while (< 0 n)
-    (if (looking-back "\\w" (- (point) 1))
-        (backward-kill-word 1)
-      (let ((beg (point))
-            (end (save-excursion (backward-to-word 1) (point))))
-        (kill-region beg end)))
-    (setq n (1- n))))
+  (taemin-kill-word (- n)))
 
 (defun taemin--make-range (beg end)
   (cons beg end))

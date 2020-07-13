@@ -130,6 +130,8 @@
 
 (require 'taemin)
 (taemin-select-window-after-compilation t)
+(global-set-key (kbd "M-f") 'taemin-forward-word)
+(global-set-key (kbd "M-b") 'taemin-backward-word)
 (global-set-key (kbd "M-d") 'taemin-kill-word)
 (global-set-key (kbd "<M-DEL>") 'taemin-backward-kill-word)
 (global-set-key (kbd "C-M-h") 'taemin-mark-defun)
