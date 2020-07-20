@@ -10,6 +10,8 @@
       '(("make" . "^\\(Makefile\\|makefile\\)$")
         ("cabal" . "\\.cabal$")))
 
+(defconst taemin--note-paper-file-prefix "TNP")
+
 (defun taemin--do-forward-word (direction line-boundary limit select)
   (if (= (point) line-boundary)
       (when (/= line-boundary limit)
@@ -373,7 +375,7 @@ the one(s) already marked."
   (switch-to-buffer (generate-new-buffer "untitled note"))
   (let ((name (buffer-name))
         (inhibit-message t))
-    (write-file (make-temp-file "emacs-notes"))
+    (write-file (make-temp-file taemin--note-paper-file-prefix))
     (rename-buffer name)
     (taemin-note-paper-mode 1)))
 
@@ -544,5 +546,10 @@ This is a `visit-tags-table' wrapper for a better file name completion with ivy"
   "Revert buffer without being prompted and preserving modes"
   (interactive)
   (revert-buffer (not current-prefix-arg) t t))
+
+;; exclude note-paper temporary file from the recentf list
+(eval-after-load 'recentf
+  '(add-to-list 'recentf-exclude
+                (format "%s[[:alnum:]]+" taemin--note-paper-file-prefix)))
 
 (provide 'taemin)
