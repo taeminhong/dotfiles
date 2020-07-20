@@ -163,6 +163,7 @@
 ;; Suppress ls-dired warning in OSX
 (setq dired-use-ls-dired
       (not (string-equal system-type "darwin")))
+(setq recentf-save-file "./.recentf")
 
 ;; global key bindings
 (global-set-key [(f6)] 'shell)

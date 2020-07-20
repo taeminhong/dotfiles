@@ -10,3 +10,6 @@
 # Emacs directory-local variable
 .dir-locals.el
 .dir-locals-2.el
+
+# Emacs recentf list file
+.recentf
