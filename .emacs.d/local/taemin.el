@@ -547,6 +547,11 @@ This is a `visit-tags-table' wrapper for a better file name completion with ivy"
   (interactive)
   (revert-buffer (not current-prefix-arg) t t))
 
+(defun taemin-advice-haskell-load-prompt (orig-fun &rest args)
+  "Prompt target on starting REPL"
+  (let ((haskell-process-load-or-reload-prompt t))
+    (apply orig-fun args)))
+
 ;; exclude note-paper temporary file from the recentf list
 (eval-after-load 'recentf
   '(add-to-list 'recentf-exclude

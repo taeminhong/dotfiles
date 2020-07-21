@@ -86,7 +86,11 @@
 (use-package haskell-mode
   :config
   (add-hook 'haskell-mode-hook
-            (lambda () (interactive-haskell-mode))))
+            (lambda () (interactive-haskell-mode)))
+  ;; Prompt build targets on starting the REPL.
+  (advice-add 'haskell-session-target
+              :around
+              #'taemin-advice-haskell-load-prompt))
 
 ;; C/C++
 (add-hook 'c-mode-hook
