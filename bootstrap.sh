@@ -64,7 +64,7 @@ then
 fi
 
 __download_unzip () {
-    curl -sL -o"$3" "$1" && unzip -qd"$2" "$3"
+    curl -sSL -o"$3" "$1" && unzip -qd"$2" "$3"
 }
 
 download_unzip () {
