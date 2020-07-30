@@ -1,12 +1,22 @@
 #!/bin/sh
 
 # cd to the directory that contains this script.
+# reference: https://stackoverflow.com/a/246128
 source="$0"
-if test -L "$0"
-then
-    source="$(readlink "$0")"
-fi
-cd "$(dirname "${source}")" || exit 1
+# While $source is a symlink, resolve it
+while test -L "$source"
+do
+    dir="$(cd -P "$( dirname "$source")" && pwd)"
+    source="$(readlink "$source")"
+    # If $source was a relative symlink (so no "/" as prefix, need to
+    # resolve it relative to the symlink base directory
+    case "$source" in
+        /*) ;;
+        *) source="$dir/$source";;
+    esac
+done
+cd "$(dirname "$source")" || exit 1
+unset dir
 unset source
 
 # directory in which files are saved temporarily.
