@@ -40,6 +40,7 @@ cp -a \
    .zprofile \
    .zshrc \
    .emacs \
+   .vimrc \
    .gitconfig \
    .gitignore_global \
    .fzf-keybinding-patch.bash \
@@ -54,6 +55,13 @@ cp -a .emacs.d/local/taemin.el ~/.emacs.d/local
 
 mkdir -p ~/.ssh
 cp -a .ssh/config ~/.ssh
+
+# install Vundle, Vim plugin manager
+if test ! -e ~/.vim/bundle/Vundle.vim && command -v git >/dev/null 2>&1
+then
+    git clone https://github.com/VundleVim/Vundle.vim.git \
+        ~/.vim/bundle/Vundle.vim
+fi
 
 __download_unzip () {
     curl -sL -o"$3" "$1" && unzip -qd"$2" "$3"
