@@ -45,21 +45,25 @@ cp -a .emacs.d/local/taemin.el ~/.emacs.d/local
 mkdir -p ~/.ssh
 cp -a .ssh/config ~/.ssh
 
-wget_unzip () {
-    wget -qP"$2" "$1" && unzip -qd"$2" "$2/$(basename "$1")"
+__download_unzip () {
+    curl -sL -o"$3" "$1" && unzip -qd"$2" "$3"
+}
+
+download_unzip () {
+    __download_unzip "$1" "$2" "$2/$(basename "$1")"
 }
 
 # z - directory jump utility
 if test ! -e ~/z.sh
 then
-    wget_unzip https://github.com/rupa/z/archive/v1.11.zip "$downloads" && \
+    download_unzip https://github.com/rupa/z/archive/v1.11.zip "$downloads" && \
         cp "$downloads/z-1.11/z.sh" ~
 fi
 
 # sensible-defaults - sensible emacs settings
 if test ! -e ~/.emacs.d/local/sensible-defaults.el
 then
-    wget_unzip https://github.com/hrs/sensible-defaults.el/archive/main.zip "$downloads" && \
+    download_unzip https://github.com/hrs/sensible-defaults.el/archive/main.zip "$downloads" && \
         cp "$downloads/sensible-defaults.el-main/sensible-defaults.el" ~/.emacs.d/local && \
         echo "(provide 'sensible-defaults)" >>~/.emacs.d/local/sensible-defaults.el
 fi
