@@ -3,14 +3,14 @@
 # Git coding guidelines will help you write portable shell scripts
 # https://github.com/git/git/blob/master/Documentation/CodingGuidelines
 
-export INITIAL_PATH=${INITIAL_PATH:-$PATH}
+export INITIAL_PATH="${INITIAL_PATH:-$PATH}"
 
 addpath () {
     test -d "$1" && PATH="$1:$PATH"
 }
 
 # Rebuild PATH
-PATH=$INITIAL_PATH
+PATH="$INITIAL_PATH"
 # MacPort
 addpath /opt/local/bin
 addpath /opt/local/sbin
