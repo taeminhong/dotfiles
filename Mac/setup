@@ -2,7 +2,12 @@
 
 ruledir="$HOME/.config/karabiner/assets/complex_modifications"
 mkdir -p "$ruledir"
-"$(dirname "$0")/generate-karabiner-rules" >"$ruledir/taemin.json"
+sed "s/IS_TERMINAL/[{ \
+\"type\": \"frontmost_application_if\", \
+\"bundle_identifiers\": \
+[\"^com\\\\\\\\.googlecode\\\\\\\\.iterm2\$\", \
+\"^com\\\\\\\\.apple\\\\\\\\.Terminal\$\"]}]/" \
+    "$(dirname "$0")/taemin.json.in" >"$ruledir/taemin.json"
 
 # Make rebase safer on MacOS
 # For more details see https://www.git-tower.com/blog/make-git-rebase-safe-on-osx/
