@@ -552,6 +552,14 @@ This is a `visit-tags-table' wrapper for a better file name completion with ivy"
   (let ((haskell-process-load-or-reload-prompt t))
     (apply orig-fun args)))
 
+(defun taemin-delete-blank-lines (&optional delete-all)
+  "Same as `delete-blank-lines' but if with a prefix key, this doesn't
+leave a single blank line."
+  (interactive (list current-prefix-arg))
+  (delete-blank-lines)
+  (when (and delete-all (looking-at-p "^\n"))
+    (delete-char 1)))
+
 ;; exclude note-paper temporary file from the recentf list
 (eval-after-load 'recentf
   '(add-to-list 'recentf-exclude
