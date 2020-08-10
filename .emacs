@@ -90,6 +90,8 @@
   :config
   (add-hook 'haskell-mode-hook
             (lambda () (interactive-haskell-mode)))
+  (add-hook 'haskell-interactive-mode-hook
+            (lambda () (subword-mode)))
   ;; Prompt build targets on starting the REPL.
   (advice-add 'haskell-session-target
               :around
