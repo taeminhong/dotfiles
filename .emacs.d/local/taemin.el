@@ -11,8 +11,6 @@
       '(("make" . "^\\(Makefile\\|makefile\\)$")
         ("cabal" . "\\.cabal$")))
 
-(defconst taemin--note-paper-file-prefix "TNP")
-
 (defun taemin--do-forward-word (direction line-boundary limit select)
   (if (= (point) line-boundary)
       (when (/= line-boundary limit)
@@ -360,24 +358,6 @@ the one(s) already marked."
       (taemin--mark-line-interactive n)
     (taemin--mark-line-non-interactive n)))
 
-(define-minor-mode taemin-note-paper-mode
-  "Note paper mode."
-  nil
-  " Note-paper"
-  '()
-  (when taemin-note-paper-mode
-    (cd (getenv "PWD"))))
-
-(defun taemin-new-note-paper ()
-  "Create a note-paper buffer"
-  (interactive)
-  (switch-to-buffer (generate-new-buffer "untitled note"))
-  (let ((name (buffer-name))
-        (inhibit-message t))
-    (write-file (make-temp-file taemin--note-paper-file-prefix))
-    (rename-buffer name)
-    (taemin-note-paper-mode 1)))
-
 (defun taemin--compile-command (read)
   (let ((command (eval compile-command)))
    (if (or compilation-read-command read)
@@ -576,10 +556,5 @@ leave a single blank line."
   ;; "section subject" syntax and possibly downcase the section.
   (setq man-args (Man-translate-references man-args))
   (Man-getpage-in-background man-args))
-
-;; exclude note-paper temporary file from the recentf list
-(eval-after-load 'recentf
-  '(add-to-list 'recentf-exclude
-                (format "%s[[:alnum:]]+" taemin--note-paper-file-prefix)))
 
 (provide 'taemin)
