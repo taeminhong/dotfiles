@@ -7,9 +7,7 @@
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                          ("melpa" . "https://melpa.org/packages/")))
 
-(let ((default-directory "~/.emacs.d/local"))
-  (normal-top-level-add-to-load-path '("."))
-  (normal-top-level-add-subdirs-to-load-path))
+(add-to-list 'load-path (expand-file-name "local" user-emacs-directory))
 
 ;; This is only needed once, near the top of the file
 (eval-when-compile
