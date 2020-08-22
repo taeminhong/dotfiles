@@ -1,6 +1,7 @@
 (require 'misc)
 (require 'diff)
 (require 'etags)
+(require 'man)
 
 (defmacro taemin-bound-and-true-p (var)
   "Return the value of symbol VAR if it is bound, else nil."
@@ -557,6 +558,24 @@ leave a single blank line."
   (delete-blank-lines)
   (when (and delete-all (looking-at-p "^\n"))
     (delete-char 1)))
+
+(defun taemin-man-no-completion (man-args)
+  "The same as `man' but without completion."
+  (interactive
+   (list (let* ((default-entry (Man-default-man-entry))
+		(input (read-from-minibuffer
+			(format "Manual entry%s"
+				(if (string= default-entry "")
+				    ": "
+				  (format " (default %s): " default-entry))))))
+	   (if (string= input "")
+	       (error "No man args given")
+	     input))))
+
+  ;; Possibly translate the "subject(section)" syntax into the
+  ;; "section subject" syntax and possibly downcase the section.
+  (setq man-args (Man-translate-references man-args))
+  (Man-getpage-in-background man-args))
 
 ;; exclude note-paper temporary file from the recentf list
 (eval-after-load 'recentf

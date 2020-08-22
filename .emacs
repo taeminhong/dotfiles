@@ -189,9 +189,11 @@
 (setq compilation-ask-about-save nil)
 (setq compilation-scroll-output 'first-error)
 (setq history-length 32)
-;; Suppress ls-dired warning in OSX
-(setq dired-use-ls-dired
-      (not (string-equal system-type "darwin")))
+(when (string-equal system-type "darwin")
+  ;; Suppress ls-dired warning in OSX
+  (setq dired-use-ls-dired nil)
+  ;; Disable man command completion
+  (fset 'man 'taemin-man-no-completion))
 (setq recentf-save-file "./.recentf")
 
 ;; global key bindings
