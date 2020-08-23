@@ -29,10 +29,17 @@
   (shell-command (format "find %s -type f -atime +30 -delete"
                          (shell-quote-argument untitled-note-directory))))
 
+(defun untitled-note-save-all (&optional arg)
+  (save-some-buffers
+   t
+   (lambda () (and buffer-file-name untitled-note-mode))))
+
 ;; exclude untitled note files from the recentf list
 (eval-after-load 'recentf
   '(add-to-list 'recentf-exclude untitled-note-directory))
 
 (make-directory untitled-note-directory t)
+
+(advice-add 'save-buffers-kill-terminal :before #'untitled-note-save-all)
 
 (provide 'untitled-note)
