@@ -79,6 +79,14 @@
               ("M-o")
               ("M-g")))
 
+(use-package isearch
+  :bind (:map isearch-mode-map
+              ("C-f" . isearch-yank-char)
+              ("C-b" . isearch-del-char)
+              ("M-f" . isearch-yank-word-or-char)
+              ("C-_" . isearch-delete-char)
+              ("C-e" . isearch-yank-line)))
+
 (use-package diff-mode
   :bind (:map diff-mode-map
               ("M-o")))
