@@ -174,6 +174,9 @@
 (require 'windmove)
 (windmove-default-keybindings)
 
+(defconst emacs-working-directory
+  (file-name-as-directory(getenv "PWD"))
+  "initial working directory of the emacs process")
 (defalias 'elisp-repl 'ielm)
 (defalias 'remove-file 'delete-file)
 (defalias 'move-file 'rename-file)
@@ -183,7 +186,7 @@
 (setq scroll-step 1)
 (setq scroll-conservatively 10000)
 (desktop-save-mode 1)
-(setq desktop-path '("."))
+(setq desktop-path `(,emacs-working-directory))
 (add-to-list 'desktop-globals-to-save 'compile-command)
 (setq isearch-allow-scroll t)
 (setq compilation-ask-about-save nil)
@@ -195,7 +198,7 @@
   ;; man command completion is too slow and inaccurate.
   (fset 'man 'taemin-man-no-completion))
 (setq recentf-save-file
-      (expand-file-name ".recentf" (getenv "PWD")))
+      (expand-file-name ".recentf" emacs-working-directory))
 (setq make-backup-files nil)
 
 ;; global key bindings
