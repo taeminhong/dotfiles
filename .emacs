@@ -190,9 +190,9 @@
 (setq compilation-scroll-output 'first-error)
 (setq history-length 32)
 (when (string-equal system-type "darwin")
-  ;; Suppress ls-dired warning in OSX
+  ;; macOS's ls doesn't support --dired option.
   (setq dired-use-ls-dired nil)
-  ;; Disable man command completion
+  ;; man command completion is too slow and inaccurate.
   (fset 'man 'taemin-man-no-completion))
 (setq recentf-save-file
       (expand-file-name ".recentf" (getenv "PWD")))
