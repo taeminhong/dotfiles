@@ -13,6 +13,10 @@
 (eval-when-compile
   (require 'use-package))
 
+(use-package expand-region
+  :config
+  (global-set-key (kbd "C-c r") 'er/expand-region))
+
 (use-package ivy
   :init
   (setq ivy-use-virtual-buffers t)
@@ -228,7 +232,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (markdown-mode haskell-mode emamux anaconda-mode which-key cider adjust-parens avy flx rainbow-delimiters geiser paredit company pcre2el glsl-mode magit smex use-package json-mode js2-mode csharp-mode counsel ag vue-mode))))
+    (expand-region markdown-mode haskell-mode emamux anaconda-mode which-key cider adjust-parens avy flx rainbow-delimiters geiser paredit company pcre2el glsl-mode magit smex use-package json-mode js2-mode csharp-mode counsel ag vue-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
