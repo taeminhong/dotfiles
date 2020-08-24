@@ -208,6 +208,10 @@
 (global-set-key (kbd "C-s") 'isearch-forward-regexp)
 (global-set-key (kbd "C-r") 'isearch-backward-regexp)
 (global-set-key (kbd "M-%") 'query-replace-regexp)
+(global-set-key (kbd "C-x /") 'delete-other-windows)
+(global-set-key (kbd "C-x -") 'split-window-below)
+(global-set-key (kbd "C-x |") 'split-window-right)
+(global-set-key (kbd "C-x w") 'delete-window)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
