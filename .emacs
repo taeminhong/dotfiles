@@ -196,7 +196,8 @@
   (setq dired-use-ls-dired nil)
   ;; Disable man command completion
   (fset 'man 'taemin-man-no-completion))
-(setq recentf-save-file "./.recentf")
+(setq recentf-save-file
+      (expand-file-name ".recentf" (getenv "PWD")))
 
 ;; global key bindings
 (global-set-key [(f6)] 'shell)
