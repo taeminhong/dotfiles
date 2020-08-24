@@ -224,6 +224,10 @@
 (global-set-key (kbd "C-x -") 'split-window-below)
 (global-set-key (kbd "C-x |") 'split-window-right)
 (global-set-key (kbd "C-x w") 'delete-window)
+(global-set-key (kbd "M-a") 'backward-paragraph)
+(global-set-key (kbd "M-e") 'forward-paragraph)
+(global-set-key (kbd "M-{") 'backward-sentence)
+(global-set-key (kbd "M-}") 'forward-sentence)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
