@@ -198,6 +198,7 @@
   (fset 'man 'taemin-man-no-completion))
 (setq recentf-save-file
       (expand-file-name ".recentf" (getenv "PWD")))
+(setq make-backup-files nil)
 
 ;; global key bindings
 (global-set-key [(f6)] 'shell)
