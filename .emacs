@@ -177,6 +177,8 @@
 (windmove-default-keybindings)
 
 (defalias 'elisp-repl 'ielm)
+(defalias 'remove-file 'delete-file)
+(defalias 'move-file 'rename-file)
 (setq-default indent-tabs-mode nil)
 (setq frame-background-mode 'dark)
 (setq help-window-select t)
