@@ -157,6 +157,7 @@
 (global-set-key (kbd "<f5>") 'taemin-makefile-compile)
 (global-set-key (kbd "<S-f5>") 'taemin-project-compile)
 (global-set-key (kbd "C-x C-o") 'taemin-delete-blank-lines)
+(global-set-key (kbd "M-k") 'taemin-backward-kill-line)
 
 (require 'untitled-note)
 (global-set-key (kbd "C-c n") 'untitled-note-new-note)

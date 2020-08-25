@@ -86,6 +86,22 @@
   (interactive "^p")
   (taemin-kill-word (- n)))
 
+(defun taemin-backward-kill-line (&optional arg)
+  "Kill the current line backward; if the cursor is at the
+beginning of the line, kill the preceding newline."
+  (interactive "P")
+  (let ((n (prefix-numeric-value arg)))
+    (cond ((and arg (= n 0))
+           (kill-line))
+          ((and arg)
+           (kill-line (- n)))
+          ((= (point) (point-min))
+           (signal 'beginning-of-buffer nil))
+          ((= (point) (line-beginning-position))
+           (kill-region (point) (1- (point))))
+          (t
+           (kill-line 0)))))
+
 (defun taemin--make-range (beg end)
   (cons beg end))
 
