@@ -3,6 +3,8 @@
 # Git coding guidelines will help you write portable shell scripts
 # https://github.com/git/git/blob/master/Documentation/CodingGuidelines
 
+export LANG=en_US.UTF-8
+export LC_ALL="$LANG"
 export INITIAL_PATH="${INITIAL_PATH:-$PATH}"
 
 addpath () {
