@@ -11,26 +11,19 @@ esac
 . ~/.shrc
 
 # don't put duplicate lines or lines starting with space in the history.
-# See bash(1) for more options
 HISTCONTROL=ignoreboth
-
-# append to the history file, don't overwrite it
-shopt -s histappend
-
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=1000
 HISTFILESIZE=2000
 
+# append to the history file, don't overwrite it
+shopt -s histappend
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
-
 # append to the Bash history file, rather than overwriting it
-shopt -s histappend;
-
-# If set, the pattern "**" used in a pathname expansion context will
-# match all files and zero or more directories and subdirectories.
-#shopt -s globstar
+shopt -s histappend
+# Autocorrect typo in path names when `cd`ing
+shopt -s cdspell
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
@@ -54,7 +47,6 @@ _build_prompt () {
             red='\[\033[00;31m\]'
             ;;
     esac
-
     PS1="${TERM_TITLE}${chroot}"
     if [ -n "$SSH_CLIENT" ]; then
         PS1+="${green}\u@\h "
@@ -66,9 +58,6 @@ _build_prompt () {
     fi
 }
 PROMPT_COMMAND=_build_prompt
-
-# colored GCC warnings and errors
-#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
@@ -90,15 +79,15 @@ fi
 if [ -z "$INSIDE_EMACS" ] && [ -f ~/.fzf.bash ]; then
     source ~/.fzf.bash
     source ~/.fzf-keybinding-patch.bash
+    # fd supports --exclude option from version 5.0.0
+    if fd -d 0 --exclude .git >/dev/null 2>&1; then
+        # find all files include hidden ones
+        export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git -d 7'
+    else
+        export FZF_DEFAULT_COMMAND='fd --type f --hidden -d 7 | grep -v "^.git"'
+    fi
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 fi
-# fd supports --exclude option from version 5.0.0
-if fd -d 0 --exclude .git >/dev/null 2>&1; then
-    # find all files include hidden ones
-    export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git -d 7'
-else
-    export FZF_DEFAULT_COMMAND='fd --type f --hidden -d 7 | grep -v "^.git"'
-fi
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 # NVM
 if [ -d ~/.nvm ]; then
@@ -108,12 +97,11 @@ if [ -d ~/.nvm ]; then
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 fi
 
+# colored GCC warnings and errors
+#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 # enable color support of ls
 if command -v dircolors >/dev/null 2>&1; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
 fi
-
-# Autocorrect typo in path names when `cd`ing
-shopt -s cdspell
 
 . ~/z.sh
