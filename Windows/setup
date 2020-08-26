@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+cp "$(dirname "$0")/.bashenv" ~
+
 git config --global core.editor "subl -w"
 git config --global diff.tool tortoisediff
 git config --global difftool.prompt false
@@ -8,11 +10,3 @@ git config --global mergetool.prompt false
 git config --global mergetool.keepBackup false
 git config --global difftool.tortoisediff.cmd "TortoiseMerge -mine \$REMOTE -base \$LOCAL"
 git config --global mergetool.tortoisemerge.cmd "TortoiseMerge -base \$BASE -theirs \$REMOTE -mine \$LOCAL -merged \$MERGED"
-
-echo '
-# If this is an xterm, change the window title to user@host dir
-case "$TERM" in
-    xterm*|rxvt*)
-        export TERM_TITLE="\\[\\e]0;\\u@\\h \\W\\a\\]";;
-esac
-' >> ~/.shrc

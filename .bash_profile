@@ -1,6 +1,9 @@
 # ~/.profile is not read by bash, if ~/.bash_profile or ~/.bash_login exists.
 # So we read ~/.profile explicitly.
 [[ -e ~/.profile ]] && source ~/.profile
+# .bashenv should contain important environment variables that Bash uses except
+# PATH.
+[[ -e ~/.bashenv ]] && source ~/.bashenv
 # In OSX interactive shells are ran as login shells by default.
 # Bash doesn't read ~/.bashrc if it has ran as a login shell.
 # Many program assumes that their configurations are contained in ~/.bashrc
