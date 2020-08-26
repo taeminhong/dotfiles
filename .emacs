@@ -148,6 +148,7 @@
 
 (require 'taemin)
 (taemin-select-window-after-compilation t)
+(taemin-select-window-after-man t)
 (global-set-key (kbd "M-f") 'taemin-forward-word)
 (global-set-key (kbd "M-b") 'taemin-backward-word)
 (global-set-key (kbd "M-d") 'taemin-kill-word)

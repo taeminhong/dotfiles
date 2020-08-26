@@ -385,10 +385,16 @@ the one(s) already marked."
    (get-buffer-window buf))
   buf)
 
-(defun taemin-select-window-after-compilation (select)
+(defun taemin-select-window-after (command select)
   (if select
-      (advice-add 'compilation-start :filter-return #'taemin--select-buffer-window)
-    (advice-remove 'compilation-start #'taemin--select-buffer-window)))
+      (advice-add command :filter-return #'taemin--select-buffer-window)
+    (advice-remove command #'taemin--select-buffer-window)))
+
+(defun taemin-select-window-after-compilation (select)
+  (taemin-select-window-after 'compilation-start select))
+
+(defun taemin-select-window-after-man (select)
+  (taemin-select-window-after 'Man-getpage-in-background select))
 
 (defun taemin-compile (command &optional comint directory)
   "Compile from the DIRECTORY and select the compilation window.
