@@ -40,6 +40,9 @@
          ("C-c p" . 'counsel-file-jump)))
 
 (use-package avy
+  :init
+  ;; Dvorak home row keys only
+  (setq avy-keys '(?a ?o ?e ?u ?h ?t ?n ?s))
   :bind (("M-g l" . 'avy-goto-line)
          ("M-g c" . 'avy-goto-subword-1))
   :config
