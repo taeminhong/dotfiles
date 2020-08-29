@@ -144,9 +144,7 @@
          (clojure-mode . adjust-parens-mode)))
 
 (use-package magit
-  :bind (("C-x g" . 'magit-status))
-  :config
-  (put 'magit-clean 'disabled nil))
+  :bind (("C-x g" . 'magit-status)))
 
 (use-package ag
   :init
