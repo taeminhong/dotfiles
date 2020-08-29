@@ -43,8 +43,8 @@
   :init
   ;; Dvorak home row keys only
   (setq avy-keys '(?a ?o ?e ?u ?h ?t ?n ?s))
-  :bind (("M-g l" . 'avy-goto-line)
-         ("M-g c" . 'avy-goto-subword-1))
+  :bind (("M-g M-g" . 'avy-goto-char)
+         ("M-g g" . 'avy-goto-subword-1))
   :config
   (face-spec-set 'avy-lead-face '((t (:foreground "white" :background "#e52b50"))))
   (face-spec-set 'avy-lead-face-0 '((t (:foreground "white" :background "#2e36b3")))))
@@ -223,6 +223,7 @@
 
 ;; global key bindings
 (global-set-key [(f6)] 'shell)
+(global-set-key (kbd "M-g l") 'goto-line)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "M-o") 'other-window)
 (global-set-key (kbd "C-s") 'isearch-forward-regexp)
