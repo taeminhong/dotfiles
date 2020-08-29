@@ -41,7 +41,10 @@
 
 (use-package avy
   :bind (("M-g l" . 'avy-goto-line)
-         ("M-g c" . 'avy-goto-subword-1)))
+         ("M-g c" . 'avy-goto-subword-1))
+  :config
+  (face-spec-set 'avy-lead-face '((t (:foreground "white" :background "#e52b50"))))
+  (face-spec-set 'avy-lead-face-0 '((t (:foreground "white" :background "#2e36b3")))))
 
 (use-package which-key
   :init
