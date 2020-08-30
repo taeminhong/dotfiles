@@ -21,8 +21,9 @@
     (untitled-note--delete-file-and-backup buffer-file-name)))
 
 (defun untitled-note--delete-file-and-backup (file-name)
-  (delete-file file-name)
-  (delete-file (make-backup-file-name file-name)))
+  (ignore-errors
+    (delete-file file-name)
+    (delete-file (make-backup-file-name file-name))))
 
 (defun untitled-note-new-note ()
   "Create a new note"
