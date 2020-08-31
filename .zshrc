@@ -1,16 +1,12 @@
 # Remove '/' and '-' from the WORDCHARS
 WORDCHARS='*?_.[]~=&;!#$%^(){}<>'
 
-# change sigil to red exclamation mark if the last command has failed.
-short_prompt='%F{blue}%1~ %(?.%f%b%#.%F{red}!%f%b) '
-# show username and hostname only for remote sessions
-if [ -n "$SSH_CLIENT" ]
-then
-    PROMPT='%B%F{green}%n@%m '"$short_prompt"
-else
-    PROMPT="$short_prompt"
+# change sigil to a red exclamation mark if the last command has failed.
+PROMPT='%F{blue}%1~%f %(?.%#.%F{red}!%f) '
+# show username and hostname if SSH-ing
+if [ -n "$SSH_CLIENT" ]; then
+    PROMPT="%F{green}%n@%m%f $PROMPT"
 fi
-unset short_prompt
 
 if [[ $options[zle] = on && -z "$INSIDE_EMACS" ]]; then
     # Prevent forward-search keybinding from being overriden by START/STOP flow control
