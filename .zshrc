@@ -1,4 +1,5 @@
-. ~/.shrc
+# Prevent forward-search keybinding from being overriden by XON/XOFF flow control
+stty -ixon
 
 # Remove '/' and '-' from the WORDCHARS
 WORDCHARS='*?_.[]~=&;!#$%^(){}<>'
@@ -19,4 +20,6 @@ if [ -z "$INSIDE_EMACS" ] && [ -f ~/.fzf.zsh ]; then
     . ~/.fzf-keybinding-patch.zsh
 fi
 
+. ~/.aliases
+. ~/tmux.sh
 . ~/z.sh

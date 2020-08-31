@@ -35,7 +35,6 @@ cp -a \
    .bash_profile \
    .bashrc \
    .profile \
-   .shrc \
    .aliases \
    .zprofile \
    .zshrc \

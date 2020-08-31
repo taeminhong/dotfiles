@@ -8,7 +8,8 @@ case $- in
       *) return;;
 esac
 
-. ~/.shrc
+# Prevent forward-search keybinding from being overriden by XON/XOFF flow control
+stty -ixon
 
 # don't put duplicate lines or lines starting with space in the history.
 HISTCONTROL=ignoreboth
@@ -114,4 +115,6 @@ then
     }
 fi
 
+. ~/.aliases
+. ~/tmux.sh
 . ~/z.sh
