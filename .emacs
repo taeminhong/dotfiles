@@ -199,6 +199,8 @@
 (defalias 'remove-file 'delete-file)
 (defalias 'move-file 'rename-file)
 (setq-default indent-tabs-mode nil)
+;; Prevent shell commands from being echoed in zsh.
+(setq explicit-zsh-args '("-o" "no_zle" "-i"))
 (setq frame-background-mode 'dark)
 (setq help-window-select t)
 (setq scroll-step 1)
