@@ -1,6 +1,3 @@
-# Prevent forward-search keybinding from being overriden by XON/XOFF flow control
-stty -ixon
-
 # Remove '/' and '-' from the WORDCHARS
 WORDCHARS='*?_.[]~=&;!#$%^(){}<>'
 
@@ -15,9 +12,13 @@ else
 fi
 unset short_prompt
 
-if [ -z "$INSIDE_EMACS" ] && [ -f ~/.fzf.zsh ]; then
-    . ~/.fzf.zsh
-    . ~/.fzf-keybinding-patch.zsh
+if [[ $options[zle] = on && -z "$INSIDE_EMACS" ]]; then
+    # Prevent forward-search keybinding from being overriden by START/STOP flow control
+    stty -ixon
+    if [ -f ~/.fzf.zsh ]; then
+        . ~/.fzf.zsh
+        . ~/.fzf-keybinding-patch.zsh
+    fi
 fi
 
 . ~/.aliases

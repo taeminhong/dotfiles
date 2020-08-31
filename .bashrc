@@ -8,9 +8,6 @@ case $- in
       *) return;;
 esac
 
-# Prevent forward-search keybinding from being overriden by XON/XOFF flow control
-stty -ixon
-
 # don't put duplicate lines or lines starting with space in the history.
 HISTCONTROL=ignoreboth
 HISTSIZE=1000
@@ -76,18 +73,24 @@ if ! shopt -oq posix; then
     fi
 fi
 
-# Command line fuzzy finder: https://github.com/junegunn/fzf
-if [ -z "$INSIDE_EMACS" ] && [ -f ~/.fzf.bash ]; then
-    source ~/.fzf.bash
-    source ~/.fzf-keybinding-patch.bash
-    # fd supports --exclude option from version 5.0.0
-    if fd -d 0 --exclude .git >/dev/null 2>&1; then
-        # find all files include hidden ones
-        export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git -d 7'
-    else
-        export FZF_DEFAULT_COMMAND='fd --type f --hidden -d 7 | grep -v "^.git"'
+# check if line editing is enabled
+# https://github.com/rycee/home-manager/issues/401#issuecomment-434058700
+if [[ ":$SHELLOPTS:" =~ :emacs: && -z "$INSIDE_EMACS" ]]; then
+    # Prevent forward-search keybinding from being overriden by START/STOP output control.
+    stty -ixon
+    # Command line fuzzy finder: https://github.com/junegunn/fzf
+    if [ -f ~/.fzf.bash ]; then
+        source ~/.fzf.bash
+        source ~/.fzf-keybinding-patch.bash
+        # fd supports --exclude option from version 5.0.0
+        if fd -d 0 --exclude .git >/dev/null 2>&1; then
+            # find all files include hidden ones
+            export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git -d 7'
+        else
+            export FZF_DEFAULT_COMMAND='fd --type f --hidden -d 7 | grep -v "^.git"'
+        fi
+        export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
     fi
-    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 fi
 
 # NVM
