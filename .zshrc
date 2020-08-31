@@ -8,9 +8,19 @@ if [ -n "$SSH_CLIENT" ]; then
     PROMPT="%F{green}%n@%m%f $PROMPT"
 fi
 
+# deactivate mark after copy-region-as-kill, like Emacs
+# https://unix.stackexchange.com/a/19956
+copy-region-as-kill-deactivate-mark() {
+    zle copy-region-as-kill
+    zle set-mark-command -n -1
+}
+
 if [[ $options[zle] = on && -z "$INSIDE_EMACS" ]]; then
-    # Prevent forward-search keybinding from being overriden by START/STOP flow control
-    stty -ixon
+    # Don't let the terminal hijack C-s, C-q, and C-w keys
+    stty -ixon werase undef
+    zle -N copy-region-as-kill-deactivate-mark
+    bindkey "^w" kill-region
+    bindkey "^[w" copy-region-as-kill-deactivate-mark
     if [ -f ~/.fzf.zsh ]; then
         . ~/.fzf.zsh
         . ~/.fzf-keybinding-patch.zsh

@@ -76,8 +76,10 @@ fi
 # check if line editing is enabled
 # https://github.com/rycee/home-manager/issues/401#issuecomment-434058700
 if [[ ":$SHELLOPTS:" =~ :emacs: && -z "$INSIDE_EMACS" ]]; then
-    # Prevent forward-search keybinding from being overriden by START/STOP output control.
-    stty -ixon
+    # Don't let the terminal hijack C-s, C-q, and C-w keys
+    stty -ixon werase undef
+    bind '"\C-w": kill-region'
+    bind '"\ew": copy-region-as-kill'
     # Command line fuzzy finder: https://github.com/junegunn/fzf
     if [ -f ~/.fzf.bash ]; then
         source ~/.fzf.bash
