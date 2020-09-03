@@ -374,6 +374,51 @@ the one(s) already marked."
       (taemin--mark-line-interactive n)
     (taemin--mark-line-non-interactive n)))
 
+(defun taemin-mark-paragraph (&optional arg)
+  "Mark at the beginning of this paragraph,and put the point
+at the end of this paragraph.
+The paragraph marked is the one that contains point or follows point."
+  (interactive "P")
+  (setq arg (prefix-numeric-value arg))
+  (cond ((= arg 0)
+         (error "Cannot mark zero paragraphs"))
+        ((called-interactively-p 'any)
+         (taemin--mark-paragraph-context-aware arg))
+        (t
+         (taemin--do-mark-paragraph arg))))
+
+(defun taemin--mark-paragraph-context-aware (arg)
+  (defun reset-arg-and-this-command (n)
+    (setq arg n)
+    (setq this-command
+          (cond ((< n 0) 'taemin-mark-paragraph-back)
+                ((> n 0) 'taemin-mark-paragraph))))
+  (cl-assert (/= arg 0))
+  ;; make ARG positive if the point is going to move forward,
+  ;; otherwise make it negative.
+  (if (eq last-command 'taemin-mark-paragraph-back)
+      (reset-arg-and-this-command (- arg))
+    (reset-arg-and-this-command arg))
+  ;; preserve the current mark direction if any mark exists.
+  (when (and (region-active-p)
+             (not (member last-command '(taemin-mark-paragraph taemin-mark-paragraph-back)))
+             (< (point) (mark)))
+    (reset-arg-and-this-command (- arg)))
+  (taemin--do-mark-paragraph arg t))
+
+(defun taemin--do-mark-paragraph (arg &optional extend)
+  (cl-assert (/= arg 0))
+  (cond ((not extend)
+         (mark-paragraph arg)
+         (exchange-point-and-mark))
+        (mark-active
+         (exchange-point-and-mark)
+         (mark-paragraph arg t)
+         (exchange-point-and-mark))
+        (t
+         (mark-paragraph arg)
+         (exchange-point-and-mark))))
+
 (defun taemin--compile-command (read)
   (let ((command (eval compile-command)))
    (if (or compilation-read-command read)
