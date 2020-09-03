@@ -135,8 +135,10 @@
   (face-spec-set 'rainbow-delimiters-depth-7-face '((t (:foreground "spring green"))))
   (face-spec-set 'rainbow-delimiters-depth-8-face '((t (:foreground "sienna1")))))
 
-(use-package paredit-mode
-  :hook (emacs-lisp-mode scheme-mode clojure-mode))
+(use-package paredit
+  :hook ((emacs-lisp-mode . paredit-mode)
+         (scheme-mode . paredit-mode)
+         (clojure-mode . paredit-mode)))
 
 (use-package adjust-parens
   :hook ((emacs-lisp-mode . adjust-parens-mode)
