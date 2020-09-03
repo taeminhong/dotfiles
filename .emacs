@@ -138,7 +138,12 @@
 (use-package paredit
   :hook ((emacs-lisp-mode . paredit-mode)
          (scheme-mode . paredit-mode)
-         (clojure-mode . paredit-mode)))
+         (clojure-mode . paredit-mode))
+  :bind (:map paredit-mode-map
+              ("M-s")
+              ("C-M-s" . 'paredit-splice-sexp)
+              ("M-r")
+              ("C-M-r" . 'paredit-raise-sexp)))
 
 (use-package adjust-parens
   :hook ((emacs-lisp-mode . adjust-parens-mode)
