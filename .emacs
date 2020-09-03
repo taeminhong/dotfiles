@@ -29,6 +29,11 @@
   :config
   (ivy-mode 1))
 
+(use-package swiper
+  :bind (("M-s s" . 'swiper)
+         ("M-s r" . 'swiper-backward)
+         ("M-s p" . 'swiper-thing-at-point)))
+
 (use-package counsel
   :config
   (setq ivy-initial-inputs-alist nil)
