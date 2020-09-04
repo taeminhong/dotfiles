@@ -162,6 +162,12 @@
   :init
   (setq ag-reuse-buffers t))
 
+(use-package flyspell
+  :if (or (executable-find "ispell")
+          (executable-find "aspell")
+          (executable-find "hunspell"))
+  :hook ((text-mode . flyspell-mode)))
+
 (require 'taemin)
 (taemin-select-window-after-compilation t)
 (taemin-select-window-after-man t)
