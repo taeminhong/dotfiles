@@ -242,6 +242,8 @@
 (setq explicit-zsh-args '("-o" "no_zle" "-i"))
 (setq frame-background-mode 'dark)
 (setq help-window-select t)
+(setq mark-ring-max 8)
+(setq global-mark-ring-max 8)
 (setq scroll-step 1)
 (setq scroll-conservatively 10000)
 (desktop-save-mode 1)
