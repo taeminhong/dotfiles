@@ -249,11 +249,6 @@ beginning of the line, kill the preceding newline."
         (t
          (taemin--do-mark-defun arg))))
 
-(defun taemin--mark-defun--non-interactive (arg)
-  (cl-assert (/= arg 0))
-  (cond ((use-region-p) (taemin--append-defun-region arg))
-        (t (taemin--do-mark-defun arg))))
-
 (defun taemin-mark-defun (&optional arg)
   "Put mark at beginning of this defun, point at beginning of next defun.
 The defun marked is the one that contains point or follows point.
@@ -268,8 +263,10 @@ the one(s) already marked."
          (error "Cannot mark zero defuns"))
         ((called-interactively-p 'any)
          (taemin--mark-defun-interactive arg))
+        ((use-region-p)
+         (taemin--append-defun-region arg))
         (t
-         (taemin--mark-defun--non-interactive arg))))
+         (taemin--do-mark-defun arg))))
 
 (defun taemin--beginning-of-line-p (pos)
   (save-excursion
@@ -365,11 +362,6 @@ the one(s) already marked."
         (t
          (taemin--do-mark-line arg))))
 
-(defun taemin--mark-line-non-interactive (arg)
-  (cl-assert (/= arg 0))
-  (cond ((use-region-p) (taemin--expand-line-region arg))
-        (t (taemin--do-mark-line arg))))
-
 (defun taemin-mark-line (&optional n)
   "Mark at the beginning of the line, and put point at the beginning of
 the next line.
@@ -380,8 +372,10 @@ If there is a region, extend it to the line boundaries."
          (error "Cannot mark zero lines"))
         ((called-interactively-p 'any)
          (taemin--mark-line-interactive n))
+        ((use-region-p)
+         (taemin--expand-line-region n))
         (t
-         (taemin--mark-line-non-interactive n))))
+         (taemin--do-mark-line n))))
 
 (defun taemin-mark-paragraph (&optional arg)
   "Mark at the beginning of this paragraph,and put the point
