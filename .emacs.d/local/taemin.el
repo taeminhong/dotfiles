@@ -231,8 +231,8 @@ beginning of the line, kill the preceding newline."
   (defun reset-arg-and-this-command (n)
     (setq arg n)
     (setq this-command (cond ((> n 0) 'taemin-mark-defun)
-                             ((< n 0) 'taemin-mark-defun-back)
-                             (t 'taemin-mark-defun-zero))))
+                             ((< n 0) 'taemin-mark-defun-back))))
+  (cl-assert (/= arg 0))
   (if (eq last-command 'taemin-mark-defun-back)
       (reset-arg-and-this-command (- arg))
     (reset-arg-and-this-command arg))
@@ -250,8 +250,8 @@ beginning of the line, kill the preceding newline."
          (taemin--do-mark-defun arg))))
 
 (defun taemin--mark-defun--non-interactive (arg)
-  (cond ((= arg 0))
-        ((use-region-p) (taemin--append-defun-region arg))
+  (cl-assert (/= arg 0))
+  (cond ((use-region-p) (taemin--append-defun-region arg))
         (t (taemin--do-mark-defun arg))))
 
 (defun taemin-mark-defun (&optional arg)
@@ -264,9 +264,12 @@ If the mark is active, it marks the next or previous defun(s) after
 the one(s) already marked."
   (interactive "p")
   (setq arg (or arg 1))
-  (if (called-interactively-p 'any)
-      (taemin--mark-defun-interactive arg)
-    (taemin--mark-defun--non-interactive arg)))
+  (cond ((= arg 0)
+         (error "Cannot mark zero defuns"))
+        ((called-interactively-p 'any)
+         (taemin--mark-defun-interactive arg))
+        (t
+         (taemin--mark-defun--non-interactive arg))))
 
 (defun taemin--beginning-of-line-p (pos)
   (save-excursion
@@ -344,8 +347,8 @@ the one(s) already marked."
     (setq arg n)
     (setq this-command
           (cond ((< n 0) 'taemin-mark-line-back)
-                ((> n 0) 'taemin-mark-line)
-                (t 'taemin-mark-zero))))
+                ((> n 0) 'taemin-mark-line))))
+  (cl-assert (/= arg 0))
   (if (eq last-command 'taemin-mark-line-back)
       (reset-arg-and-this-command (- arg))
     (reset-arg-and-this-command arg))
@@ -363,8 +366,8 @@ the one(s) already marked."
          (taemin--do-mark-line arg))))
 
 (defun taemin--mark-line-non-interactive (arg)
-  (cond ((= arg 0))
-        ((use-region-p) (taemin--expand-line-region arg))
+  (cl-assert (/= arg 0))
+  (cond ((use-region-p) (taemin--expand-line-region arg))
         (t (taemin--do-mark-line arg))))
 
 (defun taemin-mark-line (&optional n)
@@ -373,9 +376,12 @@ the next line.
 If there is a region, extend it to the line boundaries."
   (interactive "p")
   (setq n (or n 1))
-  (if (called-interactively-p 'any)
-      (taemin--mark-line-interactive n)
-    (taemin--mark-line-non-interactive n)))
+  (cond ((= n 0)
+         (error "Cannot mark zero lines"))
+        ((called-interactively-p 'any)
+         (taemin--mark-line-interactive n))
+        (t
+         (taemin--mark-line-non-interactive n))))
 
 (defun taemin-mark-paragraph (&optional arg)
   "Mark at the beginning of this paragraph,and put the point
