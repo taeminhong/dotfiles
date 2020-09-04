@@ -368,6 +368,9 @@ the one(s) already marked."
         (t (taemin--do-mark-line arg))))
 
 (defun taemin-mark-line (&optional n)
+  "Mark at the beginning of the line, and put point at the beginning of
+the next line.
+If there is a region, extend it to the line boundaries."
   (interactive "p")
   (setq n (or n 1))
   (if (called-interactively-p 'any)
