@@ -227,7 +227,7 @@ beginning of the line, kill the preceding newline."
       (taemin--end-of-defun-spaces arg)
     (beginning-of-defun-comments (- arg))))
 
-(defun taemin--mark-defun-interactive (arg)
+(defun taemin--mark-defun-context-aware (arg)
   (defun reset-arg-and-this-command (n)
     (setq arg n)
     (setq this-command (cond ((> n 0) 'taemin-mark-defun)
@@ -262,7 +262,7 @@ the one(s) already marked."
   (cond ((= arg 0)
          (error "Cannot mark zero defuns"))
         ((called-interactively-p 'any)
-         (taemin--mark-defun-interactive arg))
+         (taemin--mark-defun-context-aware arg))
         ((use-region-p)
          (taemin--append-defun-region arg))
         (t
@@ -339,7 +339,7 @@ the one(s) already marked."
         ((< n 0) (+ n 1))
         (t n)))
 
-(defun taemin--mark-line-interactive (arg)
+(defun taemin--mark-line-context-aware (arg)
   (defun reset-arg-and-this-command (n)
     (setq arg n)
     (setq this-command
@@ -371,7 +371,7 @@ If there is a region, extend it to the line boundaries."
   (cond ((= n 0)
          (error "Cannot mark zero lines"))
         ((called-interactively-p 'any)
-         (taemin--mark-line-interactive n))
+         (taemin--mark-line-context-aware n))
         ((use-region-p)
          (taemin--expand-line-region n))
         (t
