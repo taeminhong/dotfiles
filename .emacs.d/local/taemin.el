@@ -36,7 +36,7 @@
 
 (defun taemin--do-kill-word (direction line-end limit skip-chars skip-syntax)
   (let (whitespace-end
-        non-word-end ;; non-word-consistuent characters
+        non-word-end ;; non-word-constituent characters
         word-beg)
     ;; whitespace, non-word, and word can be obtained
     ;; by PCRE (\s*)([^\s\w]*)\W*(\w*)
