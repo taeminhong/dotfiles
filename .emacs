@@ -281,6 +281,9 @@
 (global-set-key (kbd "C-x w") 'delete-window)
 (global-set-key (kbd "M-a") 'backward-paragraph)
 (global-set-key (kbd "M-e") 'forward-paragraph)
+(global-set-key (kbd "C-x DEL") 'kill-whole-line)
+(global-set-key (kbd "C-x M-d") 'kill-paragraph)
+(global-set-key (kbd "C-x M-DEL") 'backward-kill-paragraph)
 (global-set-key (kbd "M-{") 'backward-sentence)
 (global-set-key (kbd "M-}") 'forward-sentence)
 
