@@ -34,7 +34,9 @@
         (temporary-file-directory untitled-note-directory))
     (write-file
      (make-temp-file
-      (format "%s." (file-name-nondirectory (getenv "PWD")))))
+      (format "%s." (file-name-nondirectory (getenv "PWD")))
+      nil
+      ".txt"))
     (rename-buffer name)
     (untitled-note-mode 1)))
 
