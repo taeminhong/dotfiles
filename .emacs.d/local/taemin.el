@@ -627,4 +627,18 @@ leave a single blank line."
   (setq man-args (Man-translate-references man-args))
   (Man-getpage-in-background man-args))
 
+(defun taemin-back-to-indentation-or-beginning-of-line (n)
+  "Go back to the indentation. If cursor is already at the
+indentation go to the beginning of the line."
+  (interactive "p")
+  (let ((old-point (point)))
+    (if visual-line-mode
+        (beginning-of-visual-line n)
+      (move-beginning-of-line n))
+    (when (bolp)
+      ;; try to back to indentation
+      (let ((i (save-excursion (back-to-indentation) (point))))
+        (unless (= i old-point)
+          (goto-char i))))))
+
 (provide 'taemin)

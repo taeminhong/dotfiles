@@ -106,6 +106,14 @@
   :bind (:map diff-mode-map
               ("M-o")))
 
+(use-package text-mode
+  :bind (:map text-mode-map
+              ("C-a" . 'taemin-back-to-indentation-or-beginning-of-line)))
+
+(use-package prog-mode
+  :bind (:map prog-mode-map
+              ("C-a" . 'taemin-back-to-indentation-or-beginning-of-line)))
+
 (use-package haskell-mode
   :config
   (add-hook 'haskell-mode-hook
