@@ -278,6 +278,8 @@
 (global-unset-key (kbd "C-x ("))
 (global-unset-key (kbd "C-x )"))
 (global-set-key [(f6)] 'shell)
+(global-set-key (kbd "C-o") 'split-line)
+(global-set-key (kbd "C-M-o") 'open-line)
 (global-set-key (kbd "M-g l") 'goto-line)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "M-o") 'other-window)
