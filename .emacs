@@ -256,6 +256,7 @@
 (setq global-mark-ring-max 8)
 (setq scroll-step 1)
 (setq scroll-conservatively 10000)
+(menu-bar-mode -1)
 (desktop-save-mode 1)
 (setq desktop-path `(,emacs-working-directory))
 (add-to-list 'desktop-globals-to-save 'compile-command)
