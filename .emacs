@@ -115,6 +115,15 @@
   :bind (:map prog-mode-map
               ("C-a" . 'taemin-back-to-indentation-or-beginning-of-line)))
 
+(use-package elisp-mode
+  ;; lisp-mode-shared-map is the parent key map of lisp-mode-map,
+  ;; emacs-lisp-mode-map, and lisp-interaction-mode-map
+  :bind (:map lisp-mode-shared-map
+              ("C-x e l" . eval-last-sexp)
+              ("C-x e d" . eval-defun)
+              ("C-x e r" . eval-region)
+              ("C-x e b" . eval-buffer)))
+
 (use-package haskell-mode
   :config
   (add-hook 'haskell-mode-hook
