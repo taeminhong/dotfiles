@@ -26,5 +26,7 @@ addpath "$HOME/.yarn/bin"
 # Haskell
 addpath "$HOME/.ghcup/bin"
 addpath "$HOME/.cabal/bin"
+# systemd user bin directory
+addpath "$HOME/.local/bin"
 
 unset addpath
