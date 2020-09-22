@@ -303,6 +303,9 @@
 (global-set-key (kbd "C-x M-DEL") 'backward-kill-paragraph)
 (global-set-key (kbd "M-{") 'backward-sentence)
 (global-set-key (kbd "M-}") 'forward-sentence)
+(global-set-key (kbd "M-u") 'upcase-dwim)
+(global-set-key (kbd "M-l") 'downcase-dwim)
+(global-set-key (kbd "M-c") 'capitalize-dwim)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
