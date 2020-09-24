@@ -306,6 +306,7 @@
 (global-set-key (kbd "M-u") 'upcase-dwim)
 (global-set-key (kbd "M-l") 'downcase-dwim)
 (global-set-key (kbd "M-c") 'capitalize-dwim)
+(global-set-key (kbd "M-RET") 'comment-indent-new-line)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
