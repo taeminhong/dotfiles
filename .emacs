@@ -198,6 +198,26 @@
          ("C-/" . 'undo-fu-only-undo)
          ("M-r" . 'undo-fu-only-redo)))
 
+(use-package w3m
+  :bind ((:map w3m-mode-map
+               ("C-e" . 'move-end-of-line)
+               ("C-a" . 'move-beginning-of-line)
+               ("<" . 'w3m-tab-previous-buffer)
+               (">" . 'w3m-tab-next-buffer)))
+  :config
+  (face-spec-set 'w3m-anchor '((t (:foreground "blue" :bold nil :underline nil))))
+  (face-spec-set 'w3m-arrived-anchor '((t (:foreground "cyan" :bold nil :underline nil))))
+  (face-spec-set 'w3m-image '((t (:foreground "green"))))
+  (face-spec-set 'w3m-image-anchor '((t (:foreground "green" :background "black" :underline nil))))
+  (face-spec-set 'w3m-header-line-content '((t (:foreground "white" :background "black"))))
+  (face-spec-set 'w3m-header-line-title '((t (:foreground "white" :background "black"))))
+  (face-spec-set 'w3m-tab-background '((t (:background "white" :underline t))))
+  (face-spec-set 'w3m-tab-selected '((t (:background "orange"))))
+  (face-spec-set 'w3m-tab-selected-retrieving '((t (:background "orange"))))
+  (face-spec-set 'w3m-tab-unselected '((t (:background "white"))))
+  (face-spec-set 'w3m-tab-unselected-retrieving '((t (:background "white"))))
+  (face-spec-set 'w3m-tab-unselected-unseen '((t (:background "white")))))
+
 (require 'taemin)
 (taemin-select-window-after-compilation t)
 (taemin-select-window-after-man t)
@@ -316,7 +336,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (undo-fu goto-last-change expand-region markdown-mode haskell-mode anaconda-mode which-key cider adjust-parens avy flx rainbow-delimiters geiser paredit company pcre2el glsl-mode magit smex use-package json-mode js2-mode csharp-mode counsel ag vue-mode))))
+    (w3m undo-fu goto-last-change expand-region markdown-mode haskell-mode anaconda-mode which-key cider adjust-parens avy flx rainbow-delimiters geiser paredit company pcre2el glsl-mode magit smex use-package json-mode js2-mode csharp-mode counsel ag vue-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
