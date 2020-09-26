@@ -218,6 +218,12 @@
   (face-spec-set 'w3m-tab-unselected-retrieving '((t (:background "white"))))
   (face-spec-set 'w3m-tab-unselected-unseen '((t (:background "white")))))
 
+(use-package dumb-jump
+  :if (or (executable-find "ag")
+          (executable-find "rg"))
+  :bind (("M-=" . 'dumb-jump-go)
+         ("M-\\" . 'dumb-jump-back)))
+
 (require 'taemin)
 (taemin-select-window-after-compilation t)
 (taemin-select-window-after-man t)
@@ -336,7 +342,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (w3m undo-fu goto-last-change expand-region markdown-mode haskell-mode anaconda-mode which-key cider adjust-parens avy flx rainbow-delimiters geiser paredit company pcre2el glsl-mode magit smex use-package json-mode js2-mode csharp-mode counsel ag vue-mode))))
+    (dumb-jump w3m undo-fu goto-last-change expand-region markdown-mode haskell-mode anaconda-mode which-key cider adjust-parens avy flx rainbow-delimiters geiser paredit company pcre2el glsl-mode magit smex use-package json-mode js2-mode csharp-mode counsel ag vue-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
