@@ -92,9 +92,9 @@ set -g @continuum-restore 'on'
 %SET-256-COLOR%
 
 # window status
-set -g status-left '[#S] '
+set -g status-left ' #S⠸ '
 set -g status-left-length 20
-set -g status-right '#(whoami)@#h '
+set -g status-right '⠸ #(whoami)🌀#h '
 setw -g window-status-style bg=green,fg=colour8
 setw -g window-status-current-style bg=red,fg=green
 setw -g window-status-format " #I #W#{?window_zoomed_flag,(Z),} "
