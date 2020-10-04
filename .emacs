@@ -107,6 +107,7 @@
               ("M-o")))
 
 (use-package text-mode
+  :preface (provide 'text-mode)
   :bind (:map text-mode-map
               ("C-a" . 'taemin-back-to-indentation-or-beginning-of-line)))
 
