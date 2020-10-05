@@ -4,10 +4,127 @@
 ;; You may delete these explanatory comments.
 (package-initialize)
 
+(defconst emacs-working-directory
+  (file-name-as-directory(getenv "PWD"))
+  "initial working directory of the emacs process")
+
+(add-to-list 'load-path (expand-file-name "local" user-emacs-directory))
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                          ("melpa" . "https://melpa.org/packages/")))
 
-(add-to-list 'load-path (expand-file-name "local" user-emacs-directory))
+(defalias 'elisp-repl 'ielm)
+(defalias 'remove-file 'delete-file)
+(defalias 'move-file 'rename-file)
+
+(setq-default indent-tabs-mode nil)
+;; Prevent shell commands from being echoed in zsh.
+(setq explicit-zsh-args '("-o" "no_zle" "-i"))
+(setq frame-background-mode 'dark)
+(setq help-window-select t)
+(setq mark-ring-max 8)
+(setq global-mark-ring-max 8)
+(setq scroll-step 1)
+(setq scroll-conservatively 10000)
+(menu-bar-mode -1)
+(desktop-save-mode 1)
+(setq desktop-path `(,emacs-working-directory))
+(add-to-list 'desktop-globals-to-save 'compile-command)
+(setq isearch-allow-scroll t)
+(setq compilation-ask-about-save nil)
+(setq compilation-scroll-output 'first-error)
+(setq history-length 32)
+;; macOS's ls doesn't support --dired option.
+(setq dired-use-ls-dired (not (string= system-type "darwin")))
+(setq recentf-save-file
+      (expand-file-name ".recentf" emacs-working-directory))
+(setq make-backup-files nil)
+(add-hook 'c-mode-hook
+	  (lambda () (c-set-style "BSD")))
+(add-hook 'c++-mode-hook
+	  (lambda () (c-set-style "BSD")))
+
+;; unbind old style of keyboard macro bindings. use <f3> and <f4> instead.
+(global-unset-key (kbd "C-x e"))
+(global-unset-key (kbd "C-x ("))
+(global-unset-key (kbd "C-x )"))
+(global-unset-key (kbd "C-x o"))
+(global-set-key [(f6)] 'shell)
+(global-set-key (kbd "C-o") 'split-line)
+(global-set-key (kbd "C-M-o") 'open-line)
+(global-set-key (kbd "M-g l") 'goto-line)
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+(global-set-key (kbd "M-o") 'other-window)
+(global-set-key (kbd "C-s") 'isearch-forward-regexp)
+(global-set-key (kbd "C-r") 'isearch-backward-regexp)
+(global-set-key (kbd "M-%") 'query-replace-regexp)
+(global-set-key (kbd "C-x /") 'delete-other-windows)
+(global-set-key (kbd "C-x -") 'split-window-below)
+(global-set-key (kbd "C-x |") 'split-window-right)
+(global-set-key (kbd "C-x w") 'delete-window)
+(global-set-key (kbd "C-x o b") 'switch-to-buffer-other-window)
+(global-set-key (kbd "C-x o f") 'find-file-other-window)
+(global-set-key (kbd "C-x o d") 'dired-other-window)
+(global-set-key (kbd "C-x o i") 'display-buffer)
+(global-set-key (kbd "C-x o .") 'xref-find-definitions-other-window)
+(global-set-key (kbd "M-a") 'backward-paragraph)
+(global-set-key (kbd "M-e") 'forward-paragraph)
+(global-set-key (kbd "C-x DEL") 'kill-whole-line)
+(global-set-key (kbd "C-x M-d") 'kill-paragraph)
+(global-set-key (kbd "C-x M-DEL") 'backward-kill-paragraph)
+(global-set-key (kbd "M-{") 'backward-sentence)
+(global-set-key (kbd "M-}") 'forward-sentence)
+(global-set-key (kbd "M-u") 'upcase-dwim)
+(global-set-key (kbd "M-l") 'downcase-dwim)
+(global-set-key (kbd "M-c") 'capitalize-dwim)
+(global-set-key (kbd "M-RET") 'comment-indent-new-line)
+
+(require 'taemin)
+(taemin-select-window-after-compilation t)
+(taemin-select-window-after-man t)
+(when (string= system-type "darwin")
+  ;; man command completion is too slow and inaccurate.
+  (fset 'man 'taemin-man-no-completion))
+(global-set-key (kbd "M-f") 'taemin-forward-word)
+(global-set-key (kbd "M-b") 'taemin-backward-word)
+(global-set-key (kbd "M-d") 'taemin-kill-word)
+(global-set-key (kbd "<M-DEL>") 'taemin-backward-kill-word)
+(global-set-key (kbd "C-M-h") 'taemin-mark-defun)
+(global-set-key (kbd "M-#") 'taemin-mark-line)
+(global-set-key (kbd "<f5>") 'taemin-makefile-compile)
+(global-set-key (kbd "<S-f5>") 'taemin-project-compile)
+(global-set-key (kbd "C-x C-o") 'taemin-delete-blank-lines)
+(global-set-key (kbd "M-k") 'taemin-backward-kill-line)
+(global-set-key (kbd "M-h") 'taemin-mark-paragraph)
+(define-key text-mode-map (kbd "C-a") 'taemin-back-to-indentation-or-beginning-of-line)
+(define-key prog-mode-map (kbd "C-a") 'taemin-back-to-indentation-or-beginning-of-line)
+
+(require 'untitled-note)
+(global-set-key (kbd "C-c n") 'untitled-note-new-note)
+
+(require 'sensible-defaults)
+(sensible-defaults/increase-gc-threshold)
+(sensible-defaults/delete-trailing-whitespace)
+(sensible-defaults/treat-camelcase-as-separate-words)
+(sensible-defaults/automatically-follow-symlinks)
+(sensible-defaults/make-scripts-executable)
+(sensible-defaults/single-space-after-periods)
+(sensible-defaults/offer-to-create-parent-directories-on-save)
+(sensible-defaults/apply-changes-to-highlighted-region)
+(sensible-defaults/overwrite-selected-text)
+(sensible-defaults/ensure-that-files-end-with-newline)
+(sensible-defaults/quiet-startup)
+(sensible-defaults/make-dired-file-sizes-human-readable)
+(sensible-defaults/shorten-yes-or-no)
+(sensible-defaults/always-highlight-code)
+(sensible-defaults/refresh-buffers-when-files-change)
+(sensible-defaults/show-matching-parens)
+(sensible-defaults/flash-screen-instead-of-ringing-bell)
+(sensible-defaults/set-default-line-length-to 80)
+(sensible-defaults/open-clicked-files-in-same-frame-on-mac)
+(sensible-defaults/yank-to-point-on-mouse-click)
+
+(require 'windmove)
+(windmove-default-keybindings)
 
 ;; This is only needed once, near the top of the file
 (eval-when-compile
@@ -106,15 +223,6 @@
   :bind (:map diff-mode-map
               ("M-o")))
 
-(use-package text-mode
-  :preface (provide 'text-mode)
-  :bind (:map text-mode-map
-              ("C-a" . 'taemin-back-to-indentation-or-beginning-of-line)))
-
-(use-package prog-mode
-  :bind (:map prog-mode-map
-              ("C-a" . 'taemin-back-to-indentation-or-beginning-of-line)))
-
 (use-package elisp-mode
   ;; lisp-mode-shared-map is the parent key map of lisp-mode-map,
   ;; emacs-lisp-mode-map, and lisp-interaction-mode-map
@@ -135,13 +243,6 @@
               :around
               #'taemin-advice-haskell-load-prompt))
 
-;; C/C++
-(add-hook 'c-mode-hook
-	  (lambda () (c-set-style "BSD")))
-(add-hook 'c++-mode-hook
-	  (lambda () (c-set-style "BSD")))
-
-;; Lisp
 (use-package rainbow-delimiters
   :hook ((emacs-lisp-mode . rainbow-delimiters-mode)
          (scheme-mode . rainbow-delimiters-mode)
@@ -224,117 +325,6 @@
           (executable-find "rg"))
   :bind (("M-=" . 'dumb-jump-go)
          ("M-\\" . 'dumb-jump-back)))
-
-(require 'taemin)
-(taemin-select-window-after-compilation t)
-(taemin-select-window-after-man t)
-(global-set-key (kbd "M-f") 'taemin-forward-word)
-(global-set-key (kbd "M-b") 'taemin-backward-word)
-(global-set-key (kbd "M-d") 'taemin-kill-word)
-(global-set-key (kbd "<M-DEL>") 'taemin-backward-kill-word)
-(global-set-key (kbd "C-M-h") 'taemin-mark-defun)
-(global-set-key (kbd "M-#") 'taemin-mark-line)
-(global-set-key (kbd "<f5>") 'taemin-makefile-compile)
-(global-set-key (kbd "<S-f5>") 'taemin-project-compile)
-(global-set-key (kbd "C-x C-o") 'taemin-delete-blank-lines)
-(global-set-key (kbd "M-k") 'taemin-backward-kill-line)
-(global-set-key (kbd "M-h") 'taemin-mark-paragraph)
-
-(require 'untitled-note)
-(global-set-key (kbd "C-c n") 'untitled-note-new-note)
-
-(require 'sensible-defaults)
-(sensible-defaults/increase-gc-threshold)
-(sensible-defaults/delete-trailing-whitespace)
-(sensible-defaults/treat-camelcase-as-separate-words)
-(sensible-defaults/automatically-follow-symlinks)
-(sensible-defaults/make-scripts-executable)
-(sensible-defaults/single-space-after-periods)
-(sensible-defaults/offer-to-create-parent-directories-on-save)
-(sensible-defaults/apply-changes-to-highlighted-region)
-(sensible-defaults/overwrite-selected-text)
-(sensible-defaults/ensure-that-files-end-with-newline)
-(sensible-defaults/quiet-startup)
-(sensible-defaults/make-dired-file-sizes-human-readable)
-(sensible-defaults/shorten-yes-or-no)
-(sensible-defaults/always-highlight-code)
-(sensible-defaults/refresh-buffers-when-files-change)
-(sensible-defaults/show-matching-parens)
-(sensible-defaults/flash-screen-instead-of-ringing-bell)
-(sensible-defaults/set-default-line-length-to 80)
-(sensible-defaults/open-clicked-files-in-same-frame-on-mac)
-(sensible-defaults/yank-to-point-on-mouse-click)
-
-(require 'windmove)
-(windmove-default-keybindings)
-
-(defconst emacs-working-directory
-  (file-name-as-directory(getenv "PWD"))
-  "initial working directory of the emacs process")
-(defalias 'elisp-repl 'ielm)
-(defalias 'remove-file 'delete-file)
-(defalias 'move-file 'rename-file)
-(setq-default indent-tabs-mode nil)
-;; Prevent shell commands from being echoed in zsh.
-(setq explicit-zsh-args '("-o" "no_zle" "-i"))
-(setq frame-background-mode 'dark)
-(setq help-window-select t)
-(setq mark-ring-max 8)
-(setq global-mark-ring-max 8)
-(setq scroll-step 1)
-(setq scroll-conservatively 10000)
-(menu-bar-mode -1)
-(desktop-save-mode 1)
-(setq desktop-path `(,emacs-working-directory))
-(add-to-list 'desktop-globals-to-save 'compile-command)
-(setq isearch-allow-scroll t)
-(setq compilation-ask-about-save nil)
-(setq compilation-scroll-output 'first-error)
-(setq history-length 32)
-(when (string-equal system-type "darwin")
-  ;; macOS's ls doesn't support --dired option.
-  (setq dired-use-ls-dired nil)
-  ;; man command completion is too slow and inaccurate.
-  (fset 'man 'taemin-man-no-completion))
-(setq recentf-save-file
-      (expand-file-name ".recentf" emacs-working-directory))
-(setq make-backup-files nil)
-
-;; global key bindings
-;; unbind old style of keyboard macro bindings. use <f3> and <f4> instead.
-(global-unset-key (kbd "C-x e"))
-(global-unset-key (kbd "C-x ("))
-(global-unset-key (kbd "C-x )"))
-(global-unset-key (kbd "C-x o"))
-(global-set-key [(f6)] 'shell)
-(global-set-key (kbd "C-o") 'split-line)
-(global-set-key (kbd "C-M-o") 'open-line)
-(global-set-key (kbd "M-g l") 'goto-line)
-(global-set-key (kbd "C-x C-b") 'ibuffer)
-(global-set-key (kbd "M-o") 'other-window)
-(global-set-key (kbd "C-s") 'isearch-forward-regexp)
-(global-set-key (kbd "C-r") 'isearch-backward-regexp)
-(global-set-key (kbd "M-%") 'query-replace-regexp)
-(global-set-key (kbd "C-x /") 'delete-other-windows)
-(global-set-key (kbd "C-x -") 'split-window-below)
-(global-set-key (kbd "C-x |") 'split-window-right)
-(global-set-key (kbd "C-x w") 'delete-window)
-(global-set-key (kbd "C-x o b") 'switch-to-buffer-other-window)
-(global-set-key (kbd "C-x o f") 'find-file-other-window)
-(global-set-key (kbd "C-x o d") 'dired-other-window)
-(global-set-key (kbd "C-x o i") 'display-buffer)
-(global-set-key (kbd "C-x o .") 'xref-find-definitions-other-window)
-(global-set-key (kbd "M-a") 'backward-paragraph)
-(global-set-key (kbd "M-e") 'forward-paragraph)
-(global-set-key (kbd "C-x DEL") 'kill-whole-line)
-(global-set-key (kbd "C-x M-d") 'kill-paragraph)
-(global-set-key (kbd "C-x M-DEL") 'backward-kill-paragraph)
-(global-set-key (kbd "M-{") 'backward-sentence)
-(global-set-key (kbd "M-}") 'forward-sentence)
-(global-set-key (kbd "M-u") 'upcase-dwim)
-(global-set-key (kbd "M-l") 'downcase-dwim)
-(global-set-key (kbd "M-c") 'capitalize-dwim)
-(global-set-key (kbd "M-RET") 'comment-indent-new-line)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
