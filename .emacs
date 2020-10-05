@@ -145,7 +145,8 @@
 (use-package rainbow-delimiters
   :hook ((emacs-lisp-mode . rainbow-delimiters-mode)
          (scheme-mode . rainbow-delimiters-mode)
-         (clojure-mode . rainbow-delimiters-mode))
+         (clojure-mode . rainbow-delimiters-mode)
+         (haskell-mode . rainbow-delimiters-mode))
   :config
   ;; Don't use the :custom-face keyword.
   ;; It's going to mess up the custom-set-faces list at bottommost.
