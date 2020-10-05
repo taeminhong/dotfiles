@@ -19,8 +19,8 @@ cd "$(dirname "$source")" || exit 1
 unset dir
 unset source
 
-# directory in which files are saved temporarily.
-# this will be deleted on exit.
+# The directory in which files will be downloaded.
+# This will be deleted on exit.
 downloads=$(mktemp -d)
 
 cleanup () {
@@ -29,7 +29,7 @@ cleanup () {
 
 trap cleanup EXIT
 
-# rsync is more suitable in this task, but it's not available on Git for Windows
+# rsync is more suitable for this task, but it's not available on Git for Windows
 cp -a \
    .bash_logout \
    .bash_profile \
