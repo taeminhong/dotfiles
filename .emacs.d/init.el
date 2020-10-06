@@ -8,6 +8,8 @@
   (file-name-as-directory(getenv "PWD"))
   "initial working directory of the emacs process")
 
+(defconst is-macos (eq system-type 'darwin))
+
 (add-to-list 'load-path (expand-file-name "local" user-emacs-directory))
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                          ("melpa" . "https://melpa.org/packages/")))
@@ -34,7 +36,7 @@
 (setq compilation-scroll-output 'first-error)
 (setq history-length 32)
 ;; macOS's ls doesn't support --dired option.
-(setq dired-use-ls-dired (not (string= system-type "darwin")))
+(setq dired-use-ls-dired (not is-macos))
 (setq recentf-save-file
       (expand-file-name ".recentf" emacs-working-directory))
 (setq make-backup-files nil)
@@ -81,7 +83,7 @@
 (require 'taemin)
 (taemin-select-window-after-compilation t)
 (taemin-select-window-after-man t)
-(when (string= system-type "darwin")
+(when is-macos
   ;; man command completion is too slow and inaccurate.
   (fset 'man 'taemin-man-no-completion))
 (global-set-key (kbd "M-f") 'taemin-forward-word)
