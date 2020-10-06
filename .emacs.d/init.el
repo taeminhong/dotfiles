@@ -1,18 +1,14 @@
-;; Added by Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
-(package-initialize)
-
 (defconst emacs-working-directory
   (file-name-as-directory(getenv "PWD"))
   "initial working directory of the emacs process")
 
 (defconst is-macos (eq system-type 'darwin))
 
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(package-initialize)
+
 (add-to-list 'load-path (expand-file-name "local" user-emacs-directory))
-(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                         ("melpa" . "https://melpa.org/packages/")))
 
 (defalias 'elisp-repl 'ielm)
 (defalias 'remove-file 'delete-file)
