@@ -130,6 +130,9 @@
 
 ;; This is only needed once, near the top of the file
 (eval-when-compile
+  (unless (package-installed-p 'use-package)
+    (package-refresh-contents)
+    (package-install 'use-package))
   (require 'use-package))
 
 (use-package expand-region
