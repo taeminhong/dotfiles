@@ -641,4 +641,9 @@ indentation go to the beginning of the line."
         (unless (= i old-point)
           (goto-char i))))))
 
+(defun taemin-show-init-time ()
+  (message "init completeted in %f seconds"
+	   (float-time (time-subtract after-init-time
+				      before-init-time))))
+
 (provide 'taemin)

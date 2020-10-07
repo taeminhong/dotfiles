@@ -82,6 +82,7 @@
 (when is-macos
   ;; man command completion is too slow and inaccurate.
   (fset 'man 'taemin-man-no-completion))
+(add-hook 'after-init-hook 'taemin-show-init-time)
 (global-set-key (kbd "M-f") 'taemin-forward-word)
 (global-set-key (kbd "M-b") 'taemin-backward-word)
 (global-set-key (kbd "M-d") 'taemin-kill-word)
