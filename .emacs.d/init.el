@@ -233,11 +233,10 @@
 
 (use-package haskell-mode
   :defer t
+  :init
+  (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
+  (add-hook 'haskell-interactive-mode-hook 'subword-mode)
   :config
-  (add-hook 'haskell-mode-hook
-            (lambda () (interactive-haskell-mode)))
-  (add-hook 'haskell-interactive-mode-hook
-            (lambda () (subword-mode)))
   ;; Prompt build targets on starting the REPL.
   (advice-add 'haskell-session-target
               :around
