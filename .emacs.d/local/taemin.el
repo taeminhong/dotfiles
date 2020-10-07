@@ -2,6 +2,7 @@
 (require 'diff)
 (require 'etags)
 (require 'man)
+(require 'compile)
 
 (defmacro taemin-bound-and-true-p (var)
   "Return the value of symbol VAR if it is bound, else nil."

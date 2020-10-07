@@ -133,8 +133,7 @@
   (require 'use-package))
 
 (use-package expand-region
-  :config
-  (global-set-key (kbd "C-c r") 'er/expand-region))
+  :bind ("C-c r" . er/expand-region))
 
 (use-package ivy
   :init
@@ -149,26 +148,27 @@
   (ivy-mode 1))
 
 (use-package swiper
-  :bind (("M-s s" . 'swiper)
-         ("M-s r" . 'swiper-backward)
-         ("M-s p" . 'swiper-thing-at-point)))
+  :bind (("M-s s" . swiper)
+         ("M-s r" . swiper-backward)
+         ("M-s p" . swiper-thing-at-point)))
 
 (use-package counsel
+  :demand
   :config
   (setq ivy-initial-inputs-alist nil)
   (counsel-mode 1)
-  :bind (("C-c k" . 'counsel-ag)
-         ("C-c g" . 'counsel-git)
-         ("C-c f" . 'counsel-fzf)
-         ("C-c j" . 'counsel-git-grep)
-         ("C-c p" . 'counsel-file-jump)))
+  :bind (("C-c k" . counsel-ag)
+         ("C-c g" . counsel-git)
+         ("C-c f" . counsel-fzf)
+         ("C-c j" . counsel-git-grep)
+         ("C-c p" . counsel-file-jump)))
 
 (use-package avy
   :init
   ;; Dvorak home row keys only
   (setq avy-keys '(?a ?o ?e ?u ?h ?t ?n ?s))
-  :bind (("M-g M-g" . 'avy-goto-char)
-         ("M-g g" . 'avy-goto-subword-1))
+  :bind (("M-g M-g" . avy-goto-char)
+         ("M-g g" . avy-goto-subword-1))
   :config
   (face-spec-set 'avy-lead-face '((t (:foreground "white" :background "#e52b50"))))
   (face-spec-set 'avy-lead-face-0 '((t (:foreground "white" :background "#2e36b3")))))
@@ -188,6 +188,7 @@
   :mode "\\.js\\'")
 
 (use-package json-mode
+  :defer t
   :init
   ;; use 4 spaces in js, but 2 spaces in json by default
   (setq json-reformat:indent-width 2)
@@ -231,6 +232,7 @@
               ("C-x e b" . eval-buffer)))
 
 (use-package haskell-mode
+  :defer t
   :config
   (add-hook 'haskell-mode-hook
             (lambda () (interactive-haskell-mode)))
@@ -264,9 +266,9 @@
          (clojure-mode . paredit-mode))
   :bind (:map paredit-mode-map
               ("M-s")
-              ("C-M-s" . 'paredit-splice-sexp)
+              ("C-M-s" . paredit-splice-sexp)
               ("M-r")
-              ("C-M-r" . 'paredit-raise-sexp)))
+              ("C-M-r" . paredit-raise-sexp)))
 
 (use-package adjust-parens
   :hook ((emacs-lisp-mode . adjust-parens-mode)
@@ -274,9 +276,10 @@
          (clojure-mode . adjust-parens-mode)))
 
 (use-package magit
-  :bind (("C-x g" . 'magit-status)))
+  :bind (("C-x g" . magit-status)))
 
 (use-package ag
+  :defer t
   :init
   (setq ag-reuse-buffers t))
 
@@ -287,23 +290,23 @@
   :hook ((text-mode . flyspell-mode)))
 
 (use-package goto-last-change
-  :bind (("M-g c" . 'goto-last-change)
-         ("M-g SPC" . 'goto-last-change-with-auto-marks)))
+  :bind (("M-g c" . goto-last-change)
+         ("M-g SPC" . goto-last-change-with-auto-marks)))
 
 (use-package undo-fu
   :init
   (setq undo-fu-ignore-keyboard-quit t)
   (defalias 'redo 'undo-fu-only-redo)
-  :bind (("C-_" . 'undo-fu-only-undo)
-         ("C-/" . 'undo-fu-only-undo)
-         ("M-r" . 'undo-fu-only-redo)))
+  :bind (("C-_" . undo-fu-only-undo)
+         ("C-/" . undo-fu-only-undo)
+         ("M-r" . undo-fu-only-redo)))
 
 (use-package w3m
   :bind ((:map w3m-mode-map
-               ("C-e" . 'move-end-of-line)
-               ("C-a" . 'move-beginning-of-line)
-               ("<" . 'w3m-tab-previous-buffer)
-               (">" . 'w3m-tab-next-buffer)))
+               ("C-e" . move-end-of-line)
+               ("C-a" . move-beginning-of-line)
+               ("<" . w3m-tab-previous-buffer)
+               (">" . w3m-tab-next-buffer)))
   :config
   (face-spec-set 'w3m-anchor '((t (:foreground "blue" :bold nil :underline nil))))
   (face-spec-set 'w3m-arrived-anchor '((t (:foreground "cyan" :bold nil :underline nil))))
@@ -321,8 +324,8 @@
 (use-package dumb-jump
   :if (or (executable-find "ag")
           (executable-find "rg"))
-  :bind (("M-=" . 'dumb-jump-go)
-         ("M-\\" . 'dumb-jump-back)))
+  :bind (("M-=" . dumb-jump-go)
+         ("M-\\" . dumb-jump-back)))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
