@@ -45,7 +45,7 @@
 (setq require-final-newline t)
 (setq inhibit-startup-message t)
 (setq initial-scratch-message nil)
-(setq visible-bell t)
+(setq ring-bell-function 'ignore)
 (transient-mark-mode t)
 (delete-selection-mode t)
 (global-font-lock-mode t)
