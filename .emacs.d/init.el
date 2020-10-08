@@ -162,6 +162,11 @@
          ("C-c j" . counsel-git-grep)
          ("C-c p" . counsel-file-jump)))
 
+(use-package ivy-xref
+  :defer t
+  :init
+  (setq xref-show-xrefs-function 'ivy-xref-show-xrefs))
+
 (use-package avy
   :init
   ;; Dvorak home row keys only
@@ -332,7 +337,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (dumb-jump w3m undo-fu goto-last-change expand-region markdown-mode haskell-mode anaconda-mode which-key cider adjust-parens avy flx rainbow-delimiters geiser paredit company pcre2el glsl-mode magit smex use-package json-mode js2-mode csharp-mode counsel ag vue-mode))))
+    (ivy-xref dumb-jump w3m undo-fu goto-last-change expand-region markdown-mode haskell-mode anaconda-mode which-key cider adjust-parens avy flx rainbow-delimiters geiser paredit company pcre2el glsl-mode magit smex use-package json-mode js2-mode csharp-mode counsel ag vue-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
