@@ -647,4 +647,10 @@ indentation go to the beginning of the line."
 	   (float-time (time-subtract after-init-time
 				      before-init-time))))
 
+(defun taemin-create-buffer-file-parent-directories ()
+  (when buffer-file-name
+    (let ((dir (file-name-directory buffer-file-name)))
+      (unless (file-exists-p dir)
+        (make-directory dir t)))))
+
 (provide 'taemin)

@@ -83,6 +83,7 @@
   ;; man command completion is too slow and inaccurate.
   (fset 'man 'taemin-man-no-completion))
 (add-hook 'after-init-hook 'taemin-show-init-time)
+(add-hook 'before-save-hook 'taemin-create-buffer-file-parent-directories)
 (global-set-key (kbd "M-f") 'taemin-forward-word)
 (global-set-key (kbd "M-b") 'taemin-backward-word)
 (global-set-key (kbd "M-d") 'taemin-kill-word)
@@ -107,7 +108,6 @@
 (sensible-defaults/automatically-follow-symlinks)
 (sensible-defaults/make-scripts-executable)
 (sensible-defaults/single-space-after-periods)
-(sensible-defaults/offer-to-create-parent-directories-on-save)
 (sensible-defaults/apply-changes-to-highlighted-region)
 (sensible-defaults/overwrite-selected-text)
 (sensible-defaults/ensure-that-files-end-with-newline)
