@@ -135,6 +135,7 @@
   :bind ("C-c r" . er/expand-region))
 
 (use-package ivy
+  :diminish ivy-mode
   :init
   (setq ivy-use-virtual-buffers t)
   (setq ivy-use-selectable-prompt t)
@@ -153,6 +154,7 @@
 
 (use-package counsel
   :demand
+  :diminish counsel-mode
   :config
   (setq ivy-initial-inputs-alist nil)
   (counsel-mode 1)
@@ -178,6 +180,7 @@
   (face-spec-set 'avy-lead-face-0 '((t (:foreground "white" :background "#2e36b3")))))
 
 (use-package which-key
+  :diminish which-key-mode
   :init
   (setq which-key-add-column-padding 2)
   (setq which-key-separator "-")
@@ -293,6 +296,7 @@
   :if (or (executable-find "ispell")
           (executable-find "aspell")
           (executable-find "hunspell"))
+  :diminish flyspell-mode
   :hook ((text-mode . flyspell-mode)))
 
 (use-package goto-last-change
@@ -340,7 +344,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (dante ivy-xref dumb-jump w3m undo-fu goto-last-change expand-region markdown-mode haskell-mode anaconda-mode which-key cider adjust-parens avy flx rainbow-delimiters geiser paredit company pcre2el glsl-mode magit smex use-package json-mode js2-mode csharp-mode counsel ag vue-mode))))
+    (diminish dante ivy-xref dumb-jump w3m undo-fu goto-last-change expand-region markdown-mode haskell-mode anaconda-mode which-key cider adjust-parens avy flx rainbow-delimiters geiser paredit company pcre2el glsl-mode magit smex use-package json-mode js2-mode csharp-mode counsel ag vue-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
