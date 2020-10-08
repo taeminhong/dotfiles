@@ -13,8 +13,10 @@
 (defalias 'elisp-repl 'ielm)
 (defalias 'remove-file 'delete-file)
 (defalias 'move-file 'rename-file)
+(fset 'yes-or-no-p 'y-or-n-p)
 
 (setq-default indent-tabs-mode nil)
+(setq-default fill-column 80)
 ;; Prevent shell commands from being echoed in zsh.
 (setq explicit-zsh-args '("-o" "no_zle" "-i"))
 (setq frame-background-mode 'dark)
@@ -31,11 +33,29 @@
 (setq compilation-ask-about-save nil)
 (setq compilation-scroll-output 'first-error)
 (setq history-length 32)
+(setq dired-listing-switches "-alh")
 ;; macOS's ls doesn't support --dired option.
 (setq dired-use-ls-dired (not is-macos))
 (setq recentf-save-file
       (expand-file-name ".recentf" emacs-working-directory))
 (setq make-backup-files nil)
+(setq gc-cons-threshold 20000000)
+(setq vc-follow-symlinks t)
+(setq sentence-end-double-space nil)
+(setq require-final-newline t)
+(setq inhibit-startup-message t)
+(setq initial-scratch-message nil)
+(setq visible-bell t)
+(transient-mark-mode t)
+(delete-selection-mode t)
+(global-font-lock-mode t)
+(global-auto-revert-mode t)
+(show-paren-mode t)
+
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(add-hook 'prog-mode-hook 'subword-mode)
+(add-hook 'after-save-hook
+          'executable-make-buffer-file-executable-if-script-p)
 (add-hook 'c-mode-hook
 	  (lambda () (c-set-style "BSD")))
 (add-hook 'c++-mode-hook
@@ -100,27 +120,6 @@
 
 (require 'untitled-note)
 (global-set-key (kbd "C-c n") 'untitled-note-new-note)
-
-(require 'sensible-defaults)
-(sensible-defaults/increase-gc-threshold)
-(sensible-defaults/delete-trailing-whitespace)
-(sensible-defaults/treat-camelcase-as-separate-words)
-(sensible-defaults/automatically-follow-symlinks)
-(sensible-defaults/make-scripts-executable)
-(sensible-defaults/single-space-after-periods)
-(sensible-defaults/apply-changes-to-highlighted-region)
-(sensible-defaults/overwrite-selected-text)
-(sensible-defaults/ensure-that-files-end-with-newline)
-(sensible-defaults/quiet-startup)
-(sensible-defaults/make-dired-file-sizes-human-readable)
-(sensible-defaults/shorten-yes-or-no)
-(sensible-defaults/always-highlight-code)
-(sensible-defaults/refresh-buffers-when-files-change)
-(sensible-defaults/show-matching-parens)
-(sensible-defaults/flash-screen-instead-of-ringing-bell)
-(sensible-defaults/set-default-line-length-to 80)
-(sensible-defaults/open-clicked-files-in-same-frame-on-mac)
-(sensible-defaults/yank-to-point-on-mouse-click)
 
 (require 'windmove)
 (windmove-default-keybindings)

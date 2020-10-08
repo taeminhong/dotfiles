@@ -78,14 +78,6 @@ then
         cp "$downloads/z-1.11/z.sh" ~
 fi
 
-# sensible-defaults - sensible emacs settings
-if test ! -e ~/.emacs.d/local/sensible-defaults.el
-then
-    download_unzip https://github.com/hrs/sensible-defaults.el/archive/main.zip "$downloads" && \
-        cp "$downloads/sensible-defaults.el-main/sensible-defaults.el" ~/.emacs.d/local && \
-        echo "(provide 'sensible-defaults)" >>~/.emacs.d/local/sensible-defaults.el
-fi
-
 if command -v tmux >/dev/null 2>&1
 then
     ./gen-tmux-conf .tmux.conf.in >~/.tmux.conf
