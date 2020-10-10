@@ -3,14 +3,15 @@
 (require 'etags)
 (require 'man)
 (require 'compile)
+(require 'subr-x)
 
 (defmacro taemin-bound-and-true-p (var)
   "Return the value of symbol VAR if it is bound, else nil."
   `(and (boundp (quote ,var)) ,var))
 
 (defvar taemin-makefile-regex-alist
-      '(("make" . "^\\(Makefile\\|makefile\\)$")
-        ("cabal" . "\\.cabal$")))
+      '(("^make" . "^[Mm]akefile$")
+        ("^cabal" . "\\.cabal$")))
 
 (defun taemin--do-forward-word (direction line-boundary limit select)
   (if (= (point) line-boundary)
@@ -487,9 +488,8 @@ No project root directory found, then this compiles from the buffer's default-di
 
 (defun taemin-assoc-makefile-regex (command)
   (cl-some (lambda (pair)
-             (let ((regex (concat "^[[:space:]]*" (car pair))))
-               (if (string-match-p regex command)
-                   pair)))
+             (if (string-match-p (car pair) (string-trim command))
+                 pair))
            taemin-makefile-regex-alist))
 
 (defun taemin-locate-makefile-directory (command)
