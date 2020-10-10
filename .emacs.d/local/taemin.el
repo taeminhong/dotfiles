@@ -229,15 +229,17 @@ beginning of the line, kill the preceding newline."
       (taemin--end-of-defun-spaces arg)
     (beginning-of-defun-comments (- arg))))
 
+(defun taemin--reset-this-command (n sym)
+  (setq this-command
+        (if (> n 0)
+            sym
+          (intern (concat (symbol-name sym) "-back")))))
+
 (defun taemin--mark-defun-context-aware (arg)
-  (defun reset-arg-and-this-command (n)
-    (setq arg n)
-    (setq this-command (cond ((> n 0) 'taemin-mark-defun)
-                             ((< n 0) 'taemin-mark-defun-back))))
   (cl-assert (/= arg 0))
   (if (eq last-command 'taemin-mark-defun-back)
-      (reset-arg-and-this-command (- arg))
-    (reset-arg-and-this-command arg))
+      (taemin--reset-this-command (setq arg (- arg)) 'taemin-mark-defun)
+    (taemin--reset-this-command arg 'taemin-mark-defun))
   (cond ((= arg 0))
         ((region-active-p)
          (cond ((member last-command '(taemin-mark-defun taemin-mark-defun-back))
@@ -246,7 +248,7 @@ beginning of the line, kill the preceding newline."
                 (taemin--do-mark-defun arg))
                (t
                 (when (< (point) (mark))
-                  (reset-arg-and-this-command (- arg)))
+                  (taemin--reset-this-command (setq arg (- arg)) 'taemin-mark-defun))
                 (taemin--append-defun-region arg))))
         (t
          (taemin--do-mark-defun arg))))
@@ -342,15 +344,10 @@ the one(s) already marked."
         (t n)))
 
 (defun taemin--mark-line-context-aware (arg)
-  (defun reset-arg-and-this-command (n)
-    (setq arg n)
-    (setq this-command
-          (cond ((< n 0) 'taemin-mark-line-back)
-                ((> n 0) 'taemin-mark-line))))
   (cl-assert (/= arg 0))
   (if (eq last-command 'taemin-mark-line-back)
-      (reset-arg-and-this-command (- arg))
-    (reset-arg-and-this-command arg))
+      (taemin--reset-this-command (setq arg (- arg)) 'taemin-mark-line)
+    (taemin--reset-this-command arg 'taemin-mark-line))
   (cond ((= arg 0))
         ((region-active-p)
          (cond ((member last-command '(taemin-mark-line taemin-mark-line-back))
@@ -359,7 +356,7 @@ the one(s) already marked."
                 (taemin--do-mark-line arg))
                (t
                 (when (< (point) (mark))
-                  (reset-arg-and-this-command (- arg)))
+                  (taemin--reset-this-command (setq arg (- arg)) 'taemin-mark-line))
                 (taemin--expand-line-region arg))))
         (t
          (taemin--do-mark-line arg))))
@@ -393,22 +390,17 @@ The paragraph marked is the one that contains point or follows point."
          (taemin--do-mark-paragraph arg))))
 
 (defun taemin--mark-paragraph-context-aware (arg)
-  (defun reset-arg-and-this-command (n)
-    (setq arg n)
-    (setq this-command
-          (cond ((< n 0) 'taemin-mark-paragraph-back)
-                ((> n 0) 'taemin-mark-paragraph))))
   (cl-assert (/= arg 0))
   ;; make ARG positive if the point is going to move forward,
   ;; otherwise make it negative.
   (if (eq last-command 'taemin-mark-paragraph-back)
-      (reset-arg-and-this-command (- arg))
-    (reset-arg-and-this-command arg))
+      (taemin--reset-this-command (setq arg (- arg)) 'taemin-mark-paragraph)
+    (taemin--reset-this-command arg 'taemin-mark-paragraph))
   ;; preserve the current mark direction if any mark exists.
   (when (and (region-active-p)
              (not (member last-command '(taemin-mark-paragraph taemin-mark-paragraph-back)))
              (< (point) (mark)))
-    (reset-arg-and-this-command (- arg)))
+    (taemin--reset-this-command (setq arg (- arg)) 'taemin-mark-paragraph))
   (taemin--do-mark-paragraph arg t))
 
 (defun taemin--do-mark-paragraph (arg &optional extend)
