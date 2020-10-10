@@ -10,8 +10,8 @@
   `(and (boundp (quote ,var)) ,var))
 
 (defvar taemin-makefile-regex-alist
-      '(("^make" . "^[Mm]akefile$")
-        ("^cabal" . "\\.cabal$")))
+  '(("^make" . "^[Mm]akefile\\'")
+    ("^cabal" . "\\.cabal\\'")))
 
 (defun taemin--do-forward-word (direction line-boundary limit select)
   (if (= (point) line-boundary)
