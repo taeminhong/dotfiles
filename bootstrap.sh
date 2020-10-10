@@ -50,7 +50,7 @@ cp -a \
    ~
 mkdir -p ~/.emacs.d/local
 cp -a .emacs.d/init.el ~/.emacs.d
-cp -a .emacs.d/local/taemin.el ~/.emacs.d/local
+cp -a .emacs.d/local/taemin*.el ~/.emacs.d/local
 cp -a .emacs.d/local/untitled-note.el ~/.emacs.d/local
 
 mkdir -p ~/.ssh

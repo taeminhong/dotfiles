@@ -347,7 +347,10 @@
          ("M-\\" . dumb-jump-back)))
 
 (use-package flycheck
-  :bind (([f7] . flycheck-mode)))
+  :bind (([f7] . flycheck-mode))
+  :config
+  (require 'taemin-flycheck)
+  (taemin-flycheck-change-keymap-prefix (kbd "C-c l")))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
