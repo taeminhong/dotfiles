@@ -350,7 +350,8 @@
   :bind (([f7] . flycheck-mode))
   :config
   (require 'taemin-flycheck)
-  (taemin-flycheck-change-keymap-prefix (kbd "C-c l")))
+  (taemin-flycheck-change-keymap-prefix (kbd "C-c l"))
+  (taemin-flycheck-select-after-list-errors t))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
