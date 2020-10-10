@@ -15,29 +15,19 @@
 (defalias 'move-file 'rename-file)
 (fset 'yes-or-no-p 'y-or-n-p)
 
+;; Prevent shell commands from being echoed in zsh.
+(defvar explicit-zsh-args '("-o" "no_zle" "-i"))
+
 (setq-default indent-tabs-mode nil)
 (setq-default fill-column 80)
-;; Prevent shell commands from being echoed in zsh.
-(setq explicit-zsh-args '("-o" "no_zle" "-i"))
 (setq frame-background-mode 'dark)
 (setq help-window-select t)
 (setq mark-ring-max 8)
 (setq global-mark-ring-max 8)
 (setq scroll-step 1)
 (setq scroll-conservatively 10000)
-(menu-bar-mode -1)
-(desktop-save-mode 1)
-(setq desktop-path `(,emacs-working-directory))
-(add-to-list 'desktop-globals-to-save 'compile-command)
 (setq isearch-allow-scroll t)
-(setq compilation-ask-about-save nil)
-(setq compilation-scroll-output 'first-error)
 (setq history-length 32)
-(setq dired-listing-switches "-alh")
-;; macOS's ls doesn't support --dired option.
-(setq dired-use-ls-dired (not is-macos))
-(setq recentf-save-file
-      (expand-file-name ".recentf" emacs-working-directory))
 (setq make-backup-files nil)
 (setq gc-cons-threshold 20000000)
 (setq vc-follow-symlinks t)
@@ -46,6 +36,7 @@
 (setq inhibit-startup-message t)
 (setq initial-scratch-message nil)
 (setq ring-bell-function 'ignore)
+(menu-bar-mode -1)
 (transient-mark-mode t)
 (delete-selection-mode t)
 (global-font-lock-mode t)
@@ -81,7 +72,6 @@
 (global-set-key (kbd "C-x w") 'delete-window)
 (global-set-key (kbd "C-x o b") 'switch-to-buffer-other-window)
 (global-set-key (kbd "C-x o f") 'find-file-other-window)
-(global-set-key (kbd "C-x o d") 'dired-other-window)
 (global-set-key (kbd "C-x o i") 'display-buffer)
 (global-set-key (kbd "C-x o .") 'xref-find-definitions-other-window)
 (global-set-key (kbd "M-a") 'backward-paragraph)
@@ -95,6 +85,25 @@
 (global-set-key (kbd "M-l") 'downcase-dwim)
 (global-set-key (kbd "M-c") 'capitalize-dwim)
 (global-set-key (kbd "M-RET") 'comment-indent-new-line)
+
+(require 'desktop)
+(setq desktop-path `(,emacs-working-directory))
+(add-to-list 'desktop-globals-to-save 'compile-command)
+(desktop-save-mode 1)
+
+(require 'dired)
+;; macOS's ls doesn't support --dired option.
+(setq dired-use-ls-dired (not is-macos))
+(setq dired-listing-switches "-alh")
+(global-set-key (kbd "C-x o d") 'dired-other-window)
+
+(require 'compile)
+(setq compilation-scroll-output 'first-error)
+(setq compilation-ask-about-save nil)
+
+(require 'recentf)
+(setq recentf-save-file
+      (expand-file-name ".recentf" emacs-working-directory))
 
 (require 'taemin)
 (taemin-select-window-after-compilation t)
