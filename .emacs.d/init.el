@@ -144,6 +144,7 @@
   :bind ("C-c r" . er/expand-region))
 
 (use-package ivy
+  :ensure t
   :diminish ivy-mode
   :init
   (setq ivy-use-virtual-buffers t)
@@ -157,11 +158,13 @@
   (ivy-mode 1))
 
 (use-package swiper
+  :ensure t
   :bind (("M-s s" . swiper)
          ("M-s r" . swiper-backward)
          ("M-s p" . swiper-thing-at-point)))
 
 (use-package counsel
+  :ensure t
   :demand
   :diminish counsel-mode
   :config
@@ -189,6 +192,7 @@
   (face-spec-set 'avy-lead-face-0 '((t (:foreground "white" :background "#2e36b3")))))
 
 (use-package which-key
+  :ensure t
   :diminish which-key-mode
   :init
   (setq which-key-add-column-padding 2)
