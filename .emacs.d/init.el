@@ -42,6 +42,7 @@
 (global-font-lock-mode t)
 (global-auto-revert-mode t)
 (show-paren-mode t)
+(column-number-mode t)
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (add-hook 'prog-mode-hook 'subword-mode)
