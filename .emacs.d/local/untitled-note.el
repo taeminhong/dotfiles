@@ -25,21 +25,27 @@
     (delete-file file-name)
     (delete-file (make-backup-file-name file-name))))
 
+(defun untitled-note-generate-new-buffer (name)
+  "Create and return a untitled-note buffer with a name based on NAME."
+  (let ((buf (generate-new-buffer name)))
+    (with-current-buffer buf
+      (let ((name (buffer-name))
+            (inhibit-message t)
+            (temporary-file-directory untitled-note-directory))
+        (write-file
+         (make-temp-file
+          (format "%s." (file-name-nondirectory (getenv "PWD")))
+          nil
+          ".txt"))
+        (rename-buffer name)
+        (untitled-note-mode 1)
+        (visual-line-mode 1)))
+    buf))
+
 (defun untitled-note-new-note ()
   "Create a new note"
   (interactive)
-  (switch-to-buffer (generate-new-buffer "untitled"))
-  (let ((name (buffer-name))
-        (inhibit-message t)
-        (temporary-file-directory untitled-note-directory))
-    (write-file
-     (make-temp-file
-      (format "%s." (file-name-nondirectory (getenv "PWD")))
-      nil
-      ".txt"))
-    (rename-buffer name)
-    (untitled-note-mode 1)
-    (visual-line-mode 1)))
+  (switch-to-buffer (untitled-note-generate-new-buffer "untitled")))
 
 (defun untitled-note-garbage-collect ()
   "Delete old temporary files in `untitled-note-directory'"

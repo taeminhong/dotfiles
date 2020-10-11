@@ -131,6 +131,8 @@
 (require 'untitled-note)
 (global-set-key (kbd "C-c n") 'untitled-note-new-note)
 
+(require 'blank)
+
 (require 'windmove)
 (windmove-default-keybindings)
 
