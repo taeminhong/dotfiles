@@ -38,7 +38,8 @@
       nil
       ".txt"))
     (rename-buffer name)
-    (untitled-note-mode 1)))
+    (untitled-note-mode 1)
+    (visual-line-mode 1)))
 
 (defun untitled-note-garbage-collect ()
   "Delete old temporary files in `untitled-note-directory'"
