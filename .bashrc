@@ -45,10 +45,7 @@ _build_prompt () {
             red='\[\033[00;31m\]'
             ;;
     esac
-    PS1="${TERM_TITLE}${chroot}"
-    if [ -n "$SSH_CLIENT" ]; then
-        PS1+="${green}\u@\h "
-    fi
+    PS1="${chroot}${SSH_CLIENT:+${green}\u@\h }"
     if [ "$exitcode" = 0 ]; then
         PS1+="${blue}\W ${reset}\\$ "
     else

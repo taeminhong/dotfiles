@@ -1,5 +1,0 @@
-# If this is an xterm, change the window title to user@host dir
-case "$TERM" in
-    xterm*|rxvt*)
-         export TERM_TITLE='\[\e]0;\u@\h \W\a\]';;
-esac

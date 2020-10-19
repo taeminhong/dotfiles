@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-cp "$(dirname "$0")/.bashenv" ~
-
 git config --global core.editor "subl -w"
 git config --global diff.tool tortoisediff
 git config --global difftool.prompt false
