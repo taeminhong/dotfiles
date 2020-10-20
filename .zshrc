@@ -1,3 +1,8 @@
+# turn off the line editing forcely if it is in the emacs shell
+if [[ "$INSIDE_EMACS" =~ ".*,comint$" ]]; then
+    unsetopt zle
+fi
+
 # Remove '/' and '-' from the WORDCHARS
 WORDCHARS='*?_.[]~=&;!#$%^(){}<>'
 
@@ -15,7 +20,7 @@ copy-region-as-kill-deactivate-mark() {
     zle set-mark-command -n -1
 }
 
-if [[ $options[zle] = on && -z "$INSIDE_EMACS" ]]; then
+if [[ $options[zle] = on ]]; then
     # Don't let the terminal hijack C-s, C-q, and C-w keys
     stty -ixon werase undef
     zle -N copy-region-as-kill-deactivate-mark

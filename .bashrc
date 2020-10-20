@@ -8,6 +8,12 @@ case $- in
       *) return;;
 esac
 
+# turn off the line editing forcely if it is in the emacs shell
+if [[ "$INSIDE_EMACS" =~ ",comint" ]]; then
+    set +o emacs
+    set +o vi
+fi
+
 # don't put duplicate lines or lines starting with space in the history.
 HISTCONTROL=ignoreboth
 HISTSIZE=1000
@@ -70,9 +76,7 @@ if ! shopt -oq posix; then
     fi
 fi
 
-# check if line editing is enabled
-# https://github.com/rycee/home-manager/issues/401#issuecomment-434058700
-if [[ ":$SHELLOPTS:" =~ :emacs: && -z "$INSIDE_EMACS" ]]; then
+if [[ ":$SHELLOPTS:" =~ :emacs: ]]; then
     # Don't let the terminal hijack C-s, C-q, and C-w keys
     stty -ixon werase undef
     bind '"\C-w": kill-region'

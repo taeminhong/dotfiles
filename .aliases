@@ -5,5 +5,3 @@ alias l='ls -CF'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
-
-[ -n "$INSIDE_EMACS" ] && alias zsh='zsh -o no_zle'

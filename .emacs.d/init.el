@@ -71,6 +71,7 @@
 (global-set-key (kbd "C-x -") 'split-window-below)
 (global-set-key (kbd "C-x |") 'split-window-right)
 (global-set-key (kbd "C-x w") 'delete-window)
+(global-set-key (kbd "C-x o o") 'other-window)
 (global-set-key (kbd "C-x o b") 'switch-to-buffer-other-window)
 (global-set-key (kbd "C-x o f") 'find-file-other-window)
 (global-set-key (kbd "C-x o i") 'display-buffer)
