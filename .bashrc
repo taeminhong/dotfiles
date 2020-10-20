@@ -38,7 +38,7 @@ _build_prompt () {
     # for details of ANSI escape code, visit https://en.wikipedia.org/wiki/ANSI_escape_code
     local reset red green blue
     case "$TERM" in
-        xterm-color|*-256color)
+        eterm-color|xterm-color|*-256color)
             reset='\[\033[00m\]'
             green='\[\033[00;32m\]'
             blue='\[\033[00;34m\]'
