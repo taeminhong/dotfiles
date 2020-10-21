@@ -11,7 +11,7 @@
 (define-minor-mode untitled-note-mode
   "Untitled note mode."
   nil
-  " untitled-note"
+  " Untitled"
   '()
   (when untitled-note-mode
     (cd (getenv "PWD"))))
