@@ -22,9 +22,6 @@ addpath () {
 # MacPort
 addpath PATH /opt/local/bin
 addpath PATH /opt/local/sbin
-addpath PATH "/Applications/Racket v7.5/bin"
-# allow running commands installed by `pip install --user` on the Mac
-addpath PATH "$HOME/Library/Python/3.6/bin"
 # Cargo, a package manager for Rust
 addpath PATH "$HOME/.cargo/bin"
 # Yarn, a package manager for JS
