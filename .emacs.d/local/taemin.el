@@ -645,4 +645,18 @@ indentation go to the beginning of the line."
       (unless (file-exists-p dir)
         (make-directory dir t)))))
 
+(defun taemin--escape-double-quotes (str)
+  "Return STR with every double-quote escaped with backslash."
+  (save-match-data
+    (replace-regexp-in-string "\"" "\\\\\"" str)))
+
+(defun taemin-touch (file-name)
+  "Change file access and modification times.
+If the given file doesn't exist, it is created with default permissions."
+  (interactive (list (read-file-name "File: " default-directory)))
+  (shell-command (format "touch \"%s\""
+                         (taemin--escape-double-quotes file-name))
+                 current-prefix-arg
+                 shell-command-default-error-buffer))
+
 (provide 'taemin)
