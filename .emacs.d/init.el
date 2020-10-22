@@ -131,8 +131,10 @@
 
 (require 'untitled-note)
 (global-set-key (kbd "C-c n") 'untitled-note-new-note)
+(define-key untitled-note-mode-map (kbd "C-c C-k") 'taemin-kill-this-buffer-no-prompt)
 
 (require 'blank)
+(define-key blank-mode-map (kbd "C-c C-k") 'taemin-kill-this-buffer-no-prompt)
 
 (require 'windmove)
 (windmove-default-keybindings)

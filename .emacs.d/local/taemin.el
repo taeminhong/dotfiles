@@ -659,4 +659,10 @@ If the given file doesn't exist, it is created with default permissions."
                  current-prefix-arg
                  shell-command-default-error-buffer))
 
+(defun taemin-kill-this-buffer-no-prompt ()
+  "Kill this buffer without prompt."
+  (interactive)
+  (set-buffer-modified-p nil)
+  (kill-this-buffer))
+
 (provide 'taemin)

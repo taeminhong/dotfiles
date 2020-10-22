@@ -102,19 +102,12 @@ if BACKWARD is not nil, operation will be performed in the inverse direction."
         (blank-hide-random-words)))
     (switch-to-buffer new-buf)))
 
-(defun blank-kill-this-buffer ()
-  "Kill this buffer without prompt."
-  (interactive)
-  (set-buffer-modified-p nil)
-  (kill-this-buffer))
-
 (defvar blank-mode-map
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "TAB") 'blank-next-blank)
     (define-key map (kbd "<backtab>") 'blank-previous-blank)
     (define-key map (kbd "C-c C-c") 'blank-check-worksheet)
     (define-key map (kbd "C-c C-r") 'blank-remake-worksheet-in-place)
-    (define-key map (kbd "C-c C-k") 'blank-kill-this-buffer)
     map))
 
 (define-minor-mode blank-mode
