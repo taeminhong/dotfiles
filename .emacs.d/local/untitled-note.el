@@ -68,7 +68,11 @@
     (unless (string= buffer-file-name old-file-name)
       (untitled-note--delete-files old-file-name
                                    (make-backup-file-name old-file-name)
-                                   old-auto-save-file-name))))
+                                   old-auto-save-file-name)
+      ;; When the major mode for the new file is the same as the old one
+      ;; (probably text-mode), untitled-note mode may remain turned on.
+      ;; Turn it off forcibly.
+      (untitled-note-mode -1))))
 
 (eval-after-load 'recentf
   '(add-to-list 'recentf-exclude untitled-note-directory))
