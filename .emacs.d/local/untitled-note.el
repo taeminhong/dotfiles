@@ -18,12 +18,13 @@
 
 (defun untitled-note--cleanup ()
   (when (and untitled-note-mode buffer-file-name)
-    (untitled-note--delete-file-and-backup buffer-file-name)))
+    (untitled-note--delete-files buffer-file-name
+                                 (make-backup-file-name buffer-file-name)
+                                 buffer-auto-save-file-name)))
 
-(defun untitled-note--delete-file-and-backup (file-name)
+(defun untitled-note--delete-files (&rest file-names)
   (ignore-errors
-    (delete-file file-name)
-    (delete-file (make-backup-file-name file-name))))
+    (mapcar 'delete-file file-names)))
 
 (defun untitled-note-generate-new-buffer (name)
   "Create and return a untitled-note buffer with a name based on NAME."
@@ -61,10 +62,13 @@
 (defun untitled-note-write-file ()
   "Write contents into the other file and remove the temporary file"
   (interactive)
-  (let ((old-file-name buffer-file-name))
+  (let ((old-file-name buffer-file-name)
+        (old-auto-save-file-name buffer-auto-save-file-name))
     (call-interactively 'write-file)
     (unless (string= buffer-file-name old-file-name)
-      (untitled-note--delete-file-and-backup old-file-name))))
+      (untitled-note--delete-files old-file-name
+                                   (make-backup-file-name old-file-name)
+                                   old-auto-save-file-name))))
 
 (eval-after-load 'recentf
   '(add-to-list 'recentf-exclude untitled-note-directory))
