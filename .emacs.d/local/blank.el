@@ -45,11 +45,17 @@ BEG and END should be positive."
 (defun blank-hide-random-words ()
   "Hide random words."
   (save-excursion
-    (let ((ok t))
-      (goto-char (point-max))
-      (while (and (backward-word (blank--random-range 2 5))
-                  (blank--backward-non-one-letter-word))
-        (blank-hide-word)))))
+    (setq-local blank-blanks nil)
+    (goto-char (point-max))
+    (while (and (backward-word (blank--random-range 2 5))
+                (blank--backward-non-one-letter-word))
+      (let ((start (point)))
+        (forward-word 1)
+        (let ((word (buffer-substring start (point))))
+          (kill-region start (point))
+          (insert (blank--placeholder word))
+          (push (1+ start) blank-blanks)
+          (goto-char start))))))
 
 (defun blank-check-worksheet ()
   "Check the answer user wrote."
@@ -68,21 +74,47 @@ If there is no blanks before point, move point to the last blank."
   (interactive)
   (blank--next-blank t))
 
-(defun blank--next-blank (&optional backward)
+(defun blank-next-non-fully-filled-blank ()
+  "Move point to the next non fully filled blank."
+  (interactive)
+  (blank--next-blank nil t))
+
+(defun blank-previous-non-fully-filled-blank ()
+  "Move point to the previous non fully filled blank."
+  (interactive)
+  (blank--next-blank t t))
+
+(defun blank-nth (n list)
+  "Return the Nth element of List.
+N counts from zero and can be a negative number.
+-1 means the last, -2 means the next to the last."
+  (let ((l (length list)))
+    (if (= l 0)
+        nil
+      (nth (% (+ (% n l) l) l) list))))
+
+(defun blank--non-fully-filled-blank-p (pos)
+  "Return t if POS points to a non fully filled blank."
+  (save-excursion
+    (goto-char pos)
+    (looking-at-p "[^[:space:]_]*_")))
+
+(defun blank--next-blank (&optional backward ignore-fully-filled-blank)
   "Move point to the next blank.
 If there is no blanks after point, move point to the first blank.
-if BACKWARD is not nil, operation will be performed in the inverse direction."
-  (save-match-data
-    (let ((regexp "\\w_")
-          (arg    (if backward -1 1))
-          (offset (if backward 1 -1))
-          (start  (if backward (point-max) (point-min))))
-      (if (or (search-forward-regexp regexp nil t arg)
-              (and (search-backward-regexp regexp nil t arg)
-                   (progn (goto-char start)
-                          (search-forward-regexp regexp nil t arg))))
-          (forward-char offset)
-        (user-error "No more blanks")))))
+if BACKWARD is not nil, operation will be performed in the inverse direction.
+This will ignore fully filled blanks if IGNORE-FULLY-FILLED-BLANK is not nil."
+  (let ((blanks (if ignore-fully-filled-blank
+                    (seq-filter 'blank--non-fully-filled-blank-p blank-blanks)
+                  blank-blanks))
+        (cmp (if backward '< '>))
+        (idx (if backward -1 0)))
+    (if blanks
+        (progn
+          (goto-char (or (blank-nth idx (seq-filter (lambda (x) (funcall cmp x (point)))
+                                                    blanks))
+                         (blank-nth idx blanks))))
+      (user-error "No blanks"))))
 
 (defun blank-make-worksheet ()
   "Make a new fill-in-the-blank worksheet from the contents of the current buffer."
@@ -104,8 +136,10 @@ if BACKWARD is not nil, operation will be performed in the inverse direction."
 
 (defvar blank-mode-map
   (let ((map (make-sparse-keymap)))
-    (define-key map (kbd "TAB") 'blank-next-blank)
-    (define-key map (kbd "<backtab>") 'blank-previous-blank)
+    (define-key map (kbd "TAB") 'blank-next-non-fully-filled-blank)
+    (define-key map (kbd "<backtab>") 'blank-previous-non-fully-filled-blank)
+    (define-key map (kbd ">") 'blank-next-blank)
+    (define-key map (kbd "<") 'blank-previous-blank)
     (define-key map (kbd "C-c C-c") 'blank-check-worksheet)
     (define-key map (kbd "C-c C-r") 'blank-remake-worksheet-in-place)
     map))
