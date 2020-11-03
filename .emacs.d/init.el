@@ -365,6 +365,10 @@
   (taemin-flycheck-change-keymap-prefix (kbd "C-c l"))
   (taemin-flycheck-select-after-list-errors t))
 
+(use-package glsl-mode
+  :config
+  (add-hook 'glsl-mode-hook (lambda () (c-set-style "stroustrup"))))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
