@@ -36,6 +36,12 @@
 (setq inhibit-startup-message t)
 (setq initial-scratch-message nil)
 (setq ring-bell-function 'ignore)
+(setq c-default-style '((c-mode . "bsd")
+                        (c++-mode . "bsd")
+                        (java-mode . "java")
+                        (awk-mode . "awk")
+                        (other . "gnu")))
+
 (menu-bar-mode -1)
 (transient-mark-mode t)
 (delete-selection-mode t)
@@ -48,10 +54,6 @@
 (add-hook 'prog-mode-hook 'subword-mode)
 (add-hook 'after-save-hook
           'executable-make-buffer-file-executable-if-script-p)
-(add-hook 'c-mode-hook
-	  (lambda () (c-set-style "BSD")))
-(add-hook 'c++-mode-hook
-	  (lambda () (c-set-style "BSD")))
 
 ;; unbind old style of keyboard macro bindings. use <f3> and <f4> instead.
 (global-unset-key (kbd "C-x e"))
