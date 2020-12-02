@@ -27,13 +27,16 @@
 	name-status = show --name-status --format=""
 [push]
 	default = simple
-
 [advice]
 	detachedHead = false
 	statusHints = false
-
 [svn]
 	# push empty directory removals back to svn as directory deletes
 	rmdir = true
 [rebase]
 	autosquash = true
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
