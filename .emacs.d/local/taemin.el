@@ -77,6 +77,8 @@
         (skip-chars     (if (< 0 n) #'skip-chars-forward #'skip-chars-backward))
         (skip-syntax    (if (< 0 n) #'skip-syntax-forward #'skip-syntax-backward)))
     (dotimes (i (abs n))
+      ;; We hava to recalculate line-end and limit everytime because they change
+      ;; whenever call taemin--do-kill-word.
       (let ((line-end (if (< 0 n) (line-end-position) (line-beginning-position)))
             (limit    (if (< 0 n) (point-max) (point-min))))
         (unless (= (point) limit)
