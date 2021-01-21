@@ -27,6 +27,8 @@
 	name-status = show --name-status --format=""
 [push]
 	default = simple
+[fetch]
+	prune = true
 [advice]
 	detachedHead = false
 	statusHints = false
