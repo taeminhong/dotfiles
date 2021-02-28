@@ -74,13 +74,13 @@ If there is no blanks before point, move point to the last blank."
   (interactive)
   (blank--next-blank t))
 
-(defun blank-next-non-fully-filled-blank ()
-  "Move point to the next non fully filled blank."
+(defun blank-next-incomplete-blank ()
+  "Move point to the next incomplete blank."
   (interactive)
   (blank--next-blank nil t))
 
-(defun blank-previous-non-fully-filled-blank ()
-  "Move point to the previous non fully filled blank."
+(defun blank-previous-incomplete-blank ()
+  "Move point to the previous incomplete blank."
   (interactive)
   (blank--next-blank t t))
 
@@ -93,19 +93,19 @@ N counts from zero and can be a negative number.
         nil
       (nth (% (+ (% n l) l) l) list))))
 
-(defun blank--non-fully-filled-blank-p (pos)
-  "Return t if POS points to a non fully filled blank."
+(defun blank--incomplete-blank-p (pos)
+  "Return t if POS points to an incomplete blank."
   (save-excursion
     (goto-char pos)
     (looking-at-p "[^[:space:]_]*_")))
 
-(defun blank--next-blank (&optional backward ignore-fully-filled-blank)
+(defun blank--next-blank (&optional backward ignore-complete-blank)
   "Move point to the next blank.
 If there is no blanks after point, move point to the first blank.
 if BACKWARD is not nil, operation will be performed in the inverse direction.
-This will ignore fully filled blanks if IGNORE-FULLY-FILLED-BLANK is not nil."
-  (let ((blanks (if ignore-fully-filled-blank
-                    (seq-filter 'blank--non-fully-filled-blank-p blank-blanks)
+This will ignore complete blanks if IGNORE-COMPLETE-BLANK is not nil."
+  (let ((blanks (if ignore-complete-blank
+                    (seq-filter 'blank--incomplete-blank-p blank-blanks)
                   blank-blanks))
         (cmp (if backward '< '>))
         (idx (if backward -1 0)))
@@ -136,8 +136,8 @@ This will ignore fully filled blanks if IGNORE-FULLY-FILLED-BLANK is not nil."
 
 (defvar blank-mode-map
   (let ((map (make-sparse-keymap)))
-    (define-key map (kbd "TAB") 'blank-next-non-fully-filled-blank)
-    (define-key map (kbd "<backtab>") 'blank-previous-non-fully-filled-blank)
+    (define-key map (kbd "TAB") 'blank-next-incomplete-blank)
+    (define-key map (kbd "<backtab>") 'blank-previous-incomplete-blank)
     (define-key map (kbd ">") 'blank-next-blank)
     (define-key map (kbd "<") 'blank-previous-blank)
     (define-key map (kbd "C-c C-c") 'blank-check-worksheet)
