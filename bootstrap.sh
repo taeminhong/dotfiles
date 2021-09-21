@@ -64,12 +64,9 @@ then
         ~/.vim/bundle/Vundle.vim
 fi
 
-__download_unzip () {
-    curl -sSL -o"$3" "$1" && unzip -qd"$2" "$3"
-}
-
 download_unzip () {
-    __download_unzip "$1" "$2" "$2/$(basename "$1")"
+    zip="$2/$(basename "$1")"
+    curl -sSL -o"$zip" "$1" && unzip -qd"$2" "$zip"
 }
 
 # z - directory jump utility
