@@ -1,4 +1,4 @@
-# ~/.profile is not read by bash, if ~/.bash_profile or ~/.bash_login exists.
+# ~/.profile is not read by bash if ~/.bash_profile or ~/.bash_login exists.
 # So we read ~/.profile explicitly.
 [[ -e ~/.profile ]] && source ~/.profile
 # In OSX interactive shells are ran as login shells by default.
