@@ -25,6 +25,9 @@
 	root = rev-parse --show-toplevel
 	glance = show --name-status --oneline
 	name-status = show --name-status --format=""
+	# Get the current branch name
+	# `git branch --show-current` shows nothing if HEAD detatched
+	b = !"git branch | grep '^\\*' | cut -c 3-"
 [push]
 	default = simple
 [fetch]
