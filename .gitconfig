@@ -42,6 +42,8 @@
 	rmdir = true
 [rebase]
 	autosquash = true
+[submodule]
+	recurse = true
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
