@@ -270,6 +270,7 @@
   :hook (haskell-mode . dante-mode))
 
 (use-package rainbow-delimiters
+  :ensure t
   :hook ((emacs-lisp-mode . rainbow-delimiters-mode)
          (scheme-mode . rainbow-delimiters-mode)
          (clojure-mode . rainbow-delimiters-mode)
@@ -287,6 +288,7 @@
   (face-spec-set 'rainbow-delimiters-depth-8-face '((t (:foreground "sienna1")))))
 
 (use-package paredit
+  :ensure t
   :hook ((emacs-lisp-mode . paredit-mode)
          (scheme-mode . paredit-mode)
          (clojure-mode . paredit-mode))
@@ -297,6 +299,7 @@
               ("C-M-r" . paredit-raise-sexp)))
 
 (use-package adjust-parens
+  :ensure t
   :hook ((emacs-lisp-mode . adjust-parens-mode)
          (scheme-mode . adjust-parens-mode)
          (clojure-mode . adjust-parens-mode)))
@@ -321,6 +324,7 @@
          ("M-g SPC" . goto-last-change-with-auto-marks)))
 
 (use-package undo-fu
+  :ensure t
   :init
   (setq undo-fu-ignore-keyboard-quit t)
   (defalias 'redo 'undo-fu-only-redo)
@@ -362,6 +366,7 @@
   (taemin-flycheck-select-after-list-errors t))
 
 (use-package glsl-mode
+  :ensure t
   :config
   (add-hook 'glsl-mode-hook (lambda () (c-set-style "stroustrup"))))
 
