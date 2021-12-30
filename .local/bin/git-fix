@@ -1,0 +1,44 @@
+#!/bin/bash
+
+USAGE="[-a|--all] [-p|--patch] [-n|--no-verify] [--] <commit>"
+OPTIONS_SPEC=
+
+. "$(git --exec-path)/git-sh-setup"
+
+opt=()
+
+while [ $# != 0 ] && [ -z "$commit" ]
+do
+    case "$1" in
+    -a | --all | -p | --patch | -n | --no-verify)
+        opt+=("$1")
+        shift
+        ;;
+    -q | --quiet)
+        GIT_QUIET=1
+        shift
+        ;;
+    --)
+        commit="${2-HEAD}"
+        shift
+        break
+        ;;
+    -[apnq]?*)
+        set -- "${1::2}" "-${1:2}" "${@:2}"
+        ;;
+    -*)
+        usage
+        ;;
+    *)
+        commit="$1"
+        shift
+        break
+    esac
+done
+
+if [ "${commit-HEAD}" == "HEAD" ]
+then
+    git commit "${opt[@]}" ${GIT_QUIET:+-q} --amend -CHEAD
+else
+    git commit "${opt[@]}" ${GIT_QUIET:+-q} --fixup "$commit" && git rebase ${GIT_QUIET:+-q} -i "$commit~"
+fi

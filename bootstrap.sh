@@ -54,6 +54,9 @@ cp -a .emacs.d/local/taemin*.el ~/.emacs.d/local
 cp -a .emacs.d/local/untitled-note.el ~/.emacs.d/local
 cp -a .emacs.d/local/blank.el ~/.emacs.d/local
 
+mkdir -p ~/.local/bin
+cp -a .local/bin/git-fix ~/.local/bin
+
 mkdir -p ~/.ssh
 cp -a .ssh/config ~/.ssh
 
