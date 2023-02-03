@@ -81,7 +81,7 @@ fi
 
 if command -v tmux >/dev/null 2>&1
 then
-    ./gen-tmux-conf .tmux.conf.in >~/.tmux.conf
+    cp -a .tmux.conf ~
     # Install TPM
     if command -v git >/dev/null 2>&1 && test ! -d ~/.tmux/plugins/tpm
     then
