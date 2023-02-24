@@ -64,18 +64,11 @@ then
         ~/.vim/bundle/Vundle.vim
 fi
 
-__download_unzip () {
-    curl -sSL -o"$3" "$1" && unzip -qd"$2" "$3"
-}
-
-download_unzip () {
-    __download_unzip "$1" "$2" "$2/$(basename "$1")"
-}
-
 # z - directory jump utility
 if test ! -e ~/z.sh
 then
-    download_unzip https://github.com/rupa/z/archive/v1.11.zip "$downloads" && \
+    curl -sSL -o "$downloads/z-1.11.tar.gz" "https://github.com/rupa/z/archive/refs/tags/v1.11.tar.gz" &&
+        tar xzf "$downloads/z-1.11.tar.gz" -C "$downloads" &&
         cp "$downloads/z-1.11/z.sh" ~
 fi
 
