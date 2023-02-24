@@ -12,3 +12,14 @@ sed "s/IS_TERMINAL/[{ \
 # Make rebase safer on MacOS
 # For more details see https://www.git-tower.com/blog/make-git-rebase-safe-on-osx/
 git config --global core.trustctime false
+
+echo '
+
+# MacPorts bash-completion
+# See https://trac.macports.org/wiki/howto/bash-completion
+# To enable git completion, you need to install the MacPorts Git with +bash_completion option
+# See https://github.com/bobthecow/git-flow-completion/wiki/Install-Bash-git-completion#macports
+if [ -f /opt/local/etc/profile.d/bash_completion.sh ]; then
+    . /opt/local/etc/profile.d/bash_completion.sh
+fi
+' >>~/.bashrc
