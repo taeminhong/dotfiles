@@ -1,7 +1,6 @@
 # This is Git's per-user configuration file.
 [core]
 	excludesfile = ~/.gitignore_global
-	editor = jmacs
 	pager = less -i
 [user]
 	name = Taemin Hong

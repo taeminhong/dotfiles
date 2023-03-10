@@ -1,10 +1,16 @@
 #!/usr/bin/env bash
 
-git config --global core.editor "subl -w"
-git config --global diff.tool tortoisediff
-git config --global difftool.prompt false
-git config --global merge.tool tortoisemerge
-git config --global mergetool.prompt false
-git config --global mergetool.keepBackup false
-git config --global difftool.tortoisediff.cmd "TortoiseMerge -mine \$REMOTE -base \$LOCAL"
-git config --global mergetool.tortoisemerge.cmd "TortoiseMerge -base \$BASE -theirs \$REMOTE -mine \$LOCAL -merged \$MERGED"
+if command -v subl >/dev/null 2>&1
+then
+    git config --global core.editor "subl -w"
+fi
+if command -v tortoisemerge >/dev/null 2>&1
+then
+    git config --global diff.tool tortoisediff
+    git config --global difftool.prompt false
+    git config --global difftool.tortoisediff.cmd "TortoiseMerge -mine \$REMOTE -base \$LOCAL"
+    git config --global merge.tool tortoisemerge
+    git config --global mergetool.prompt false
+    git config --global mergetool.keepBackup false
+    git config --global mergetool.tortoisemerge.cmd "TortoiseMerge -base \$BASE -theirs \$REMOTE -mine \$LOCAL -merged \$MERGED"
+fi

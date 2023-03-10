@@ -28,3 +28,8 @@ if ! grep -qE 'auth\s+sufficient\s+pam_tid\.so' /etc/pam.d/sudo
 then
     echo "Add 'auth sufficient pam_tid.so' into /etc/pam.d/sudo to enable TouchID for sudo" >&2
 fi
+
+if command -v jmacs >/dev/null 2>&1
+then
+    git config --global core.editor jmacs
+fi
