@@ -23,3 +23,8 @@ if [ -f /opt/local/etc/profile.d/bash_completion.sh ]; then
     . /opt/local/etc/profile.d/bash_completion.sh
 fi
 ' >>~/.bashrc
+
+if ! grep -qE 'auth\s+sufficient\s+pam_tid\.so' /etc/pam.d/sudo
+then
+    echo "Add 'auth sufficient pam_tid.so' into /etc/pam.d/sudo to enable TouchID for sudo" >&2
+fi
