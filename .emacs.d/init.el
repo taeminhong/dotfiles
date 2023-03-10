@@ -371,6 +371,7 @@
   (taemin-flycheck-select-after-list-errors t))
 
 (use-package glsl-mode
+  :mode "\\.\\(glsl\\|vert\\|frag\\)\\'"
   :config
   (add-hook 'glsl-mode-hook (lambda () (c-set-style "stroustrup"))))
 
