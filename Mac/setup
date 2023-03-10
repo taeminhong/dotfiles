@@ -1,5 +1,7 @@
 #!/bin/sh
 
+root_dir="$(dirname "$0")"
+
 ruledir="$HOME/.config/karabiner/assets/complex_modifications"
 mkdir -p "$ruledir"
 sed "s/IS_TERMINAL/[{ \
@@ -7,7 +9,7 @@ sed "s/IS_TERMINAL/[{ \
 \"bundle_identifiers\": \
 [\"^com\\\\\\\\.googlecode\\\\\\\\.iterm2\$\", \
 \"^com\\\\\\\\.apple\\\\\\\\.Terminal\$\"]}]/" \
-    "$(dirname "$0")/taemin.json.in" >"$ruledir/taemin.json"
+    "$root_dir/taemin.json.in" >"$ruledir/taemin.json"
 
 # Make rebase safer on MacOS
 # For more details see https://www.git-tower.com/blog/make-git-rebase-safe-on-osx/
@@ -32,4 +34,15 @@ fi
 if command -v jmacs >/dev/null 2>&1
 then
     git config --global core.editor jmacs
+fi
+
+if command -v fzf >/dev/null 2>&1
+then
+    pkgmgr="$(fzf --version | perl -ne 'print lc $1 if /\(([a-zA-Z]*)\)$/')"
+    case "$pkgmgr" in
+        brew|macports)
+            cp -a "$root_dir/fzf-$pkgmgr.bash" ~/.fzf.bash
+            cp -a "$root_dir/fzf-$pkgmgr.zsh" ~/.fzf.zsh
+            ;;
+    esac
 fi
