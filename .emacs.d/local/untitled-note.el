@@ -10,11 +10,11 @@
 
 (define-minor-mode untitled-note-mode
   "Untitled note mode."
-  nil
-  " Untitled"
-  '()
-  (when untitled-note-mode
-    (cd (getenv "PWD"))))
+  :init-value nil
+  :lighter " Untitled"
+  :keymap '()
+  :after-hook (when untitled-note-mode
+                (cd (getenv "PWD"))))
 
 (defun untitled-note--cleanup ()
   (when (and untitled-note-mode buffer-file-name)

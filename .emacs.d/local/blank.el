@@ -146,9 +146,9 @@ This will ignore complete blanks if IGNORE-COMPLETE-BLANK is not nil."
 
 (define-minor-mode blank-mode
   "Fill in the blank mode"
-  nil
-  " Blank"
-  blank-mode-map)
+  :init-value nil
+  :lighter " Blank"
+  :keymap blank-mode-map)
 
 (provide 'blank)
 ;;; blank.el ends here
