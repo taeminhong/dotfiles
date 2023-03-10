@@ -209,6 +209,10 @@
   :config
   (which-key-mode))
 
+(use-package sgml-mode
+  :bind (:map html-mode-map
+              ("M-o")))
+
 (use-package js2-mode
   :init
   (setq js2-missing-semi-one-line-override t)
