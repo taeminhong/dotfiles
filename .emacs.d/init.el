@@ -211,7 +211,9 @@
 
 (use-package sgml-mode
   :bind (:map html-mode-map
-              ("M-o")))
+              ("M-o"))
+  :config
+  (setq sgml-quick-keys 'close))
 
 (use-package js2-mode
   :init
