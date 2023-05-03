@@ -22,6 +22,21 @@ addpath () {
 # MacPort
 addpath PATH /opt/local/bin
 addpath PATH /opt/local/sbin
+# Homebrew
+if test -x /opt/homebrew/bin/brew
+then
+    HOMEBREW_PREFIX="/opt/homebrew/"
+    HOMEBREW_CELLAR="/opt/homebrew/Cellar"
+    HOMEBREW_REPOSITORY="/opt/homebrew"
+    addpath PATH /opt/homebrew/sbin
+    addpath PATH /opt/homebrew/bin
+elif test -x /usr/local/bin/brew
+then
+    HOMEBREW_PREFIX="/usr/local"
+    HOMEBREW_CELLAR="/usr/local/Cellar"
+    HOMEBREW_REPOSITORY="/usr/local/Homebrew"
+    addpath PATH /usr/local/sbin
+fi
 # Cargo, a package manager for Rust
 addpath PATH "$HOME/.cargo/bin"
 # Yarn, a package manager for JS
@@ -36,11 +51,18 @@ addpath C_INCLUDE_PATH     /opt/local/include
 addpath CPLUS_INCLUDE_PATH /opt/local/include
 addpath LIBRARY_PATH       /opt/local/lib
 
-unset addpath
+unset -f addpath
 
 export LANG=en_US.UTF-8
 export LC_ALL="$LANG"
 export INITIAL_PATH
-export INITIAL_C_INCLUDE_PATH C_INCLUDE_PATH
-export INITIAL_CPLUS_INCLUDE_PATH CPLUS_INCLUDE_PATH
-export INITIAL_LIBRARY_PATH LIBRARY_PATH
+export INITIAL_C_INCLUDE_PATH
+export INITIAL_CPLUS_INCLUDE_PATH
+export INITIAL_LIBRARY_PATH
+
+test -n "$C_INCLUDE_PATH" && export C_INCLUDE_PATH || unset C_INCLUDE_PATH
+test -n "$CPLUS_INCLUDE_PATH" && export CPLUS_INCLUDE_PATH || unset CPLUS_INCLUDE_PATH
+test -n "$LIBRARY_PATH" && export LIBRARY_PATH || unset LIBRARY_PATH
+test -n "$HOMEBREW_PREFIX" && export HOMEBREW_PREFIX
+test -n "$HOMEBREW_CELLAR" && export HOMEBREW_CELLAR
+test -n "$HOMEBREW_REPOSITORY" && export HOMEBREW_REPOSITORY
