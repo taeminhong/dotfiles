@@ -3,21 +3,30 @@
 # Git coding guidelines will help you write portable shell scripts
 # https://github.com/git/git/blob/master/Documentation/CodingGuidelines
 
-: ${INITIAL_PATH=$PATH}
-: ${INITIAL_C_INCLUDE_PATH=$C_INCLUDE_PATH}
-: ${INITIAL_CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH}
-: ${INITIAL_LIBRARY_PATH=$LIBRARY_PATH}
-
-PATH="$INITIAL_PATH"
-C_INCLUDE_PATH="$INITIAL_C_INCLUDE_PATH"
-CPLUS_INCLUDE_PATH="$INITIAL_CPLUS_INCLUDE_PATH"
-LIBRARY_PATH="$INITIAL_LIBRARY_PATH"
+# Reset the variable to the initial state
+# usage: resetvar VAR
+resetvar () {
+    eval ": \"\${INITIAL_$1=\$$1}\"
+          $1=\"\$INITIAL_$1\"
+          export INITIAL_$1"
+}
 
 # Prepend the given path to the variable.
 # usage: addpath VAR PATH
 addpath () {
-    eval "test -d \"$2\" && $1=\"$2\${$1:+:\$$1}\""
+    test -d "$2" && eval "$1=\"$2\${$1:+:\$$1}\""
 }
+
+# Export variable if it is defined and non-zero
+# usage: exportnz VAR
+exportnz () {
+    eval "test -n \"\$$1\" && export $1"
+}
+
+resetvar PATH
+resetvar C_INCLUDE_PATH
+resetvar CPLUS_INCLUDE_PATH
+resetvar LIBRARY_PATH
 
 # MacPort
 addpath PATH /opt/local/bin
@@ -51,18 +60,14 @@ addpath C_INCLUDE_PATH     /opt/local/include
 addpath CPLUS_INCLUDE_PATH /opt/local/include
 addpath LIBRARY_PATH       /opt/local/lib
 
-unset -f addpath
-
 export LANG=en_US.UTF-8
 export LC_ALL="$LANG"
-export INITIAL_PATH
-export INITIAL_C_INCLUDE_PATH
-export INITIAL_CPLUS_INCLUDE_PATH
-export INITIAL_LIBRARY_PATH
 
-test -n "$C_INCLUDE_PATH" && export C_INCLUDE_PATH || unset C_INCLUDE_PATH
-test -n "$CPLUS_INCLUDE_PATH" && export CPLUS_INCLUDE_PATH || unset CPLUS_INCLUDE_PATH
-test -n "$LIBRARY_PATH" && export LIBRARY_PATH || unset LIBRARY_PATH
-test -n "$HOMEBREW_PREFIX" && export HOMEBREW_PREFIX
-test -n "$HOMEBREW_CELLAR" && export HOMEBREW_CELLAR
-test -n "$HOMEBREW_REPOSITORY" && export HOMEBREW_REPOSITORY
+exportnz C_INCLUDE_PATH || unset C_INCLUDE_PATH
+exportnz CPLUS_INCLUDE_PATH || unset CPLUS_INCLUDE_PATH
+exportnz LIBRARY_PATH || unset LIBRARY_PATH
+exportnz HOMEBREW_PREFIX
+exportnz HOMEBREW_CELLAR
+exportnz HOMEBREW_REPOSITORY
+
+unset -f resetvar addpath exportnz
