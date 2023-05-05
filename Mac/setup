@@ -45,4 +45,6 @@ then
             cp -a "$root_dir/fzf-$pkgmgr.zsh" ~/.fzf.zsh
             ;;
     esac
+else
+    rm -rf ~/.fzf.bash ~/.fzf.zsh
 fi
