@@ -269,7 +269,7 @@
 				for support of flowed text.
 
 
-	-french			One space after '.', '?' and '!' for wordwrap
+-french 1			One space after '.', '?' and '!' for wordwrap
 				and paragraph reformat instead of two.  Joe
 				does not change the spacing you give, but
 				sometimes it must put spacing in itself.  This
