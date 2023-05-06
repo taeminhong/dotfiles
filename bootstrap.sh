@@ -39,6 +39,7 @@ cp -a \
    .zprofile \
    .zshrc \
    .vimrc \
+   .jmacsrc \
    .gitconfig \
    .gitignore_global \
    .fzf-keybinding-patch.bash \
