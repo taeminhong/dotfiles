@@ -2,34 +2,41 @@
 
 ;;; Code:
 
-(require 'cl-lib)
+(require 'dash)
 (require 'untitled-note)
 
-(defun blank--backward-non-one-letter-word ()
-  "Move backward until encountering the beginning of non-one-letter word."
-  (let ((ok (backward-word 1)))
-    (while (and ok
-                (not (looking-at-p "\\w\\w")))
+(defun blank--backward-word (n pred)
+  "Move backward until encountering the beginning of a word for which
+PRED returns non-nil."
+  (let ((ok (backward-word n)))
+    (while (and ok (not (funcall pred (point))))
       (setq ok (backward-word 1)))
     ok))
 
-(defun blank--placeholder (s)
-  (let ((head (substring s 0 1))
-        (tail (substring s 1)))
-    (concat head
-            (apply 'string
-                   (mapcar (lambda (c) (if (= c ?') c ?_))
-                           tail)))))
+(defun blank--placeholder-for-word (s)
+  (apply 'string
+         (mapcar (lambda (c) (if (= c ?') c ?_))
+                 s)))
 
-(defun blank-hide-word ()
-  "Hide a word.
-ie) hello -> h____"
-  (let* ((start (point))
-         (end (save-excursion (forward-word 1) (point)))
-         (placeholder (blank--placeholder (buffer-substring start end))))
-    (kill-word 1)
-    (insert placeholder)
-    (goto-char start)))
+(defun blank--make-blank (start end)
+  (if (<= end start)
+      (error "Empty blank not allowed")
+    `(,start ,end ,(buffer-substring-no-properties start end))))
+
+(defun blank--start (blank)
+  (car blank))
+
+(defun blank--end (blank)
+  (cadr blank))
+
+(defun blank--string (blank)
+  (caddr blank))
+
+(defun blank--buffer-string (blank)
+  (buffer-substring-no-properties (blank--start blank) (blank--end blank)))
+
+(defun blank--placeholder (blank)
+  (blank--placeholder-for-word (blank--string blank)))
 
 (defun blank--random-range (beg end)
   "Return a pseudo-random number in interval [BEG, END).
@@ -47,15 +54,16 @@ BEG and END should be positive."
   (save-excursion
     (setq-local blank-blanks nil)
     (goto-char (point-max))
-    (while (and (backward-word (blank--random-range 2 5))
-                (blank--backward-non-one-letter-word))
-      (let ((start (point)))
+    (while (blank--backward-word (blank--random-range 3 6)
+                                 (lambda (_) (looking-at-p "\\w\\w")))
+      (let ((word-start (point)))
         (forward-word 1)
-        (let ((word (buffer-substring start (point))))
-          (kill-region start (point))
-          (insert (blank--placeholder word))
-          (push (1+ start) blank-blanks)
-          (goto-char start))))))
+        (let ((blank (blank--make-blank (1+ word-start) (point))))
+          (goto-char (blank--start blank))
+          (kill-region (blank--start blank) (blank--end blank))
+          (insert (blank--placeholder blank))
+          (push blank blank-blanks)
+          (goto-char word-start))))))
 
 (defun blank-check-worksheet ()
   "Check the answer user wrote."
@@ -84,36 +92,30 @@ If there is no blanks before point, move point to the last blank."
   (interactive)
   (blank--next-blank t t))
 
-(defun blank-nth (n list)
-  "Return the Nth element of List.
-N counts from zero and can be a negative number.
--1 means the last, -2 means the next to the last."
-  (let ((l (length list)))
-    (if (= l 0)
-        nil
-      (nth (% (+ (% n l) l) l) list))))
-
-(defun blank--incomplete-blank-p (pos)
-  "Return t if POS points to an incomplete blank."
-  (save-excursion
-    (goto-char pos)
-    (looking-at-p "[^[:space:]_]*_")))
+(defun blank--incomplete-blank-p (blank)
+  "Return t if BLANK is incomplete."
+  (string-match-p "_" (blank--buffer-string blank)))
 
 (defun blank--next-blank (&optional backward ignore-complete-blank)
   "Move point to the next blank.
 If there is no blanks after point, move point to the first blank.
 if BACKWARD is not nil, operation will be performed in the inverse direction.
 This will ignore complete blanks if IGNORE-COMPLETE-BLANK is not nil."
-  (let ((blanks (if ignore-complete-blank
-                    (seq-filter 'blank--incomplete-blank-p blank-blanks)
-                  blank-blanks))
-        (cmp (if backward '< '>))
-        (idx (if backward -1 0)))
-    (if blanks
-        (progn
-          (goto-char (or (blank-nth idx (seq-filter (lambda (x) (funcall cmp x (point)))
-                                                    blanks))
-                         (blank-nth idx blanks))))
+  (let* ((blanks (if backward
+                     (reverse blank-blanks)
+                   blank-blanks))
+         (good-p (if backward
+                     (lambda (blank) (< (blank--start blank) (point)))
+                   (lambda (blank) (> (blank--start blank) (point)))))
+         (index (or (-find-index good-p blanks)
+                    (length blanks)))
+         (candidates (append (-drop index blanks)
+                             (-take index blanks)))
+         (next-blank (if ignore-complete-blank
+                         (-first #'blank--incomplete-blank-p candidates)
+                       (car candidates))))
+    (if next-blank
+        (goto-char (car next-blank))
       (user-error "No blanks"))))
 
 (defun blank-make-worksheet ()
@@ -134,6 +136,58 @@ This will ignore complete blanks if IGNORE-COMPLETE-BLANK is not nil."
         (blank-hide-random-words)))
     (switch-to-buffer new-buf)))
 
+(defun blank--find-blank-at (pos &optional lower-inclusive upper-inclusive)
+  (-first (lambda (blank)
+            (and (if lower-inclusive
+                     (<= (blank--start blank) pos)
+                   (< (blank--start blank) pos))
+                 (if upper-inclusive
+                     (<= pos (blank--end blank))
+                   (< pos (blank--end blank)))))
+          blank-blanks))
+
+(defun blank-delete-forward-char ()
+  (interactive)
+  (let ((blank (blank--find-blank-at (point) t nil)))
+    (when blank
+      (let ((offset (- (point) (blank--start blank))))
+        (save-excursion
+          (atomic-change-group
+            (delete-char 1)
+            (insert (substring (blank--placeholder blank) offset (+ offset 1)))))))))
+
+(defun blank-delete-backward-char ()
+  (interactive)
+  (let ((blank (blank--find-blank-at (point) nil t)))
+    (if blank
+        (let ((offset (- (point) (blank--start blank) 1)))
+          (atomic-change-group
+            (delete-char -1)
+            (insert (substring (blank--placeholder blank) offset (+ offset 1)))
+            (goto-char (1- (point)))))
+      (backward-char))))
+
+(defun blank-backward-kill-word ()
+  (interactive)
+  (let ((blank (blank--find-blank-at (point) nil t)))
+    (if blank
+        (let ((n (- (point) (blank--start blank))))
+          (atomic-change-group
+            (kill-region (blank--start blank) (point))
+            (insert (substring (blank--placeholder blank) 0 n))
+            (goto-char (blank--start blank))))
+      (backward-word))))
+
+(defun blank-forward-kill-word ()
+  (interactive)
+  (let ((blank (blank--find-blank-at (point) t nil)))
+    (when blank
+      (let ((offset (- (point) (blank--start blank))))
+        (save-excursion
+          (atomic-change-group
+            (kill-region (point) (blank--end blank))
+            (insert (substring (blank--placeholder blank) offset))))))))
+
 (defvar blank-mode-map
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "TAB") 'blank-next-incomplete-blank)
@@ -142,6 +196,10 @@ This will ignore complete blanks if IGNORE-COMPLETE-BLANK is not nil."
     (define-key map (kbd "<") 'blank-previous-blank)
     (define-key map (kbd "C-c C-c") 'blank-check-worksheet)
     (define-key map (kbd "C-c C-r") 'blank-remake-worksheet-in-place)
+    (define-key map (kbd "DEL") 'blank-delete-backward-char)
+    (define-key map (kbd "C-d") 'blank-delete-forward-char)
+    (define-key map (kbd "M-DEL") 'blank-backward-kill-word)
+    (define-key map (kbd "M-d") 'blank-forward-kill-word)
     map))
 
 (define-minor-mode blank-mode
