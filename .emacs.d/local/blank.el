@@ -188,6 +188,16 @@ This will ignore complete blanks if IGNORE-COMPLETE-BLANK is not nil."
             (kill-region (point) (blank--end blank))
             (insert (substring (blank--placeholder blank) offset))))))))
 
+(defun blank-fill-correct-answer ()
+  (interactive)
+  (let ((blank (blank--find-blank-at (point) t t)))
+    (when blank
+      (atomic-change-group
+        (goto-char (blank--start blank))
+        (kill-region (blank--start blank) (blank--end blank))
+        (insert (blank--string blank))
+        (goto-char (blank--end blank))))))
+
 (defvar blank-mode-map
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "TAB") 'blank-next-incomplete-blank)
@@ -200,6 +210,7 @@ This will ignore complete blanks if IGNORE-COMPLETE-BLANK is not nil."
     (define-key map (kbd "C-d") 'blank-delete-forward-char)
     (define-key map (kbd "M-DEL") 'blank-backward-kill-word)
     (define-key map (kbd "M-d") 'blank-forward-kill-word)
+    (define-key map (kbd "RET") 'blank-fill-correct-answer)
     map))
 
 (define-minor-mode blank-mode
