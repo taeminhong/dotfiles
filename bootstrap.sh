@@ -105,3 +105,14 @@ if test -x "$platform/setup"
 then
     "$platform/setup"
 fi
+
+# Put a label to identify where dotfiles came from.
+if command -v git >/dev/null 2>&1
+then
+    label="$(git log -1 --pretty=format:%h)"
+    if ! git diff-index --quiet HEAD
+    then
+        label="$label-dirty"
+    fi
+    echo "$label $PWD" >~/.HEAD
+fi
