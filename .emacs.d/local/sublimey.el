@@ -1,4 +1,9 @@
-(require 'cl-macs)
+(require 'cl-lib)
+
+(cl-defstruct sublimey-word-context
+  whitespace-end
+  non-word-end
+  word-beg)
 
 (defun sublimey--make-range (beg end)
   (cons beg end))
@@ -25,7 +30,7 @@
     (forward-word direction)
     (goto-char (funcall select (point) line-boundary))))
 
-(defun sublimey--do-kill-word (direction line-end limit skip-chars skip-syntax)
+(defun sublimey--lookup-word (direction line-end limit skip-chars skip-syntax)
   (let (whitespace-end
         non-word-end ;; non-word-constituent characters
         word-beg)
@@ -47,20 +52,10 @@
       (cl-assert (funcall compare whitespace-end non-word-end))
       (cl-assert (funcall compare non-word-end word-beg))
       (cl-assert (funcall compare word-beg line-end)))
-    (cond ((= (point) line-end)
-           ;; kill newline character
-           (when (/= line-end limit)
-             (kill-region (point)
-                          (+ (point) direction))))
-          ((or (= line-end whitespace-end)
-               (< 1
-                  (abs (- (point) whitespace-end))))
-           ;; kill whitespaces only
-           (kill-region (point) whitespace-end))
-          ((= whitespace-end word-beg)
-           (kill-word direction))
-          (t
-           (kill-region (point) non-word-end)))))
+    (make-sublimey-word-context
+     :whitespace-end whitespace-end
+     :non-word-end non-word-end
+     :word-beg word-beg)))
 
 (defun sublimey--end-of-defun-spaces (n)
   (cl-assert (> n 0))
@@ -284,11 +279,27 @@
   (interactive "^p")
   (let ((limit          (if (< 0 n) (point-max) (point-min)))
         (direction      (if (< 0 n) 1 -1))
+        (skip-chars     (if (< 0 n) #'skip-chars-forward #'skip-chars-backward))
+        (skip-syntax    (if (< 0 n) #'skip-syntax-forward #'skip-syntax-backward))
         (select         (if (< 0 n) #'min #'max)))
     (dotimes (i (abs n))
-      (let ((line-boundary  (if (< 0 n) (line-end-position) (line-beginning-position))))
+      (let ((line-end  (if (< 0 n) (line-end-position) (line-beginning-position))))
         (unless (= (point) limit)
-          (sublimey--do-forward-word direction line-boundary limit select))))))
+          (let* ((context (sublimey--lookup-word direction line-end limit skip-chars skip-syntax))
+                 (whitespace-end (sublimey-word-context-whitespace-end context))
+                 (non-word-end (sublimey-word-context-non-word-end context))
+                 (word-beg (sublimey-word-context-word-beg context)))
+            (cond ((= (point) line-end)
+                   (when (/= line-end limit)
+                     (goto-char (+ (point) direction))))
+                  ((= line-end whitespace-end)
+                   (goto-char whitespace-end))
+                  ((or (= whitespace-end word-beg)
+                       (and (= non-word-end word-beg)
+                            (/= word-beg line-end)))
+                   (forward-word direction))
+                  (t
+                   (goto-char non-word-end)))))))))
 
 ;;;###autoload
 (defun sublimey-backward-word (&optional n)
@@ -302,12 +313,30 @@
         (skip-chars     (if (< 0 n) #'skip-chars-forward #'skip-chars-backward))
         (skip-syntax    (if (< 0 n) #'skip-syntax-forward #'skip-syntax-backward)))
     (dotimes (i (abs n))
-      ;; We hava to recalculate line-end and limit everytime because they change
-      ;; whenever call sublimey--do-kill-word.
+      ;; We hava to recalculate line-end and limit everytime because we modify
+      ;; the buffer by killing a region.
       (let ((line-end (if (< 0 n) (line-end-position) (line-beginning-position)))
             (limit    (if (< 0 n) (point-max) (point-min))))
         (unless (= (point) limit)
-          (sublimey--do-kill-word direction line-end limit skip-chars skip-syntax))))))
+          (let* ((context (sublimey--lookup-word direction line-end limit skip-chars skip-syntax))
+                 (whitespace-end (sublimey-word-context-whitespace-end context))
+                 (non-word-end (sublimey-word-context-non-word-end context))
+                 (word-beg (sublimey-word-context-word-beg context)))
+            (cond ((= (point) line-end)
+                   ;; kill newline character
+                   (when (/= line-end limit)
+                     (kill-region (point) (+ (point) direction))))
+                  ((or (= line-end whitespace-end)
+                       (< 1
+                          (abs (- whitespace-end (point)))))
+                   ;; kill whitespaces only
+                   (kill-region (point) whitespace-end))
+                  ((= whitespace-end word-beg)
+                   (kill-region (point) (save-excursion
+                                          (forward-word direction)
+                                          (point))))
+                  (t
+                   (kill-region (point) non-word-end)))))))))
 
 ;;;###autoload
 (defun sublimey-backward-kill-word (n)
