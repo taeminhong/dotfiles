@@ -81,8 +81,6 @@
 (global-set-key (kbd "M-a") 'backward-paragraph)
 (global-set-key (kbd "M-e") 'forward-paragraph)
 (global-set-key (kbd "C-x DEL") 'kill-whole-line)
-(global-set-key (kbd "C-x M-d") 'kill-paragraph)
-(global-set-key (kbd "C-x M-DEL") 'backward-kill-paragraph)
 (global-set-key (kbd "M-{") 'backward-sentence)
 (global-set-key (kbd "M-}") 'forward-sentence)
 (global-set-key (kbd "M-u") 'upcase-dwim)
@@ -151,7 +149,11 @@
          ("M-#" .     sublimey-mark-line)
          ("C-x C-o" . sublimey-delete-blank-lines)
          ("M-k" .     sublimey-backward-kill-line)
+         ("M-e" .     sublimey-forward-paragraph)
+         ("M-a" .     sublimey-backward-paragraph)
          ("M-h" .     sublimey-mark-paragraph)
+         ("C-x M-d" . sublimey-kill-paragraph)
+         ("C-x M-DEL" . sublimey-backward-kill-paragraph)
          :map text-mode-map
          ("C-a" .     sublimey-back-to-indentation-or-beginning-of-line)
          :map prog-mode-map

@@ -139,6 +139,9 @@
         (t
          (sublimey--do-mark-defun arg))))
 
+(defun sublimey--empty-line-p ()
+  (= (line-beginning-position) (line-end-position)))
+
 (defun sublimey--beginning-of-line-p (pos)
   (save-excursion
     (goto-char pos)
@@ -199,6 +202,11 @@
          n
        (sublimey--damp-to-zero n)))))
 
+(defun sublimey--signum (x)
+  (cond ((< x 0) -1)
+        ((> x 0) 1)
+        ((t 0))))
+
 (defun sublimey--same-sign-p (a b &optional exclude-zero)
   (if exclude-zero
       (> (* a b) 0)
@@ -244,15 +252,20 @@
 
 (defun sublimey--do-mark-paragraph (arg &optional extend)
   (cl-assert (/= arg 0))
-  (cond ((not extend)
-         (mark-paragraph arg)
-         (exchange-point-and-mark))
-        (mark-active
-         (exchange-point-and-mark)
-         (mark-paragraph arg t)
-         (exchange-point-and-mark))
+  (cond (mark-active
+         (if (sublimey--same-sign-p (- (point) (mark)) arg t)
+             (sublimey-forward-paragraph arg)
+           (let ((old-point (point)))
+             (sublimey-forward-paragraph arg)
+             (when (sublimey--same-sign-p (- old-point (mark))
+                                          (- (point) (mark))
+                                          t)
+               (sublimey-forward-paragraph (sublimey--signum arg))
+               (sublimey-forward-paragraph (- (sublimey--signum arg)))))))
         (t
-         (mark-paragraph arg)
+         (sublimey-forward-paragraph arg)
+         (push-mark (point))
+         (sublimey-backward-paragraph arg)
          (exchange-point-and-mark))))
 
 (defun sublimey--next-defun-iter (start-point n)
@@ -472,6 +485,55 @@ The paragraph marked is the one that contains point or follows point."
          (sublimey--mark-paragraph-context-aware arg))
         (t
          (sublimey--do-mark-paragraph arg))))
+
+;;;###autoload
+(defun sublimey-backward-paragraph (&optional arg)
+  (interactive "P")
+  (setq arg (prefix-numeric-value arg))
+  (cond ((and (> arg 0) (> (point) (point-min)))
+         ;; backward-paragraph says that if the first real line of a paragraph
+         ;; is preceded by a blank line, the paragraph starts at that blank
+         ;; line. But, we don't want to treat the blank line as the beginning of
+         ;; paragraph. Let's exclude it.
+         (let ((old-point (point)))
+           (when (and (not (sublimey--empty-line-p))
+                      (= (point) (line-beginning-position))
+                      (save-excursion
+                        (goto-char (1- (point)))
+                        (sublimey--empty-line-p)))
+             (goto-char (1- (point))))
+           (backward-paragraph arg)
+           (when (and (< (point) (point-max))
+                      (sublimey--empty-line-p)
+                      (or (> (point) (point-min))
+                          (> old-point
+                             (save-excursion
+                               (skip-chars-forward "[:space:]\n")
+                               (skip-chars-backward "[:space:]")
+                               (point)))))
+             (goto-char (1+ (point))))))
+        ((< arg 0)
+         (backward-paragraph arg))))
+
+;;;###autoload
+(defun sublimey-forward-paragraph (&optional arg)
+  (interactive "P")
+  (setq arg (prefix-numeric-value arg))
+  (if (> arg 0)
+      (forward-paragraph arg)
+    (sublimey-backward-paragraph (- arg))))
+
+;;;###autoload
+(defun sublimey-backward-kill-paragraph (arg)
+  (interactive "*p")
+  (kill-region (point) (progn (sublimey-backward-paragraph arg) (point))))
+
+;;;###autoload
+(defun sublimey-kill-paragraph (arg)
+  (interactive "*p")
+  (if (> arg 0)
+      (kill-paragraph arg)
+    (sublimey-backward-kill-paragraph (- arg))))
 
 ;;;###autoload
 (defun sublimey-delete-blank-lines (&optional delete-all)
