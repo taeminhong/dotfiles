@@ -5,6 +5,9 @@
   non-word-end
   word-beg)
 
+;;;###autoload
+(defvar sublimey-word-leap-empty-lines nil)
+
 (defun sublimey--make-range (beg end)
   (cons beg end))
 
@@ -274,6 +277,47 @@
   (let ((text (delete-and-extract-region beg end)))
     (insert (format fmt (substring text sub-from sub-to)))))
 
+(defun sublimey--kill-empty-lines (direction skip-chars)
+  "On empty line, kill all following empty lines, leaving just one.
+On isolated empty line, kill that one.
+On the end of line followed by a non-empty line, kill newline.
+If DIRECTION is -1, kill preceeding empty lines."
+  (let* ((old-point (point))
+         (from old-point)
+         (was-empty (sublimey--empty-line-p))
+         (distance (funcall skip-chars "\n"))
+         (to (point)))
+    (cond ((= distance 0))
+          ((= (abs distance) 1)
+           (kill-region from to))
+          (t
+           ;; goto the last empty line.
+           (when (not (sublimey--empty-line-p))
+             (setq to (- to direction)))
+           (unless was-empty
+             (setq from (+ from direction)))
+           (goto-char old-point)
+           (if (= from to)
+               (kill-region (point) (+ (point) direction))
+             (kill-region from to))))))
+
+;;;###autoload
+(defun sublimey-kill-forward-empty-lines ()
+  "On empty line, kill all following empty lines, leaving just one.
+On isolated empty line, kill that one.
+On the end of line followed by a non-empty line, kill newline."
+  (interactive)
+  (sublimey--kill-empty-lines 1 #'skip-chars-forward))
+
+;;;###autoload
+(defun sublimey-kill-backward-empty-lines ()
+  "On empty line, kill all preceeding empty lines, leaving just one.
+On isolated empty line, kill that one.
+On the beginning of line following a non-empty line, join the line to
+previous."
+  (interactive)
+  (sublimey--kill-empty-lines -1 #'skip-chars-backward))
+
 ;;;###autoload
 (defun sublimey-forward-word (&optional n)
   (interactive "^p")
@@ -290,8 +334,11 @@
                  (non-word-end (sublimey-word-context-non-word-end context))
                  (word-beg (sublimey-word-context-word-beg context)))
             (cond ((= (point) line-end)
-                   (when (/= line-end limit)
-                     (goto-char (+ (point) direction))))
+                   (if (and sublimey-word-leap-empty-lines
+                            (sublimey--empty-line-p))
+                       (funcall skip-chars "\n")
+                     (when (/= line-end limit)
+                       (goto-char (+ (point) direction)))))
                   ((= line-end whitespace-end)
                    (goto-char whitespace-end))
                   ((or (= whitespace-end word-beg)
@@ -324,8 +371,10 @@
                  (word-beg (sublimey-word-context-word-beg context)))
             (cond ((= (point) line-end)
                    ;; kill newline character
-                   (when (/= line-end limit)
-                     (kill-region (point) (+ (point) direction))))
+                   (if sublimey-word-leap-empty-lines
+                       (sublimey--kill-empty-lines direction skip-chars)
+                     (when (/= line-end limit)
+                       (kill-region (point) (+ (point) direction)))))
                   ((or (= line-end whitespace-end)
                        (< 1
                           (abs (- whitespace-end (point)))))

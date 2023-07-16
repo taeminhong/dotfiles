@@ -141,6 +141,8 @@
   (require 'use-package))
 
 (use-package sublimey
+  :init
+  (setq sublimey-word-leap-empty-lines t)
   :bind (("M-f" .     sublimey-forward-word)
          ("M-b" .     sublimey-backward-word)
          ("M-d" .     sublimey-kill-word)
