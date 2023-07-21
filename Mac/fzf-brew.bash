@@ -1,7 +1,7 @@
 # Auto-completion
 # ---------------
-source "/usr/local/opt/fzf/shell/completion.bash" 2> /dev/null
+source "$HOMEBREW_PREFIX/opt/fzf/shell/completion.bash" 2> /dev/null
 
 # Key bindings
 # ------------
-source "/usr/local/opt/fzf/shell/key-bindings.bash"
+source "$HOMEBREW_PREFIX/opt/fzf/shell/key-bindings.bash"
