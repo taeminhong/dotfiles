@@ -114,7 +114,9 @@
 (taemin-select-window-after-man t)
 (when is-macos
   ;; man command completion is too slow and inaccurate.
-  (fset 'man 'taemin-man-no-completion))
+  (fset 'man 'taemin-man-no-completion)
+  (unless native-comp-driver-options
+    (customize-set-variable 'native-comp-driver-options '("-Wl,-w"))))
 (add-hook 'after-init-hook 'taemin-show-init-time)
 (add-hook 'before-save-hook 'taemin-create-buffer-file-parent-directories)
 (global-set-key (kbd "M-f") 'taemin-forward-word)
