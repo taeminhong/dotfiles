@@ -3,7 +3,11 @@
 if command -v subl >/dev/null 2>&1
 then
     git config --global core.editor "subl -w"
+elif command -v code >/dev/null 2>&1
+then
+    git config --global core.editor "code --wait"
 fi
+
 if command -v tortoisemerge >/dev/null 2>&1
 then
     git config --global diff.tool tortoisediff
