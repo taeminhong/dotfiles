@@ -9,7 +9,9 @@
   "Move backward until encountering the beginning of a word for which
 PRED returns non-nil."
   (let ((ok (backward-word n)))
-    (while (and ok (not (funcall pred (point))))
+    (while (and ok (not (funcall pred
+                                 (point)
+                                 (save-excursion (forward-word 1) (point)))))
       (setq ok (backward-word 1)))
     ok))
 
@@ -55,7 +57,9 @@ BEG and END should be positive."
     (setq-local blank-blanks nil)
     (goto-char (point-max))
     (while (blank--backward-word (blank--random-range 3 6)
-                                 (lambda (_) (looking-at-p "\\w\\w")))
+                                 (lambda (start end)
+                                   (> (- end start)
+                                      1)))
       (let ((word-start (point)))
         (forward-word 1)
         (let ((blank (blank--make-blank (1+ word-start) (point))))
