@@ -60,7 +60,6 @@
 (global-unset-key (kbd "C-x ("))
 (global-unset-key (kbd "C-x )"))
 (global-unset-key (kbd "C-x o"))
-(global-set-key [(f6)] 'shell)
 (global-set-key (kbd "C-o") 'split-line)
 (global-set-key (kbd "C-M-o") 'open-line)
 (global-set-key (kbd "M-g l") 'goto-line)
@@ -120,6 +119,7 @@
     (customize-set-variable 'native-comp-driver-options '("-Wl,-w"))))
 (add-hook 'after-init-hook 'taemin-show-init-time)
 (add-hook 'before-save-hook 'taemin-create-buffer-file-parent-directories)
+(global-set-key (kbd "<f6>") 'taemin-terminal)
 (global-set-key (kbd "<f5>") 'taemin-makefile-compile)
 (global-set-key (kbd "<S-f5>") 'taemin-project-compile)
 

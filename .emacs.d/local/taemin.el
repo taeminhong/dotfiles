@@ -231,4 +231,10 @@ If the given file doesn't exist, it is created with default permissions."
   (set-buffer-modified-p nil)
   (kill-this-buffer))
 
+(defun taemin-terminal ()
+  "The same as `ansi-term', but doesn't ask which shell to use and
+picks \"terminal\" for the buffer name"
+  (interactive)
+  (ansi-term shell-file-name "terminal"))
+
 (provide 'taemin)
