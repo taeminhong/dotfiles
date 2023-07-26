@@ -212,6 +212,13 @@
     ("t" windmove-down)
     ("h" windmove-left)
     ("n" windmove-right)
+    ("RET" nil "quit"))
+  (defhydra hydra-window-resize (global-map "C-x" :foreign-keys warn)
+    "window resize"
+    ("[" shrink-window)
+    ("]" enlarge-window)
+    ("{" shrink-window-horizontally)
+    ("}" enlarge-window-horizontally)
     ("RET" nil "quit")))
 
 (use-package which-key
