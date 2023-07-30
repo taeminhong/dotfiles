@@ -62,6 +62,7 @@ mkdir -p ~/.ssh
 cp -a .ssh/config ~/.ssh
 
 mkdir -p ~/.local/bin
+cp -a .local/bin/git-fix.sh ~/.local/bin/git-fix
 
 # install vim-plug, a minimalist Vim plugin manager
 if test ! -e ~/.vim/autoload/plug.vim
