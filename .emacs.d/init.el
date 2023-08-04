@@ -213,6 +213,11 @@
   (which-key-mode))
 
 (use-package sgml-mode
+  :init
+  (add-hook 'sgml-mode-hook
+            (lambda ()
+              (kill-local-variable 'paragraph-start)
+              (kill-local-variable 'paragraph-separate)))
   :bind (:map html-mode-map
               ("M-o"))
   :config
