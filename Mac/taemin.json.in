@@ -29,7 +29,7 @@
             ]
         },
         {
-            "description": "Change left shift space to option space",
+            "description": "Left shift + space -> Option + space",
             "manipulators": [
                 {
                     "type": "basic",
@@ -51,7 +51,7 @@
             ]
         },
         {
-            "description": "Change left arrow to right control in terminal",
+            "description": "Left arrow -> right control in terminal",
             "manipulators": [
                 {
                     "type": "basic",
