@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+root_dir="$(dirname "$0")"
+
+unix_path () {
+    echo "$1" | sed -e 's#^\(.\):#/\1#' -e 's#\\#/#g'
+}
+
 if command -v subl >/dev/null 2>&1
 then
     git config --global core.editor "subl -w"
@@ -14,3 +20,6 @@ then
     git config --global mergetool.keepBackup false
     git config --global mergetool.tortoisemerge.cmd "TortoiseMerge -base \$BASE -theirs \$REMOTE -mine \$LOCAL -merged \$MERGED"
 fi
+
+startup="$(unix_path "$APPDATA/Microsoft/windows/Start Menu/Programs/Startup")"
+cp "$root_dir/keybindings.ahk" "$startup/"
