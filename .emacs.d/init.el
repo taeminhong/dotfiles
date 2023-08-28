@@ -119,9 +119,9 @@
     (customize-set-variable 'native-comp-driver-options '("-Wl,-w"))))
 (add-hook 'after-init-hook 'taemin-show-init-time)
 (add-hook 'before-save-hook 'taemin-create-buffer-file-parent-directories)
-(global-set-key (kbd "<f6>") 'taemin-terminal)
 (global-set-key (kbd "<f5>") 'taemin-makefile-compile)
 (global-set-key (kbd "<S-f5>") 'taemin-project-compile)
+(global-set-key (kbd "<f6>") 'taemin-terminal-other-window)
 
 (require 'untitled-note)
 (global-set-key (kbd "C-c n") 'untitled-note-new-note)
