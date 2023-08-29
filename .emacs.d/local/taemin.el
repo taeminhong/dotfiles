@@ -11,6 +11,21 @@
   "Return the value of symbol VAR if it is bound, else nil."
   `(and (boundp (quote ,var)) ,var))
 
+(defvar taemin-terminal-kill-on-exit t)
+
+(defvar taemin-terminal-sentinel-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map "q" (lambda () (interactive) (quit-window t)))
+    map))
+
+(defun taemin--terminal-sentinel (proc msg)
+  (let ((buffer (process-buffer proc)))
+    (if (and (eq buffer (current-buffer))
+             taemin-terminal-kill-on-exit)
+        (quit-window t)
+      (with-current-buffer buffer
+        (use-local-map taemin-terminal-sentinel-map)))))
+
 (defvar taemin-makefile-regex-alist
   '(("^make" . "^[Mm]akefile\\'")
     ("^cabal" . "\\.cabal\\'")))
@@ -266,5 +281,7 @@ select that buffer in another window."
     (if terminal-buffers
         (switch-to-buffer-other-window (car terminal-buffers))
       (taemin-terminal t))))
+
+(advice-add 'term-sentinel :after #'taemin--terminal-sentinel)
 
 (provide 'taemin)
