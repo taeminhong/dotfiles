@@ -26,6 +26,7 @@ if [[ $options[zle] = on ]]; then
     zle -N copy-region-as-kill-deactivate-mark
     bindkey "^w" kill-region
     bindkey "^[w" copy-region-as-kill-deactivate-mark
+    bindkey "^u" backward-kill-line
     if [ -f ~/.fzf.zsh ]; then
         . ~/.fzf.zsh
         . ~/.fzf-keybinding-patch.zsh
