@@ -81,8 +81,6 @@
 (global-set-key (kbd "M-a") 'backward-paragraph)
 (global-set-key (kbd "M-e") 'forward-paragraph)
 (global-set-key (kbd "C-x DEL") 'kill-whole-line)
-(global-set-key (kbd "C-x M-d") 'kill-paragraph)
-(global-set-key (kbd "C-x M-DEL") 'backward-kill-paragraph)
 (global-set-key (kbd "M-{") 'backward-sentence)
 (global-set-key (kbd "M-}") 'forward-sentence)
 (global-set-key (kbd "M-u") 'upcase-dwim)
@@ -120,19 +118,8 @@
     (customize-set-variable 'native-comp-driver-options '("-Wl,-w"))))
 (add-hook 'after-init-hook 'taemin-show-init-time)
 (add-hook 'before-save-hook 'taemin-create-buffer-file-parent-directories)
-(global-set-key (kbd "M-f") 'taemin-forward-word)
-(global-set-key (kbd "M-b") 'taemin-backward-word)
-(global-set-key (kbd "M-d") 'taemin-kill-word)
-(global-set-key (kbd "<M-DEL>") 'taemin-backward-kill-word)
-(global-set-key (kbd "C-M-h") 'taemin-mark-defun)
-(global-set-key (kbd "M-#") 'taemin-mark-line)
 (global-set-key (kbd "<f5>") 'taemin-makefile-compile)
 (global-set-key (kbd "<S-f5>") 'taemin-project-compile)
-(global-set-key (kbd "C-x C-o") 'taemin-delete-blank-lines)
-(global-set-key (kbd "M-k") 'taemin-backward-kill-line)
-(global-set-key (kbd "M-h") 'taemin-mark-paragraph)
-(define-key text-mode-map (kbd "C-a") 'taemin-back-to-indentation-or-beginning-of-line)
-(define-key prog-mode-map (kbd "C-a") 'taemin-back-to-indentation-or-beginning-of-line)
 
 (require 'untitled-note)
 (global-set-key (kbd "C-c n") 'untitled-note-new-note)
@@ -155,6 +142,27 @@
   :bind (:map term-raw-map
               ("M-o")
               ("M-x")))
+
+(use-package sublimey
+  :init
+  (setq sublimey-word-leap-empty-lines t)
+  :bind (("M-f" .     sublimey-forward-word)
+         ("M-b" .     sublimey-backward-word)
+         ("M-d" .     sublimey-kill-word)
+         ("<M-DEL>" . sublimey-backward-kill-word)
+         ("C-M-h" .   sublimey-mark-defun)
+         ("M-#" .     sublimey-mark-line)
+         ("C-x C-o" . sublimey-delete-blank-lines)
+         ("M-k" .     sublimey-backward-kill-line)
+         ("M-e" .     sublimey-forward-paragraph)
+         ("M-a" .     sublimey-backward-paragraph)
+         ("M-h" .     sublimey-mark-paragraph)
+         ("C-x M-d" . sublimey-kill-paragraph)
+         ("C-x M-DEL" . sublimey-backward-kill-paragraph)
+         :map text-mode-map
+         ("C-a" .     sublimey-back-to-indentation-or-beginning-of-line)
+         :map prog-mode-map
+         ("C-a" .     sublimey-back-to-indentation-or-beginning-of-line)))
 
 (use-package expand-region
   :bind ("C-c r" . er/expand-region))
