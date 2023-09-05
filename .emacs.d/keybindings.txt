@@ -1,0 +1,155 @@
+Top Level
+     f3-kmacro-start-macro-or-in...    f4-kmacro-end-or-call-macro
+     f5-taemin-makefile-compile      S-f5-taemin-project-compile        f6-shell
+     f7-flycheck-mode                 f10-menu-bar-open
+    C-o-split-line                    M-a-backward-paragraph           M-c-capitalize-dwim
+  C-M-o-open-line                     M-e-forward-paragraph          M-RET-comment-indent-new-line
+    M-o-other-window                  M-{-backward-sentence            M-=-dumb-jump-go
+    C-s-isearch-forward-regexp        M-}-forward-sentence             M-\-dumb-jump-back
+    C-r-isearch-backward-regexp       M-u-upcase-dwim                C-M-f-forward-sexp
+    M-%-query-replace-regexp          M-l-downcase-dwim              C-M-b-backwad-sexp
+  C-M-u-backward-up-list            C-M-d-down-list                  C-M-n-forward-list
+  C-M-p-backward-list
+
+f1 ; help
+  RET-view-order-manuals            e-view-echo-area-messages     w-where-is
+    .-display-local-help            f-describe-function           x-describe-command
+    4-+prefix                       g-describe-gnu-project       f1-help-for-help
+    ?-help-for-help                 h-view-hello-file           C-\-describe-input-method
+    C-describe-coding-system        i-info                      C-a-about-emacs
+    F-Info-goto-emacs-command-no…   k-describe-key              C-c-describe-copying
+    I-describe-input-method         l-view-lossage              C-d-view-emacs-debugging
+    K-Info-goto-emacs-key-comman…   m-describe-mode             C-e-view-external-packages
+    L-describe-language-environm…   n-view-emacs-news           C-f-view-emacs-FAQ
+    P-describe-package              o-describe-symbol           C-h-help-for-help
+    R-info-display-manual           p-finder-by-keyword         C-n-view-emacs-news
+    S-info-lookup-symbol            q-help-quit                 C-o-describe-distribution
+    a-apropos-command               r-info-emacs-manual         C-p-view-emacs-problems
+    b-describe-bindings             s-describe-syntax           C-s-search-forward-help-for-he…
+    c-describe-key-briefly          t-help-with-tutorial        C-t-view-emacs-todo
+    d-apropos-documentation         v-describe-variable         C-w-describe-no-warranty
+
+f2 ; 2 column. https://www.gnu.org/software/emacs/manual/html_node/emacs/Two_002dColumn.html
+  RET-2C-newline       b-2C-associate-buffer    s-2C-split                       }-2C-enlarge-window-horizont…
+    1-2C-merge         d-2C-dissociate          {-2C-shrink-window-horizonta…   f2-2C-two-columns
+    2-2C-two-columns   o-2C-associated-buffer   |-2C-toggle-autoscroll
+
+C-c
+  ^-+prefix
+  f-counsel-fzf        k-counsel-ag                   r-er/expand-region
+  g-counsel-git        n-untitled-note-new-note   C-M-l-paredit-recenter-on-sexp
+  j-counsel-git-grep   p-counsel-file-jump          M-g-magit-file-dispatch
+
+C-c ^ ; diff
+  RET-smerge-keep-current        R-smerge-refine       m-smerge-keep-upper   r-smerge-resolve
+    =-+prefix                    a-smerge-keep-all     n-smerge-next         u-smerge-keep-upper
+    C-smerge-combine-with-next   b-smerge-keep-base    o-smerge-keep-lower
+    E-smerge-ediff               l-smerge-keep-lower   p-smerge-prev
+
+C-x
+    DEL-kill-whole-line                 3-split-window-right                d-dired
+    ESC-repeat-complex-command          4-+ctl-x-4-prefix                   e-+prefix
+    RET-+prefix                         5-+ctl-x-5-prefix                   f-set-fill-column
+    SPC-rectangle-mark-mode             6-+2C-command                       g-magit-status
+    TAB-indent-rigidly                  8-+prefix                           h-mark-whole-buffer
+      #-server-edit                     ;-comment-set-column                i-insert-file
+      $-set-selective-display           <-scroll-left                       k-kill-buffer
+      '-expand-abbrev                   =-what-cursor-position              l-count-lines-page
+      *-calc-dispatch                   >-scroll-right                      m-compose-mail
+      +-balance-windows                 [-backward-page                     n-+prefix!
+      --split-window-below              \-activate-transient-input-m…       o-+prefix
+      .-set-fill-prefix                 ]-forward-page                      p-+prefix
+      /-delete-other-windows            ^-enlarge-window                    q-kbd-macro-query
+      0-delete-window                   `-next-error                        r-+prefix
+      1-delete-other-windows            a-+prefix                           s-save-some-buffers
+      2-split-window-below              b-switch-to-buffer                  t-+prefix
+      v-+vc-prefix-map                C-d-list-directory                  C-x-exchange-point-and-mark
+      w-delete-window                 C-e-eval-last-sexp                  C-z-suspend-frame
+      x-+prefix                       C-f-find-file                       C-←-previous-buffer
+      z-repeat                        C-j-dired-jump                      C-→-next-buffer
+      {-shrink-window-horizontally    C-k-+kmacro-keymap                  M-DEL-sublimey-backward-kill-par…
+      |-split-window-right            C-l-downcase-region                 M-:-repeat-complex-command
+      }-enlarge-window-horizontally   C-n-set-goal-column                 M-d-sublimey-kill-paragraph
+  C-SPC-pop-global-mark               C-o-sublimey-delete-blank-lines     M-g-magit-dispatch
+    C-+-text-scale-adjust             C-p-mark-page                         ←-previous-buffer
+    C---text-scale-adjust             C-q-read-only-mode                    →-next-buffer
+    C-0-text-scale-adjust             C-r-find-file-read-only
+    C-;-comment-line                  C-s-save-buffer
+    C-=-text-scale-adjust             C-t-transpose-lines
+    C-@-pop-global-mark               C-u-upcase-region
+    C-b-ibuffer                       C-v-find-alternate-file
+    C-c-save-buffers-kill-terminal    C-w-write-file
+
+C-x RET ; mule
+  F-set-file-name-coding-system   k-set-keyboard-coding-system      t-set-terminal-coding-system
+  X-set-next-selection-coding-…   l-set-language-environment        x-set-selection-coding-system
+  c-universal-coding-system-ar…   p-set-buffer-process-coding-…   C-\-set-input-method
+  f-set-buffer-file-coding-sys…   r-revert-buffer-with-coding-…
+
+C-x a ; abbrev
+  '-expand-abbrev               e-expand-abbrev       l-add-mode-abbrev               C-a-add-mode-abbrev
+  +-add-mode-abbrev             g-add-global-abbrev   n-expand-jump-to-next-slot
+  --inverse-add-global-abbrev   i-+prefix             p-expand-jump-to-previous-sl…
+
+C-x e ; eval
+  b-eval-buffer   d-eval-defun   e-eval-last-sexp   r-eval-region
+
+C-x C-k ; keyboard macro
+  RET-kmacro-edit-macro          q-kbd-macro-query               C-f-kmacro-set-format
+  SPC-kmacro-step-edit-macro     r-apply-macro-to-region-lines   C-k-kmacro-end-or-call-macro-r…
+  TAB-kmacro-insert-counter      s-kmacro-start-macro            C-l-kmacro-call-ring-2nd-repeat
+    b-kmacro-bind-to-key         x-kmacro-to-register            C-n-kmacro-cycle-ring-next
+    d-kmacro-redisplay         C-a-kmacro-add-counter            C-p-kmacro-cycle-ring-previous
+    e-edit-kbd-macro           C-c-kmacro-set-counter            C-s-kmacro-start-macro
+    l-kmacro-edit-lossage      C-d-kmacro-delete-ring-head       C-t-kmacro-swap-ring
+    n-kmacro-name-last-macro   C-e-kmacro-edit-macro-repeat      C-v-kmacro-view-macro-repeat
+
+C-x n ; narrow
+  d-narrow-to-defun   g-goto-line-relative   n-narrow-to-region   p-narrow-to-page   w-widen
+
+C-x o ; other-window
+  .-xref-find-definitions-othe…   d-dired-other-window       i-display-buffer
+  b-switch-to-buffer-other-win…   f-find-file-other-window   o-other-window
+
+C-x p ; project
+  !-project-shell-command         c-project-compile        m-magit-project-status
+  &-project-async-shell-command   d-project-find-dir       p-project-switch-project
+  D-project-dired                 e-project-eshell         r-project-query-replace-rege…
+  F-project-or-external-find-f…   f-project-find-file      s-project-shell
+  G-project-or-external-find-r…   g-project-find-regexp    v-project-vc-dir
+  b-project-switch-to-buffer      k-project-kill-buffers   x-project-execute-extended-c…
+
+C-x t ; tab
+  RET-tab-switch        O-tab-previous                   p-project-other-tab-command
+    0-tab-close         b-switch-to-buffer-other-tab     r-tab-rename
+    1-tab-close-other   d-dired-other-tab                t-other-tab-prefix
+    2-tab-new           f-find-file-other-tab            u-tab-undo
+    G-tab-group         m-tab-move                     C-f-find-file-other-tab
+    M-tab-move-to       n-tab-duplicate                C-r-find-file-read-only-other-…
+    N-tab-new-to        o-tab-next
+
+C-x r ; region & register
+  SPC-point-to-register           i-insert-register                  t-string-rectangle
+    +-increment-register          j-jump-to-register                 w-window-configuration-to-re…
+    M-bookmark-set-no-overwrite   k-kill-rectangle                   x-copy-to-register
+    N-rectangle-number-lines      l-bookmark-bmenu-list              y-yank-rectangle
+    b-bookmark-jump               m-bookmark-set                 C-SPC-point-to-register
+    c-clear-rectangle             n-number-to-register             C-@-point-to-register
+    d-delete-rectangle            o-open-rectangle                 M-w-copy-rectangle-as-kill
+    f-frameset-to-register        r-copy-rectangle-to-register
+    g-insert-register             s-copy-to-register
+
+C-x x ; buffer
+  f-font-lock-update      i-insert-buffer   r-rename-buffer           u-rename-uniquely
+  g-revert-buffer-quick   n-clone-buffer    t-toggle-truncate-lines
+
+M-g ; goto
+  SPC-goto-last-change-with-auto…   g-avy-goto-subword-1     p-previous-error   M-p-previous-error
+  TAB-move-to-column                l-goto-line            M-g-avy-goto-char
+    c-goto-last-change              n-next-error           M-n-next-error
+
+M-s ; search
+  .-isearch-forward-symbol-at-…   p-swiper-thing-at-point   M-.-isearch-forward-thing-at-p…
+  _-isearch-forward-symbol        r-swiper-backward         M-w-eww-search-words
+  h-+prefix                       s-swiper
+  o-occur                         w-isearch-forward-word
