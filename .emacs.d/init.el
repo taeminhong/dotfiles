@@ -151,6 +151,11 @@
     (package-install 'use-package))
   (require 'use-package))
 
+(use-package term
+  :bind (:map term-raw-map
+              ("M-o")
+              ("M-x")))
+
 (use-package expand-region
   :bind ("C-c r" . er/expand-region))
 
