@@ -31,6 +31,8 @@ trap cleanup EXIT
 
 # rsync is more suitable for this task, but it's not available on Git for Windows
 cp -a \
+   .aspell.en.prepl \
+   .aspell.en.pws \
    .bash_logout \
    .bash_profile \
    .bashrc \
