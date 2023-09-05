@@ -261,10 +261,6 @@
               ("M-o")
               ("M-g")))
 
-(use-package isearch
-  :bind (:map isearch-mode-map
-              ("C-c" . isearch-yank-char)))
-
 (use-package diff-mode
   :bind (:map diff-mode-map
               ("M-o")))
