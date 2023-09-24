@@ -216,6 +216,24 @@
   (face-spec-set 'avy-lead-face '((t (:foreground "white" :background "#e52b50"))))
   (face-spec-set 'avy-lead-face-0 '((t (:foreground "white" :background "#2e36b3")))))
 
+(use-package hydra
+  :ensure t
+  :config
+  (defhydra hydra-windmove (global-map "C-x o" :timeout 0.7 :foreign-keys warn)
+    "windmove"
+    ("c" windmove-up)
+    ("t" windmove-down)
+    ("h" windmove-left)
+    ("n" windmove-right)
+    ("RET" nil "quit"))
+  (defhydra hydra-window-resize (global-map "C-x" :foreign-keys warn)
+    "window resize"
+    ("[" shrink-window)
+    ("]" enlarge-window)
+    ("{" shrink-window-horizontally)
+    ("}" enlarge-window-horizontally)
+    ("RET" nil "quit")))
+
 (use-package which-key
   :ensure t
   :diminish which-key-mode
@@ -395,7 +413,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(typescript-mode yaml-mode nginx-mode diminish dante ivy-xref dumb-jump w3m undo-fu goto-last-change expand-region markdown-mode haskell-mode anaconda-mode which-key cider adjust-parens avy flx rainbow-delimiters geiser paredit company pcre2el glsl-mode magit smex use-package json-mode js2-mode csharp-mode counsel ag vue-mode)))
+   '(hydra typescript-mode yaml-mode nginx-mode diminish dante ivy-xref dumb-jump w3m undo-fu goto-last-change expand-region markdown-mode haskell-mode anaconda-mode which-key cider adjust-parens avy flx rainbow-delimiters geiser paredit company pcre2el glsl-mode magit smex use-package json-mode js2-mode csharp-mode counsel ag vue-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
