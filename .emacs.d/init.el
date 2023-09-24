@@ -72,7 +72,9 @@
 (global-set-key (kbd "C-x /") 'delete-other-windows)
 (global-set-key (kbd "C-x -") 'split-window-below)
 (global-set-key (kbd "C-x |") 'split-window-right)
-(global-set-key (kbd "C-x w") 'delete-window)
+(global-set-key (kbd "C-x w") 'write-file)
+(global-set-key (kbd "C-x s") 'save-buffer)
+(global-set-key (kbd "C-x S") 'save-some-buffers)
 (global-set-key (kbd "C-x o o") 'other-window)
 (global-set-key (kbd "C-x o b") 'switch-to-buffer-other-window)
 (global-set-key (kbd "C-x o f") 'find-file-other-window)
@@ -194,7 +196,8 @@
   :config
   (setq ivy-initial-inputs-alist nil)
   (counsel-mode 1)
-  :bind (("C-c k" . counsel-ag)
+  :bind (("C-x f" . counsel-find-file)
+         ("C-c k" . counsel-ag)
          ("C-c g" . counsel-git)
          ("C-c f" . counsel-fzf)
          ("C-c j" . counsel-git-grep)
@@ -211,7 +214,7 @@
   ;; Dvorak home row keys only
   (setq avy-keys '(?a ?o ?e ?u ?h ?t ?n ?s))
   :bind (("M-g M-g" . avy-goto-char)
-         ("M-g g" . avy-goto-subword-1))
+         ("M-g g" . avy-goto-char-timer))
   :config
   (face-spec-set 'avy-lead-face '((t (:foreground "white" :background "#e52b50"))))
   (face-spec-set 'avy-lead-face-0 '((t (:foreground "white" :background "#2e36b3")))))
