@@ -61,6 +61,8 @@ cp -a .emacs.d/local/sublimey.el ~/.emacs.d/local
 mkdir -p ~/.ssh
 cp -a .ssh/config ~/.ssh
 
+mkdir -p ~/.local/bin
+
 # install vim-plug, a minimalist Vim plugin manager
 if test ! -e ~/.vim/autoload/plug.vim
 then
@@ -72,11 +74,13 @@ rm -rf ~/.vim/bundle/Vundle.vim
 rmdir ~/.vim/bundle >/dev/null 2>&1
 
 # z - directory jump utility
-if test ! -e ~/z.sh
+if test ! -e ~/z.sh || test ! -f ~/.local/share/man/man1/z.1
 then
     curl -sSL -o "$downloads/z-1.11.tar.gz" "https://github.com/rupa/z/archive/refs/tags/v1.11.tar.gz" &&
         tar xzf "$downloads/z-1.11.tar.gz" -C "$downloads" &&
-        cp "$downloads/z-1.11/z.sh" ~
+        cp "$downloads/z-1.11/z.sh" ~ &&
+        mkdir -p ~/.local/share/man/man1 &&
+        cp "$downloads/z-1.11/z.1" ~/.local/share/man/man1
 fi
 
 if command -v tmux >/dev/null 2>&1
