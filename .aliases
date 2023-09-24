@@ -7,3 +7,4 @@ alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
 alias less='less -i'
+alias cdg='cd $(git root)'
