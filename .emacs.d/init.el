@@ -213,8 +213,8 @@
   :init
   ;; Dvorak home row keys only
   (setq avy-keys '(?a ?o ?e ?u ?h ?t ?n ?s))
-  :bind (("M-g M-g" . avy-goto-char)
-         ("M-g g" . avy-goto-char-timer))
+  :bind (("M-g M-c" . avy-goto-char-timer)
+         ("M-g M-l" . avy-goto-line))
   :config
   (face-spec-set 'avy-lead-face '((t (:foreground "white" :background "#e52b50"))))
   (face-spec-set 'avy-lead-face-0 '((t (:foreground "white" :background "#2e36b3")))))
@@ -365,7 +365,8 @@
   :hook ((text-mode . flyspell-mode)))
 
 (use-package goto-last-change
-  :bind (("M-g c" . goto-last-change)
+  :bind (("M-g c")
+         ("M-g c h" . goto-last-change)
          ("M-g SPC" . goto-last-change-with-auto-marks)))
 
 (use-package undo-fu
