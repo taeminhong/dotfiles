@@ -27,6 +27,8 @@
 (setq scroll-step 1)
 (setq scroll-conservatively 10000)
 (setq isearch-allow-scroll t)
+(setq isearch-regexp-lax-whitespace t)
+(setq search-whitespace-regexp ".*?")
 (setq history-length 32)
 (setq make-backup-files nil)
 (setq gc-cons-threshold 20000000)
@@ -122,6 +124,7 @@
 (add-hook 'before-save-hook 'taemin-create-buffer-file-parent-directories)
 (global-set-key (kbd "<f5>") 'taemin-makefile-compile)
 (global-set-key (kbd "<S-f5>") 'taemin-project-compile)
+(global-set-key (kbd "M-s o") 'taemin-occur)
 
 (require 'untitled-note)
 (global-set-key (kbd "C-c n") 'untitled-note-new-note)
@@ -182,12 +185,6 @@
   (setq ivy-extra-directories '("./"))
   :config
   (ivy-mode 1))
-
-(use-package swiper
-  :ensure t
-  :bind (("M-s s" . swiper)
-         ("M-s r" . swiper-backward)
-         ("M-s p" . swiper-thing-at-point)))
 
 (use-package counsel
   :ensure t
