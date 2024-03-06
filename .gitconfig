@@ -1,3 +1,4 @@
+# -*- indent-tabs-mode: t -*-
 # This is Git's per-user configuration file.
 [core]
 	excludesfile = ~/.gitignore_global
@@ -31,6 +32,7 @@
 	# `git branch --show-current` shows nothing if HEAD detatched
 	b = !"git branch | grep '^\\*' | cut -c 3-"
 	sup = submodule update
+	untracked = ls-files --o --exclude-standard
 [push]
 	default = simple
 [fetch]
