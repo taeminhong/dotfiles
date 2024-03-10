@@ -145,6 +145,10 @@
               ("M-o")
               ("M-x")))
 
+(use-package dictionary
+  :init
+  (setq dictionary-server "dict.org"))
+
 (use-package sublimey
   :init
   (setq sublimey-word-leap-empty-lines t)
