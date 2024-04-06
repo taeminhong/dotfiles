@@ -106,6 +106,11 @@
 (setq compilation-scroll-output 'first-error)
 (setq compilation-ask-about-save nil)
 
+(require 'ansi-color)
+(defun colorize-compilation-buffer ()
+  (ansi-color-apply-on-region compilation-filter-start (point-max)))
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+
 (require 'recentf)
 (setq recentf-save-file
       (expand-file-name ".recentf" emacs-working-directory))
