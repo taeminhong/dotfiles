@@ -165,6 +165,10 @@
          (("b" . View-scroll-page-backward))
          (("o" . occur))))
 
+(use-package dictionary
+  :init
+  (setq dictionary-server "dict.org"))
+
 (use-package sublimey
   :init
   (setq sublimey-word-leap-empty-lines t)
