@@ -255,6 +255,26 @@ If the given file doesn't exist, it is created with default permissions."
   (set-buffer-modified-p nil)
   (kill-this-buffer))
 
+(defun taemin-occur (regexp &optional nlines)
+  "Run `occur' respecting `search-whitespace-regexp' variable.
+Spaces in REGEXP will be replaced by `search-whitespace-regexp'
+if it's non-nil. NLINES has the same meaning as in `occur'."
+  (interactive
+   (occur-read-primary-args))
+  (let ((search-spaces-regexp
+	 (if (if isearch-regexp
+		 isearch-regexp-lax-whitespace
+	       isearch-lax-whitespace)
+	     search-whitespace-regexp)))
+    (occur (if isearch-regexp-function
+	       (propertize regexp
+			   'isearch-string isearch-string
+			   'isearch-regexp-function-descr
+                           (isearch--describe-regexp-mode isearch-regexp-function))
+	     regexp)
+	   nlines
+	   (if (use-region-p) (region-bounds)))))
+
 (defun taemin-terminal (&optional other-window)
   "The same as `ansi-term', but doesn't ask which shell to use and
 picks \"terminal\" for the buffer name. The buffer will appear in
