@@ -80,9 +80,10 @@ If the function returns nil, buffer's default-directory will be used."
 
 (defun taemin-project-compile (command &optional comint)
   "Compile from the project root directory and select the compilation window.
-The concept of a project root directory is pretty simple -
-just a folder containing VCS repo (e.g. git) or .projectile file in it.
-No project root directory found, then this compiles from the buffer's default-directory."
+The concept of a project root directory is pretty simple - just a
+folder containing VCS repo (e.g. git) or .projectile file in it.
+No project root directory found, then this compiles from the
+buffer's default-directory."
   (interactive
    (list
     (taemin--compile-command current-prefix-arg)
