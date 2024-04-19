@@ -18,6 +18,10 @@
 ;; Prevent shell commands from being echoed in zsh.
 (defvar explicit-zsh-args '("-o" "no_zle" "-i"))
 
+(defun other-window-backward ()
+  (interactive)
+  (other-window -1 nil t))
+
 (setq-default indent-tabs-mode nil)
 (setq-default fill-column 80)
 (setq frame-background-mode 'dark)
@@ -65,7 +69,6 @@
 (global-set-key (kbd "C-M-o") 'open-line)
 (global-set-key (kbd "M-g l") 'goto-line)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
-(global-set-key (kbd "M-o") 'other-window)
 (global-set-key (kbd "C-s") 'isearch-forward-regexp)
 (global-set-key (kbd "C-r") 'isearch-backward-regexp)
 (global-set-key (kbd "M-%") 'query-replace-regexp)
@@ -75,13 +78,13 @@
 (global-set-key (kbd "C-x w") 'write-file)
 (global-set-key (kbd "C-x s") 'save-buffer)
 (global-set-key (kbd "C-x S") 'save-some-buffers)
-(global-set-key (kbd "C-x o o") 'other-window)
 (global-set-key (kbd "C-x o b") 'switch-to-buffer-other-window)
 (global-set-key (kbd "C-x o f") 'find-file-other-window)
 (global-set-key (kbd "C-x o i") 'display-buffer)
 (global-set-key (kbd "C-x o .") 'xref-find-definitions-other-window)
 (global-set-key (kbd "M-a") 'backward-paragraph)
 (global-set-key (kbd "M-e") 'forward-paragraph)
+(global-set-key (kbd "M-o") 'other-window)
 (global-set-key (kbd "C-x DEL") 'kill-whole-line)
 (global-set-key (kbd "M-{") 'backward-sentence)
 (global-set-key (kbd "M-}") 'forward-sentence)
@@ -89,6 +92,12 @@
 (global-set-key (kbd "M-l") 'downcase-dwim)
 (global-set-key (kbd "M-c") 'capitalize-dwim)
 (global-set-key (kbd "M-RET") 'comment-indent-new-line)
+
+(when (display-graphic-p)
+  ;; <up> and <down> are usually interpreted as "M-O A" and "M-O B" on console.
+  ;; So if we bind "M-O", those keys might not work. Let's bind "M-O" only when
+  ;; running on GUI.
+  (global-set-key (kbd "M-O") 'other-window-backward))
 
 (require 'desktop)
 (setq desktop-path `(,emacs-working-directory))
@@ -139,6 +148,15 @@
     (package-refresh-contents)
     (package-install 'use-package))
   (require 'use-package))
+
+(use-package tmacs
+  :init
+  (global-set-key (kbd "C-x o o o") 'other-window)
+  (global-set-key (kbd "C-x o o O") 'other-window-backward)
+  :bind (("C-x o o t" . tmacs-other-window-tmux-aware)
+         ("C-x o o T" . tmacs-other-window-tmux-aware-backward)
+         ("C-x o o q" . tmacs-other-window-quiet)
+         ("C-x o o Q" . tmacs-other-window-quiet-backward)))
 
 (use-package term
   :bind (:map term-raw-map
