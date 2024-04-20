@@ -139,9 +139,6 @@
 (require 'blank)
 (define-key blank-mode-map (kbd "C-c C-k") 'taemin-kill-this-buffer-no-prompt)
 
-(require 'windmove)
-(windmove-default-keybindings)
-
 ;; This is only needed once, near the top of the file
 (eval-when-compile
   (unless (package-installed-p 'use-package)
@@ -240,13 +237,6 @@
 (use-package hydra
   :ensure t
   :config
-  (defhydra hydra-windmove (global-map "C-x o" :timeout 0.7 :foreign-keys warn)
-    "windmove"
-    ("c" windmove-up)
-    ("t" windmove-down)
-    ("h" windmove-left)
-    ("n" windmove-right)
-    ("RET" nil "quit"))
   (defhydra hydra-window-resize (global-map "C-x" :foreign-keys warn)
     "window resize"
     ("[" shrink-window)
