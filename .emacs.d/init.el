@@ -1,5 +1,5 @@
 (defconst emacs-working-directory
-  (file-name-as-directory(getenv "PWD"))
+  (file-name-as-directory (getenv "PWD"))
   "initial working directory of the emacs process")
 
 (defconst is-macos (eq system-type 'darwin))
