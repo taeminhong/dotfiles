@@ -22,6 +22,14 @@
   (interactive)
   (other-window -1 nil t))
 
+(defun split-select-window-below ()
+  (interactive)
+  (select-window (split-window-below)))
+
+(defun split-select-window-right ()
+  (interactive)
+  (select-window (split-window-right)))
+
 (setq-default indent-tabs-mode nil)
 (setq-default fill-column 80)
 (setq frame-background-mode 'dark)
@@ -73,8 +81,8 @@
 (global-set-key (kbd "C-r") 'isearch-backward-regexp)
 (global-set-key (kbd "M-%") 'query-replace-regexp)
 (global-set-key (kbd "C-x /") 'delete-other-windows)
-(global-set-key (kbd "C-x -") 'split-window-below)
-(global-set-key (kbd "C-x |") 'split-window-right)
+(global-set-key (kbd "C-x -") 'split-select-window-below)
+(global-set-key (kbd "C-x |") 'split-select-window-right)
 (global-set-key (kbd "C-x w") 'write-file)
 (global-set-key (kbd "C-x s") 'save-buffer)
 (global-set-key (kbd "C-x S") 'save-some-buffers)
