@@ -89,6 +89,7 @@
 (global-set-key (kbd "M-l") 'downcase-dwim)
 (global-set-key (kbd "M-c") 'capitalize-dwim)
 (global-set-key (kbd "M-RET") 'comment-indent-new-line)
+(global-set-key (kbd "M-'") 'dabbrev-expand)
 
 (require 'desktop)
 (setq desktop-path `(,emacs-working-directory))
@@ -375,7 +376,7 @@
   (defalias 'redo 'undo-fu-only-redo)
   :bind (("C-_" . undo-fu-only-undo)
          ("C-/" . undo-fu-only-undo)
-         ("M-r" . undo-fu-only-redo)))
+         ("M-/" . undo-fu-only-redo)))
 
 (use-package w3m
   :bind ((:map w3m-mode-map
