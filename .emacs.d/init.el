@@ -88,6 +88,7 @@
 (global-set-key (kbd "M-u") 'upcase-dwim)
 (global-set-key (kbd "M-l") 'downcase-dwim)
 (global-set-key (kbd "M-c") 'capitalize-dwim)
+(global-set-key (kbd "M-s d") 'dictionary-search)
 (global-set-key (kbd "M-RET") 'comment-indent-new-line)
 
 (require 'desktop)
