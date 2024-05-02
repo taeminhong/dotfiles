@@ -147,7 +147,8 @@
 
 (use-package dictionary
   :init
-  (setq dictionary-server "dict.org"))
+  (setq dictionary-server "dict.org")
+  :bind (("M-s d" . dictionary-search)))
 
 (use-package sublimey
   :init
