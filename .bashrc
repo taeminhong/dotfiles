@@ -45,7 +45,7 @@ __ps1_symbol () {
     fi
 }
 
-PS1="${debian_chroot:+($debian_chroot)}"
+PS1="${debian_chroot:+<$debian_chroot> }"
 case "$TERM" in
     eterm-color|xterm-color|*-256color)
         PS1+="${SSH_CLIENT:+\[\e[32m\]\u@\h }"
