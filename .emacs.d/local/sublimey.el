@@ -205,7 +205,7 @@
 (defun sublimey--signum (x)
   (cond ((< x 0) -1)
         ((> x 0) 1)
-        ((t 0))))
+        (t 0)))
 
 (defun sublimey--same-sign-p (a b &optional exclude-zero)
   (if exclude-zero
