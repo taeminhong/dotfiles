@@ -232,7 +232,7 @@
   :init
   ;; Dvorak home row keys only
   (setq avy-keys '(?a ?o ?e ?u ?h ?t ?n ?s))
-  :bind (("M-g M-g" . avy-goto-char-timer)
+  :bind (("M-g M-g" . avy-goto-char)
          ("M-g g" . avy-goto-char-timer))
   :config
   (face-spec-set 'avy-lead-face '((t (:foreground "white" :background "#e52b50"))))
