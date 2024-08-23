@@ -154,6 +154,17 @@
               ("M-o")
               ("M-x")))
 
+(use-package view
+  :bind (([f8] . view-mode)
+         :map view-mode-map
+         ;; Delete all keybindings for exiting mode.
+         ("c") ("C") ("q") ("Q") ("e") ("E")
+         (("G". end-of-buffer))
+         (("j" . View-scroll-line-forward))
+         (("k" . View-scroll-line-backward))
+         (("b" . View-scroll-page-backward))
+         (("o" . occur))))
+
 (use-package sublimey
   :init
   (setq sublimey-word-leap-empty-lines t)
