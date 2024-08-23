@@ -36,15 +36,10 @@
        (compilation-read-command command)
      command)))
 
-(defun taemin--select-buffer-window (buf)
+(defun taemin-select-buffer-window (buf)
   (select-window
    (get-buffer-window buf))
   buf)
-
-(defun taemin-select-window-after (command select)
-  (if select
-      (advice-add command :filter-return #'taemin--select-buffer-window)
-    (advice-remove command #'taemin--select-buffer-window)))
 
 (defun taemin-select-window-after-compilation (select)
   (taemin-select-window-after 'compilation-start select))
@@ -200,11 +195,6 @@ This is a `visit-tags-table' wrapper for a better file name completion with ivy"
   (setq man-args (Man-translate-references man-args))
   (Man-getpage-in-background man-args))
 
-(defun taemin-show-init-time ()
-  (message "init completeted in %f seconds"
-	   (float-time (time-subtract after-init-time
-				      before-init-time))))
-
 (defun taemin-create-buffer-file-parent-directories ()
   (when buffer-file-name
     (let ((dir (file-name-directory buffer-file-name)))
@@ -224,11 +214,5 @@ If the given file doesn't exist, it is created with default permissions."
                          (taemin--escape-double-quotes file-name))
                  current-prefix-arg
                  shell-command-default-error-buffer))
-
-(defun taemin-kill-this-buffer-no-prompt ()
-  "Kill this buffer without prompt."
-  (interactive)
-  (set-buffer-modified-p nil)
-  (kill-this-buffer))
 
 (provide 'taemin)
