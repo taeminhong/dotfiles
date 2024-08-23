@@ -89,6 +89,7 @@
 (global-set-key (kbd "M-u") 'upcase-dwim)
 (global-set-key (kbd "M-l") 'downcase-dwim)
 (global-set-key (kbd "M-c") 'capitalize-dwim)
+(global-set-key (kbd "M-s d") 'dictionary-search)
 (global-set-key (kbd "M-RET") 'comment-indent-new-line)
 
 (require 'desktop)
@@ -165,6 +166,10 @@
          (("k" . View-scroll-line-backward))
          (("b" . View-scroll-page-backward))
          (("o" . occur))))
+
+(use-package dictionary
+  :init
+  (setq dictionary-server "dict.org"))
 
 (use-package sublimey
   :init
