@@ -33,10 +33,10 @@ dup_bind () {
     [ -n "$match2" ] && bind -m "$1" -x "$(echo "$match2" | sed "s/$from/$to/")"
 }
 
-# Ctrl-R -> Alt-P
+# Ctrl-R -> Alt-R
 # Paste the selected command from history into the command line
 for keymap in emacs vi vi-insert; do
-    dup_bind "$keymap" "\C-r" "\ep"
+    dup_bind "$keymap" "\C-r" "\er"
     bind -m "$keymap" -r "\C-r"
     bind -m "$keymap" '"\C-r": reverse-search-history'
 done

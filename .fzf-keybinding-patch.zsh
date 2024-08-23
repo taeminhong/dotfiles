@@ -1,10 +1,10 @@
-# Ctrl-R -> Alt-P
+# Ctrl-R -> Alt-R
 bindkey -M emacs    "^R"  history-incremental-search-backward
-bindkey -M emacs    "^[p" fzf-history-widget
+bindkey -M emacs    "^[r" fzf-history-widget
 bindkey -M vicmd    "^R"  redo
-bindkey -M vicmd    "^[p" fzf-history-widget
+bindkey -M vicmd    "^[r" fzf-history-widget
 bindkey -M viins    "^R"  redisplay
-bindkey -M viins    "^[p" fzf-history-widget
+bindkey -M viins    "^[r" fzf-history-widget
 
 # Alt-C -> Alt-J
 bindkey -M emacs    "^[c" capitalize-word
