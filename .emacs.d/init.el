@@ -102,6 +102,7 @@
 (setq dired-listing-switches "-alh")
 (global-set-key (kbd "C-x o d") 'dired-other-window)
 (add-hook 'dired-mode-hook #'dired-hide-details-mode)
+(add-hook 'dired-mode-hook #'auto-revert-mode)
 
 (require 'compile)
 (setq compilation-scroll-output 'first-error)
