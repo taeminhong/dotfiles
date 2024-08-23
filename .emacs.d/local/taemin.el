@@ -4,14 +4,38 @@
 (require 'man)
 (require 'compile)
 (require 'subr-x)
+(require 'term)
+(require 'dash)
 
 (defmacro taemin-bound-and-true-p (var)
   "Return the value of symbol VAR if it is bound, else nil."
   `(and (boundp (quote ,var)) ,var))
 
+(defvar taemin-terminal-kill-on-exit t)
+
+(defvar taemin-terminal-sentinel-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map "q" (lambda () (interactive) (quit-window t)))
+    map))
+
+(defun taemin--terminal-sentinel (proc msg)
+  (let ((buffer (process-buffer proc)))
+    (if (and (eq buffer (current-buffer))
+             taemin-terminal-kill-on-exit)
+        (quit-window t)
+      (with-current-buffer buffer
+        (use-local-map taemin-terminal-sentinel-map)))))
+
 (defvar taemin-makefile-regex-alist
   '(("^make" . "^[Mm]akefile\\'")
     ("^cabal" . "\\.cabal\\'")))
+
+(defun taemin--terminal-active-buffer-p (buf)
+  "Return non-nil if given buffer is a kind of term and the process
+is alive."
+  (with-current-buffer buf
+    (and (derived-mode-p 'term-mode)
+         (term-check-proc buf))))
 
 (defun taemin-electric-pair-conservative-inhibit (char)
   "Customized version of `electric-pair-pair-conservative-inhibit'"
@@ -230,5 +254,39 @@ If the given file doesn't exist, it is created with default permissions."
   (interactive)
   (set-buffer-modified-p nil)
   (kill-this-buffer))
+
+(defun taemin-terminal (&optional other-window)
+  "The same as `ansi-term', but doesn't ask which shell to use and
+picks \"terminal\" for the buffer name. The buffer will appear in
+another window if OTHER-WINDOW is non nil."
+  (interactive)
+  (let* ((buffer-name (generate-new-buffer-name "*terminal*"))
+         (buffer (get-buffer-create buffer-name)))
+    (if other-window
+        (switch-to-buffer-other-window buffer)
+      (switch-to-buffer buffer))
+    (term-mode)
+    (term-exec buffer buffer-name shell-file-name nil nil)
+    (term-char-mode)
+    (let (term-escape-char)
+      (term-set-escape-char ?\C-x))))
+
+(defun taemin-terminal-other-window ()
+  "Like `taemin-terminal', but create a terminal in other window."
+  (interactive)
+  (taemin-terminal t))
+
+(defun taemin-terminal-other-window-reuse ()
+  "Like `taemin-terminal', but create a new window or reuses an
+existing one. If there is already an active terminal buffer,
+select that buffer in another window."
+  (interactive)
+  (let ((terminal-buffers (-filter #'taemin--terminal-active-buffer-p
+                                   (buffer-list (current-buffer)))))
+    (if terminal-buffers
+        (switch-to-buffer-other-window (car terminal-buffers))
+      (taemin-terminal t))))
+
+(advice-add 'term-sentinel :after #'taemin--terminal-sentinel)
 
 (provide 'taemin)
