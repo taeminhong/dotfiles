@@ -64,7 +64,12 @@ else
         if ! git rebase -i "$commit~"
         then
             status=$?
-            echo "hint: To abort, run \"git rebase --abort && git reset --soft $old_head\"" >&2
+            if is_rebasing
+            then
+                echo "hint: To abort, run \"git rebase --abort && git reset --soft $old_head\"" >&2
+            else
+                git reset --soft "$old_head" >/dev/null
+            fi
             exit "$status"
         fi
     fi
