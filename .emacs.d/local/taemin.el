@@ -4,10 +4,19 @@
 (require 'man)
 (require 'compile)
 (require 'subr-x)
+(require 'simple)
+(require 'files)
 
 (defmacro taemin-bound-and-true-p (var)
   "Return the value of symbol VAR if it is bound, else nil."
   `(and (boundp (quote ,var)) ,var))
+
+(defvar taemin-clipboard-copy-command
+  (-first (-compose 'executable-find 'car)
+          '(("clip.exe")
+            ("pbcopy")
+            ("xsel" "--clipboard")
+            ("xclip" "-sel" "clip"))))
 
 (defvar taemin-makefile-regex-alist
   '(("^make" . "^[Mm]akefile\\'")
@@ -230,5 +239,22 @@ If the given file doesn't exist, it is created with default permissions."
   (interactive)
   (set-buffer-modified-p nil)
   (kill-this-buffer))
+
+(defun taemin-pipe-text (text command)
+  "Pipe out TEXT to COMMAND.
+COMMAND is a list of strings that consists of a program name and
+arguments, like (\"xsel\" \"--clipboard\")."
+  (let* ((program (car command))
+         (process-connection-type nil)
+         (proc (apply 'start-process `(,program nil ,@command))))
+    (process-send-string proc text)
+    (process-send-eof proc)))
+
+(defun taemin-clipboard-copy (text)
+  "Copy TEXT in the system clipboard using
+'taemin-clipboard-copy-command."
+  (if taemin-clipboard-copy-command
+      (taemin-pipe-text text taemin-clipboard-copy-command)
+    (gui-select-text text)))
 
 (provide 'taemin)

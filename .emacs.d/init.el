@@ -111,6 +111,7 @@
       (expand-file-name ".recentf" emacs-working-directory))
 
 (require 'taemin)
+(setq interprogram-cut-function 'taemin-clipboard-copy)
 (taemin-select-window-after-compilation t)
 (taemin-select-window-after-man t)
 (when is-macos
