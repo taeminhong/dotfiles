@@ -20,6 +20,10 @@ copy-region-as-kill-deactivate-mark() {
     zle set-mark-command -n -1
 }
 
+load_script() {
+    [ -f "$1" ] && . "$1"
+}
+
 if [[ $options[zle] = on ]]; then
     # Don't let the terminal hijack C-s, C-q, and C-w keys
     stty -ixon werase undef
@@ -36,12 +40,9 @@ fi
 autoload -Uz compinit && compinit
 
 . ~/.aliases
-. ~/tmux.sh
 
-if [ -f ~/z.sh ]; then
-    . ~/z.sh
-fi
+load_script ~/tmux.sh
+load_script ~/z.sh
+load_script ~/.nix-profile/etc/profile.d/nix.sh
 
-if [ -f ~/.nix-profile/etc/profile.d/nix.sh ]; then
-    . ~/.nix-profile/etc/profile.d/nix.sh
-fi
+unset -f load_script
