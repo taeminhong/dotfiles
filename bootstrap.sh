@@ -50,7 +50,6 @@ cp -a \
    .minttyrc \
    .inputrc \
    .ghci \
-   tmux.sh \
    ~
 mkdir -p ~/.emacs.d/local
 cp -a .emacs.d/init.el ~/.emacs.d
@@ -88,6 +87,7 @@ fi
 
 if command -v tmux >/dev/null 2>&1
 then
+    cp -a tmux.sh ~
     cp -a .tmux.conf ~
     # Install TPM
     if command -v git >/dev/null 2>&1 && test ! -d ~/.tmux/plugins/tpm

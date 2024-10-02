@@ -35,6 +35,10 @@ if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
 fi
 
+load_script() {
+    [ -f "$1" ] && . "$1"
+}
+
 __ps1_symbol () {
     if [ $? = 0 ]; then
         printf "$1"
@@ -123,12 +127,9 @@ then
 fi
 
 . ~/.aliases
-. ~/tmux.sh
 
-if [ -f ~/z.sh ]; then
-    . ~/z.sh
-fi
+load_script ~/tmux.sh
+load_script ~/z.sh
+load_script ~/.nix-profile/etc/profile.d/nix.sh
 
-if [ -f ~/.nix-profile/etc/profile.d/nix.sh ]; then
-    . ~/.nix-profile/etc/profile.d/nix.sh
-fi
+unset -f load_script
