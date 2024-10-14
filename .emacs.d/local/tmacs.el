@@ -1,5 +1,3 @@
-(require 'window)
-
 (defconst tmacs-env (getenv "TMUX"))
 
 (defun tmacs--window-first-child (window)
