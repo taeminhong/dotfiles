@@ -46,6 +46,9 @@ then
     HOMEBREW_REPOSITORY="/usr/local/Homebrew"
     addpath PATH /usr/local/sbin
 fi
+
+addpath PATH "$HOME/.dotnet/tools"
+
 # Cargo, a package manager for Rust
 addpath PATH "$HOME/.cargo/bin"
 # Yarn, a package manager for JS
