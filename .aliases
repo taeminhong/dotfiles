@@ -8,3 +8,5 @@ alias egrep='egrep --color=auto'
 
 alias less='less -i'
 alias cdg='cd $(git root)'
+alias .net=dotnet
+alias csr=csharprepl
