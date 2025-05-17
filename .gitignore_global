@@ -3,13 +3,10 @@
 *.swp
 .DS_Store
 
-# Emacs lockfiles
+# Emacs
 .\#*
 .emacs.desktop*
-
-# Emacs directory-local variable
+.emacs-bookmarks
 .dir-locals.el
 .dir-locals-2.el
-
-# Emacs recentf list file
 .recentf
