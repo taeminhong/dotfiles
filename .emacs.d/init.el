@@ -56,6 +56,17 @@
                         (awk-mode . "awk")
                         (other . "gnu")))
 
+(defun report-init-time ()
+  (message "init completeted in %f seconds"
+	   (float-time (time-subtract after-init-time
+				      before-init-time))))
+
+(defun kill-this-buffer-no-prompt ()
+  "Kill this buffer without prompt."
+  (interactive)
+  (set-buffer-modified-p nil)
+  (kill-this-buffer))
+
 (menu-bar-mode -1)
 (transient-mark-mode t)
 (delete-selection-mode t)
@@ -64,6 +75,11 @@
 (show-paren-mode t)
 (column-number-mode t)
 
+(when is-macos
+  (unless native-comp-driver-options
+    (customize-set-variable 'native-comp-driver-options '("-Wl,-w"))))
+
+(add-hook 'after-init-hook 'report-init-time)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (add-hook 'prog-mode-hook 'subword-mode)
 (add-hook 'after-save-hook
@@ -138,29 +154,6 @@
 (setq recentf-save-file
       (expand-file-name ".recentf" emacs-working-directory))
 
-(require 'taemin)
-(taemin-select-window-after-compilation t)
-(taemin-select-window-after-man t)
-(when is-macos
-  ;; man command completion is too slow and inaccurate.
-  (fset 'man 'taemin-man-no-completion)
-  (unless native-comp-driver-options
-    (customize-set-variable 'native-comp-driver-options '("-Wl,-w"))))
-(add-hook 'after-init-hook 'taemin-show-init-time)
-(add-hook 'before-save-hook 'taemin-create-buffer-file-parent-directories)
-(global-set-key (kbd "<f5>") 'taemin-makefile-compile)
-(global-set-key (kbd "<S-f5>") 'taemin-project-compile)
-(global-set-key (kbd "<f6>") 'taemin-terminal-other-window-reuse)
-(global-set-key (kbd "<S-f6>") 'taemin-terminal-other-window)
-(global-set-key (kbd "M-s o") 'taemin-occur)
-
-(require 'untitled-note)
-(global-set-key (kbd "C-c n") 'untitled-note-new-note)
-(define-key untitled-note-mode-map (kbd "C-c C-k") 'taemin-kill-this-buffer-no-prompt)
-
-(require 'blank)
-(define-key blank-mode-map (kbd "C-c C-k") 'taemin-kill-this-buffer-no-prompt)
-
 ;; This is only needed once, near the top of the file
 (eval-when-compile
   (unless (package-installed-p 'use-package)
@@ -176,6 +169,40 @@
          ("C-x o o T" . tmacs-other-window-tmux-aware-backward)
          ("C-x o o q" . tmacs-other-window-quiet)
          ("C-x o o Q" . tmacs-other-window-quiet-backward)))
+
+(use-package untitled-note
+  :bind (("C-c n" . untitled-note-new-note)
+         :map untitled-note-mode-map
+         ("C-c C-k" . kill-this-buffer-no-prompt)))
+
+(use-package blank
+  :bind (:map blank-mode-map
+              ("C-c C-k" . kill-this-buffer-no-prompt)))
+
+(use-package taemin
+  :autoload
+  (taemin-create-buffer-file-parent-directories
+   taemin-select-buffer-window)
+  :commands
+  (taemin-man-no-completion)
+  :init
+  (when is-macos
+    ;; man command completion is too slow and inaccurate.
+    (fset 'man 'taemin-man-no-completion))
+  :bind
+  (("<f5>" . taemin-makefile-compile)
+   ("<S-f5>" . taemin-project-compile)
+   ("<f6>" . taemin-terminal-other-window-reuse)
+   ("<S-f6>" . taemin-terminal-other-window)
+   ("M-s o" . taemin-occur))
+  :config
+  (add-hook 'before-save-hook 'taemin-create-buffer-file-parent-directories)
+  (advice-add 'compilation-start :filter-return 'taemin-select-buffer-window)
+  (advice-add 'Man-getpage-in-background :filter-return 'taemin-select-buffer-window)
+  ;; After autoloading, command man gets reset to the original function for some
+  ;; reason. That's why we call fset one more time.
+  (when is-macos
+    (fset 'man 'taemin-man-no-completion)))
 
 (use-package term
   :bind (:map term-raw-map
@@ -346,10 +373,11 @@
   (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
   (add-hook 'haskell-interactive-mode-hook 'subword-mode)
   :config
+  (require 'taemin-haskell)
   ;; Prompt build targets on starting the REPL.
   (advice-add 'haskell-session-target
               :around
-              #'taemin-advice-haskell-load-prompt))
+              'taemin-advice-haskell-load-prompt))
 
 (use-package dante
   :hook (haskell-mode . dante-mode))
