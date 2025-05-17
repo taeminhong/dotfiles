@@ -5,6 +5,8 @@
 (require 'dash)
 (require 'untitled-note)
 
+(defvar blank-blanks)
+
 (defun blank--backward-word (n pred)
   "Move backward until encountering the beginning of a word for which
 PRED returns non-nil."
