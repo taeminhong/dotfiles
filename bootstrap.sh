@@ -36,6 +36,7 @@ cp -a \
    .bash_logout \
    .bash_profile \
    .bashrc \
+   .condarc \
    .profile \
    .aliases \
    .zprofile \
