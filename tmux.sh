@@ -10,4 +10,8 @@ _tmux () {
         \tmux "$@"
     fi
 }
-alias tmux=_tmux
+
+if command -v tmux >/dev/null 2>&1
+then
+    alias tmux=_tmux
+fi
