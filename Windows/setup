@@ -6,6 +6,12 @@ unix_path () {
     echo "$1" | sed -e 's#^\(.\):#/\1#' -e 's#\\#/#g'
 }
 
+# Git for Windows checkouts files in Windows-style (CRLF) by default, but `git
+# config` writes lines in Unix-style (LF). This causes .gitconfig to have
+# inconsistent line breaks. We convert .gitconfig to Unix-style to avoid this
+# inconsistency.
+dos2unix -q ~/.gitconfig
+
 if command -v subl >/dev/null 2>&1
 then
     git config --global core.editor "subl -w"
