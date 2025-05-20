@@ -13,6 +13,10 @@ if [ -n "$SSH_CLIENT" ]; then
     PROMPT="%F{green}%n@%m%f $PROMPT"
 fi
 
+dot() {
+    [ -f "$1" ] && . "$1"
+}
+
 # deactivate mark after copy-region-as-kill, like Emacs
 # https://unix.stackexchange.com/a/19956
 copy-region-as-kill-deactivate-mark() {
@@ -53,12 +57,10 @@ autoload -Uz compinit && compinit
 . ~/.aliases
 . ~/tmux.sh
 
-if [ -f ~/z.sh ]; then
-    . ~/z.sh
-fi
+dot ~/z.sh
 
-if [ -f ~/.nix-profile/etc/profile.d/nix.sh ]; then
-    . ~/.nix-profile/etc/profile.d/nix.sh
-fi
+dot ~/.nix-profile/etc/profile.d/nix.sh
 
 bindkey -M emacs "^[/" redo
+
+unset -f dot

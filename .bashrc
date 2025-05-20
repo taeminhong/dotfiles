@@ -35,6 +35,10 @@ if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
 fi
 
+dot() {
+    [ -f "$1" ] && . "$1"
+}
+
 __ps1_symbol () {
     if [ $? = 0 ]; then
         printf "$1"
@@ -59,15 +63,10 @@ esac
 # sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
     # Linux bash-completion
-    if [ -f /usr/share/bash-completion/bash_completion ]; then
-        . /usr/share/bash-completion/bash_completion
-    elif [ -f /etc/bash_completion ]; then
-        . /etc/bash_completion
-    fi
+    dot /usr/share/bash-completion/bash_completion
+    dot /etc/bash_completion
     # MacPort bash-completion
-    if [ -f /opt/local/etc/profile.d/bash_completion.sh ]; then
-        . /opt/local/etc/profile.d/bash_completion.sh
-    fi
+    dot /opt/local/etc/profile.d/bash_completion.sh
 fi
 
 if [[ ":$SHELLOPTS:" =~ :emacs: ]]; then
@@ -125,10 +124,7 @@ fi
 . ~/.aliases
 . ~/tmux.sh
 
-if [ -f ~/z.sh ]; then
-    . ~/z.sh
-fi
+dot ~/z.sh
+dot ~/.nix-profile/etc/profile.d/nix.sh
 
-if [ -f ~/.nix-profile/etc/profile.d/nix.sh ]; then
-    . ~/.nix-profile/etc/profile.d/nix.sh
-fi
+unset -f dot
