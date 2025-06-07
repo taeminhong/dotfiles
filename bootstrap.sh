@@ -110,7 +110,7 @@ case $platform in
 esac
 if test -x "$platform/setup"
 then
-    "$platform/setup"
+    (cd "$platform" && ./setup)
 fi
 
 # Put a label to identify where dotfiles came from.
