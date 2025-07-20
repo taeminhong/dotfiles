@@ -48,7 +48,7 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
-autoload -Uz compinit && compinit
+autoload -Uz compinit && compinit -i
 
 . ~/.aliases
 . ~/tmux.sh
