@@ -33,7 +33,7 @@ if [[ $options[zle] = on ]]; then
     fi
 fi
 
-autoload -Uz compinit && compinit
+autoload -Uz compinit && compinit -i
 
 . ~/.aliases
 . ~/tmux.sh
