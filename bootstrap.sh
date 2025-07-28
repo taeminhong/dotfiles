@@ -58,9 +58,6 @@ cp -a .emacs.d/local/untitled-note.el ~/.emacs.d/local
 cp -a .emacs.d/local/blank.el ~/.emacs.d/local
 cp -a .emacs.d/local/sublimey.el ~/.emacs.d/local
 
-mkdir -p ~/.ssh
-cp -a .ssh/config ~/.ssh
-
 mkdir -p ~/.local/bin
 
 # install vim-plug, a minimalist Vim plugin manager
