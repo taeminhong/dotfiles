@@ -35,6 +35,8 @@ fi
 
 autoload -Uz compinit && compinit
 
+test -f ~/.local/bin/aws_completer && complete -C "$_" aws
+
 . ~/.aliases
 . ~/tmux.sh
 

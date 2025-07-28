@@ -88,6 +88,8 @@ if [[ ":$SHELLOPTS:" =~ :emacs: ]]; then
     fi
 fi
 
+test -f ~/.local/bin/aws_completer && complete -C "$_" aws
+
 # NVM
 if [ -d ~/.nvm ]; then
     export NVM_DIR="$HOME/.nvm"
