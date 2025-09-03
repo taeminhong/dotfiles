@@ -31,6 +31,7 @@
 	# `git branch --show-current` shows nothing if HEAD detatched
 	b = !"git branch | grep '^\\*' | cut -c 3-"
 	sup = submodule update
+	empty = commit --allow-empty --only
 [push]
 	default = simple
 [fetch]
