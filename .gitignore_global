@@ -13,3 +13,5 @@
 
 # Emacs recentf list file
 .recentf
+
+.envrc
