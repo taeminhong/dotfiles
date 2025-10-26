@@ -30,6 +30,15 @@
   (interactive)
   (select-window (split-window-right)))
 
+(defun copy-buffer-file-name (&optional dry-run)
+  (interactive "P")
+  (if buffer-file-name
+      (progn (unless dry-run (kill-new buffer-file-name))
+             (message buffer-file-name))
+    (error "Not visiting a file")))
+
+(defalias 'copy-buffer-filename 'copy-buffer-file-name)
+
 (setq-default indent-tabs-mode nil)
 (setq-default fill-column 80)
 (setq frame-background-mode 'dark)
