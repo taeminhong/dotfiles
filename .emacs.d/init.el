@@ -426,6 +426,9 @@
          (web-mode . tide-hl-identifier-mode)))
 
 (use-package w3m
+  :init
+  (setq w3m-home-page "https://duckduckgo.com/lite")
+  (setq w3m-search-default-engine "duckduckgo")
   :bind ((:map w3m-mode-map
                ("C-e" . move-end-of-line)
                ("C-a" . move-beginning-of-line)
