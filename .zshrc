@@ -33,6 +33,7 @@ if [[ $options[zle] = on ]]; then
     fi
 fi
 
+autoload bashcompinit && bashcompinit
 autoload -Uz compinit && compinit
 
 test -f ~/.local/bin/aws_completer && complete -C "$_" aws
