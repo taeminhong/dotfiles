@@ -20,20 +20,22 @@ copy-region-as-kill-deactivate-mark() {
     zle set-mark-command -n -1
 }
 
+autoload -Uz compinit && compinit
+
 if [[ $options[zle] = on ]]; then
     # Don't let the terminal hijack C-s, C-q, and C-w keys
     stty -ixon werase undef
     zle -N copy-region-as-kill-deactivate-mark
-    bindkey "^w" kill-region
-    bindkey "^[w" copy-region-as-kill-deactivate-mark
-    bindkey "^u" backward-kill-line
+    bindkey -M emacs "^w"  kill-region
+    bindkey -M emacs "^[w" copy-region-as-kill-deactivate-mark
+    bindkey -M emacs "^u"  backward-kill-line
+    bindkey -M emacs "^[/" redo
     if [ -f ~/.fzf.zsh ]; then
         . ~/.fzf.zsh
         . ~/.fzf-keybinding-patch.zsh
     fi
+else
 fi
-
-autoload -Uz compinit && compinit
 
 . ~/.aliases
 . ~/tmux.sh
@@ -45,5 +47,3 @@ fi
 if [ -f ~/.nix-profile/etc/profile.d/nix.sh ]; then
     . ~/.nix-profile/etc/profile.d/nix.sh
 fi
-
-bindkey -M emacs "^[/" redo
