@@ -63,6 +63,7 @@ mkdir -p ~/.ssh
 cp -a .ssh/config ~/.ssh
 
 mkdir -p ~/.local/bin
+cp -a .local/bin/git-kickoff.sh ~/.local/bin/git-kickoff
 
 # install vim-plug, a minimalist Vim plugin manager
 if test ! -e ~/.vim/autoload/plug.vim
