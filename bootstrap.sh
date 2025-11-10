@@ -64,6 +64,9 @@ cp -a .ssh/config ~/.ssh
 
 mkdir -p ~/.local/bin
 
+mkdir -p ~/.aws/cli
+cp -a .aws/cli/alias ~/.aws/cli/alias
+
 # install vim-plug, a minimalist Vim plugin manager
 if test ! -e ~/.vim/autoload/plug.vim
 then
