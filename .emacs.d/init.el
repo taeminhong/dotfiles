@@ -463,6 +463,14 @@
   :config
   (add-hook 'glsl-mode-hook (lambda () (c-set-style "stroustrup"))))
 
+(use-package markdown-mode
+  :config
+  (add-hook
+   'markdown-mode-hook
+   (lambda ()
+     (setq-local paragraph-start (default-value 'paragraph-start))
+     (setq-local paragraph-separate (default-value 'paragraph-separate)))))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
