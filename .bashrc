@@ -60,6 +60,21 @@ _build_prompt () {
 }
 PROMPT_COMMAND=_build_prompt
 
+# https://github.com/akermu/emacs-libvterm?tab=readme-ov-file#shell-side-configuration
+vterm_printf() {
+    if [ -n "$TMUX" ] \
+        && { [ "${TERM%%-*}" = "tmux" ] \
+            || [ "${TERM%%-*}" = "screen" ]; }; then
+        # Tell tmux to pass the escape sequences through
+        printf "\ePtmux;\e\e]%s\007\e\\" "$1"
+    elif [ "${TERM%%-*}" = "screen" ]; then
+        # GNU screen (screen, screen-256color, screen-256color-bce)
+        printf "\eP\e]%s\007\e\\" "$1"
+    else
+        printf "\e]%s\e\\" "$1"
+    fi
+}
+
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).

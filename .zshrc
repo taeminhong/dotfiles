@@ -13,6 +13,21 @@ if [ -n "$SSH_CLIENT" ]; then
     PROMPT="%F{green}%n@%m%f $PROMPT"
 fi
 
+# https://github.com/akermu/emacs-libvterm?tab=readme-ov-file#shell-side-configuration
+vterm_printf() {
+    if [ -n "$TMUX" ] \
+        && { [ "${TERM%%-*}" = "tmux" ] \
+            || [ "${TERM%%-*}" = "screen" ]; }; then
+        # Tell tmux to pass the escape sequences through
+        printf "\ePtmux;\e\e]%s\007\e\\" "$1"
+    elif [ "${TERM%%-*}" = "screen" ]; then
+        # GNU screen (screen, screen-256color, screen-256color-bce)
+        printf "\eP\e]%s\007\e\\" "$1"
+    else
+        printf "\e]%s\e\\" "$1"
+    fi
+}
+
 # deactivate mark after copy-region-as-kill, like Emacs
 # https://unix.stackexchange.com/a/19956
 copy-region-as-kill-deactivate-mark() {
