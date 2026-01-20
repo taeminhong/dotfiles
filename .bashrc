@@ -91,7 +91,7 @@ fi
 # NVM
 if [ -d ~/.nvm ]; then
     load_nvm() {
-        unset -f load_nvm nvm node npm
+        unset -f load_nvm nvm node npm npx
         export NVM_DIR="$HOME/.nvm"
         [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
         # nvm bash_completion
@@ -101,6 +101,7 @@ if [ -d ~/.nvm ]; then
     node() { load_nvm; node "$@"; }
     nvm() { load_nvm; nvm "$@"; }
     npm() { load_nvm; npm "$@"; }
+    npx() { load_nvm; npx "$@"; }
 fi
 
 # colored GCC warnings and errors
