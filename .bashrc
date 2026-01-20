@@ -99,7 +99,7 @@ if [ -d ~/.nvm ]; then
     }
 
     node() { load_nvm; node "$@"; }
-    nvm() { load_nvm; node "$@"; }
+    nvm() { load_nvm; nvm "$@"; }
     npm() { load_nvm; npm "$@"; }
 fi
 
