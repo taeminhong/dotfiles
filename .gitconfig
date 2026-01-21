@@ -33,6 +33,7 @@
 	b = !"git branch | grep '^\\*' | cut -c 3-"
 	sup = submodule update
 	untracked = ls-files --o --exclude-standard
+	touch = commit --amend --only --no-edit --allow-empty --date=now
 [push]
 	default = simple
 [fetch]
