@@ -14,6 +14,10 @@ if [[ "$INSIDE_EMACS" =~ ",comint" ]]; then
     set +o vi
 fi
 
+if [ -n "$INSIDE_EMACS" ]; then
+    GIT_EDITOR=false
+fi
+
 # don't put duplicate lines or lines starting with space in the history.
 HISTCONTROL=ignoreboth
 HISTSIZE=1000

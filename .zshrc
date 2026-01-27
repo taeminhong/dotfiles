@@ -3,6 +3,10 @@ if [[ "$INSIDE_EMACS" =~ ".*,comint$" ]]; then
     unsetopt zle
 fi
 
+if [ -n "$INSIDE_EMACS" ]; then
+    GIT_EDITOR=false
+fi
+
 # Remove '/' and '-' from the WORDCHARS
 WORDCHARS='*?_.[]~=&;!#$%^(){}<>'
 
