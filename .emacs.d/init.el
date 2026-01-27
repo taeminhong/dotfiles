@@ -356,6 +356,9 @@
   :hook ((emacs-lisp-mode . rainbow-delimiters-mode)
          (scheme-mode . rainbow-delimiters-mode)
          (clojure-mode . rainbow-delimiters-mode)
+         (typescript-mode . rainbow-delimiters-mode)
+         (js2-mode . rainbow-delimiters-mode)
+         (web-mode . rainbow-delimiters-mode)
          (haskell-mode . rainbow-delimiters-mode))
   :config
   ;; Don't use the :custom-face keyword.
