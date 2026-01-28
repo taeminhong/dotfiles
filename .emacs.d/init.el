@@ -179,6 +179,10 @@
               ("M-o")
               ("M-x")))
 
+(use-package vterm
+  :bind (:map vterm-mode-map
+              ("C-c C-x" . vterm--self-insert)))
+
 (use-package view
   :bind (([f8] . view-mode)
          :map view-mode-map
