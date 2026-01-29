@@ -165,6 +165,9 @@
     (package-install 'use-package))
   (require 'use-package))
 
+(use-package windmove
+  :hook (after-init . windmove-default-keybindings))
+
 (use-package tmacs
   :init
   (global-set-key (kbd "C-x o o o") 'other-window)
