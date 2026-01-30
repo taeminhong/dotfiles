@@ -165,6 +165,10 @@
     (package-install 'use-package))
   (require 'use-package))
 
+(use-package window
+  :custom
+  (split-width-threshold 180 "Don't split windows too narrowly"))
+
 (use-package tmacs
   :init
   (global-set-key (kbd "C-x o o o") 'other-window)
