@@ -105,10 +105,18 @@ test -f ~/.local/bin/aws_completer && complete -C "$_" aws
 
 # NVM
 if [ -d ~/.nvm ]; then
-    export NVM_DIR="$HOME/.nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-    # nvm bash_completion
-    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+    load_nvm() {
+        unset -f load_nvm nvm node npm npx
+        export NVM_DIR="$HOME/.nvm"
+        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+        # nvm bash_completion
+        [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+    }
+
+    node() { load_nvm; node "$@"; }
+    nvm() { load_nvm; nvm "$@"; }
+    npm() { load_nvm; npm "$@"; }
+    npx() { load_nvm; npx "$@"; }
 fi
 
 if [ -e ~/miniconda3/bin/conda ]; then
