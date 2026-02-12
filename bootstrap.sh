@@ -60,9 +60,6 @@ cp -a .emacs.d/local/blank.el ~/.emacs.d/local
 cp -a .emacs.d/local/sublimey.el ~/.emacs.d/local
 cp -a .emacs.d/local/tmacs.el ~/.emacs.d/local
 
-mkdir -p ~/.ssh
-cp -a .ssh/config ~/.ssh
-
 mkdir -p ~/.local/bin
 cp -a .local/bin/git-fix.sh ~/.local/bin/git-fix
 
