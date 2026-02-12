@@ -56,7 +56,7 @@ if [ -e ~/miniconda3/bin/conda ]; then
     }
 fi
 
-autoload -Uz compinit && compinit
+autoload -Uz compinit && compinit -i
 
 . ~/.aliases
 . ~/tmux.sh
