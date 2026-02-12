@@ -66,6 +66,9 @@ cp -a .local/bin/git-profile.sh ~/.local/bin/git-profile
 cp -a .local/bin/git-fix.sh ~/.local/bin/git-fix
 cp -a .local/bin/git-kickoff.sh ~/.local/bin/git-kickoff
 
+mkdir -p ~/.aws/cli
+cp -a .aws/cli/alias ~/.aws/cli/alias
+
 # install vim-plug, a minimalist Vim plugin manager
 if test ! -e ~/.vim/autoload/plug.vim
 then
