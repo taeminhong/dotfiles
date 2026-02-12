@@ -390,6 +390,8 @@
          (clojure-mode . adjust-parens-mode)))
 
 (use-package magit
+  :init
+  (setq magit-diff-refine-hunk t)
   :bind (("C-x g" . magit-status)))
 
 (use-package ag
