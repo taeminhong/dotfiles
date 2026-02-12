@@ -10,3 +10,18 @@ alias less='less -i'
 alias cdg='cd $(git root)'
 alias .net=dotnet
 alias csr=csharprepl
+
+if command -v wslpath >/dev/null 2>&1
+then
+    explorer () {
+        if test $# -eq 0
+        then
+            explorer.exe .
+        else
+            for f in "$@"
+            do
+                explorer.exe "$(wslpath -w "${f:-.}")"
+            done
+        fi
+    }
+fi
