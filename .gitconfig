@@ -18,10 +18,9 @@
 	s = status -s
 	# Show the diff between the latest commit and the current state
 	d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
-	# Amend message of most recent commit.
-	amend = commit --amend
-	# Fix the most recent commit without amending commit message
-	fix = commit --amend -CHEAD
+	# Amend message of given commit.
+	amend = !"git fix --amend"
+	reword = !"git fix --reword"
 	wip = !"git add . && git commit -m 'wip'"
 	c = commit
 	co = checkout
