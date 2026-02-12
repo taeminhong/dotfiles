@@ -37,28 +37,24 @@ if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
 fi
 
-_build_prompt () {
-    local exitcode=$?
-    local chroot="${debian_chroot:+($debian_chroot)}"
-    # set a fancy prompt (non-color, unless we know we "want" color)
-    # for details of ANSI escape code, visit https://en.wikipedia.org/wiki/ANSI_escape_code
-    local reset red green blue
-    case "$TERM" in
-        eterm-color|xterm-color|*-256color)
-            reset='\[\033[00m\]'
-            green='\[\033[00;32m\]'
-            blue='\[\033[00;34m\]'
-            red='\[\033[00;31m\]'
-            ;;
-    esac
-    PS1="${chroot}${SSH_CLIENT:+${green}\u@\h }"
-    if [ "$exitcode" = 0 ]; then
-        PS1+="${blue}\W ${reset}\\$ "
+__ps1_symbol () {
+    if [ $? = 0 ]; then
+        printf "$1"
     else
-        PS1+="${blue}\W ${red}!${reset} "
+        printf "$2"
     fi
 }
-PROMPT_COMMAND=_build_prompt
+
+PS1="${debian_chroot:+<$debian_chroot> }"
+case "$TERM" in
+    eterm-color|xterm-color|*-256color)
+        PS1+="${SSH_CLIENT:+\[\e[32m\]\u@\h }"
+        PS1+="\[\e[34m\]\W\[\e[m\] \`__ps1_symbol \$ \[\e[31m\]!\[\e[m\]\` "
+        ;;
+    *)
+        PS1+="${SSH_CLIENT:\u@\h }\W \`__ps1_symbol \$ !\`"
+        ;;
+esac
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
@@ -94,6 +90,29 @@ if [ -d ~/.nvm ]; then
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
     # nvm bash_completion
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+fi
+
+if [ -e ~/miniconda3/bin/conda ]; then
+    conda() {
+        unset -f conda
+
+        # >>> conda initialize >>>
+        # !! Contents within this block are managed by 'conda init' !!
+        __conda_setup="$("$HOME/miniconda3/bin/conda" 'shell.bash' 'hook' 2> /dev/null)"
+        if [ $? -eq 0 ]; then
+            eval "$__conda_setup"
+        else
+            if [ -f "$HOME/miniconda3/etc/profile.d/conda.sh" ]; then
+                . "$HOME/miniconda3/etc/profile.d/conda.sh"
+            elif [ -d "$HOME/miniconda3/bin" ]; then
+                export PATH="$HOME/miniconda3/bin:$PATH"
+            fi
+        fi
+        unset __conda_setup
+        # <<< conda initialize <<<
+
+        conda "$@"
+    }
 fi
 
 # colored GCC warnings and errors
