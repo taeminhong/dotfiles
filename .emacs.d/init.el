@@ -347,6 +347,10 @@
   (setq python-indent-offset 4))
 
 (use-package anaconda-mode
+  :init
+  ;; Fix the response reading error on Mac OS by changing localhost address.
+  ;; See: https://github.com/pythonic-emacs/anaconda-mode?tab=readme-ov-file#faq
+  (when is-macos (setq anaconda-mode-localhost-address "localhost"))
   :hook (python-mode))
 
 (use-package ibuffer
