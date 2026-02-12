@@ -109,6 +109,9 @@
   ;; running on GUI.
   (global-set-key (kbd "M-O") 'other-window-backward))
 
+(setq bookmark-default-file
+      (expand-file-name ".emacs-bookmarks" emacs-working-directory))
+
 (require 'desktop)
 (setq desktop-path `(,emacs-working-directory))
 (add-to-list 'desktop-globals-to-save 'compile-command)
