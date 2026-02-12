@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+dos2unix -q ~/.gitconfig
+
 if command -v subl >/dev/null 2>&1
 then
     git config --global core.editor "subl -w"
