@@ -207,9 +207,12 @@
     (fset 'man 'taemin-man-no-completion)))
 
 (use-package term
-  :bind (:map term-raw-map
+  :bind (:map term-mode-map
+              ("C-c RET" . term-char-mode)
+         :map term-raw-map
               ("M-o")
-              ("M-x")))
+              ("M-x")
+              ("C-c RET" . term-line-mode)))
 
 (use-package view
   :bind (([f8] . view-mode)
