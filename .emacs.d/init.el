@@ -173,6 +173,10 @@
 (use-package windmove
   :hook (after-init . windmove-default-keybindings))
 
+(use-package window
+  :custom
+  (split-width-threshold 180 "Don't split windows too narrowly"))
+
 (use-package tmacs
   :init
   (global-set-key (kbd "C-x o o o") 'other-window)
