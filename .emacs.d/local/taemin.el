@@ -6,6 +6,8 @@
 (require 'subr-x)
 (require 'term)
 (require 'dash)
+(require 'simple)
+(require 'files)
 
 (defmacro taemin-bound-and-true-p (var)
   "Return the value of symbol VAR if it is bound, else nil."
@@ -25,6 +27,13 @@
         (quit-window t)
       (with-current-buffer buffer
         (use-local-map taemin-terminal-sentinel-map)))))
+
+(defvar taemin-clipboard-copy-command
+  (-first (-compose 'executable-find 'car)
+          '(("clip.exe")
+            ("pbcopy")
+            ("xsel" "--clipboard")
+            ("xclip" "-sel" "clip"))))
 
 (defvar taemin-makefile-regex-alist
   '(("^make" . "^[Mm]akefile\\'")
@@ -287,5 +296,22 @@ select that buffer in another window."
       (taemin-terminal t))))
 
 (advice-add 'term-sentinel :after #'taemin--terminal-sentinel)
+
+(defun taemin-pipe-text (text command)
+  "Pipe out TEXT to COMMAND.
+COMMAND is a list of strings that consists of a program name and
+arguments, like (\"xsel\" \"--clipboard\")."
+  (let* ((program (car command))
+         (process-connection-type nil)
+         (proc (apply 'start-process `(,program nil ,@command))))
+    (process-send-string proc text)
+    (process-send-eof proc)))
+
+(defun taemin-clipboard-copy (text)
+  "Copy TEXT in the system clipboard using
+'taemin-clipboard-copy-command."
+  (if taemin-clipboard-copy-command
+      (taemin-pipe-text text taemin-clipboard-copy-command)
+    (gui-select-text text)))
 
 (provide 'taemin)

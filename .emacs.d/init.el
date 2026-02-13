@@ -182,10 +182,12 @@
 (use-package taemin
   :autoload
   (taemin-create-buffer-file-parent-directories
-   taemin-select-buffer-window)
+   taemin-select-buffer-window
+   taemin-clipboard-copy)
   :commands
   (taemin-man-no-completion)
   :init
+  (setq interprogram-cut-function 'taemin-clipboard-copy)
   (when is-macos
     ;; man command completion is too slow and inaccurate.
     (fset 'man 'taemin-man-no-completion))
