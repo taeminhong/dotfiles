@@ -61,6 +61,8 @@ cp -a .emacs.d/local/sublimey.el ~/.emacs.d/local
 cp -a .emacs.d/local/tmacs.el ~/.emacs.d/local
 
 mkdir -p ~/.local/bin
+cp -a .local/bin/sh-setup.sh ~/.local/bin/
+cp -a .local/bin/git-profile.sh ~/.local/bin/git-profile
 cp -a .local/bin/git-fix.sh ~/.local/bin/git-fix
 
 # install vim-plug, a minimalist Vim plugin manager
