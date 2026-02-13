@@ -57,6 +57,9 @@ if [ -e ~/miniconda3/bin/conda ]; then
 fi
 
 autoload -Uz compinit && compinit -i
+autoload bashcompinit && bashcompinit
+
+test -f ~/.local/bin/aws_completer && complete -C "$_" aws
 
 . ~/.aliases
 . ~/tmux.sh
