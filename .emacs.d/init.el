@@ -526,6 +526,15 @@
      (setq-local paragraph-start (default-value 'paragraph-start))
      (setq-local paragraph-separate (default-value 'paragraph-separate)))))
 
+(use-package sql-mode
+  :init
+  (add-hook 'sql-mode-hook
+            (lambda ()
+              (setq indent-tabs-mode t)
+              (setq tab-width 4)))
+  :bind ((:map sql-mode-map
+               ("TAB" . tab-to-tab-stop))))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
