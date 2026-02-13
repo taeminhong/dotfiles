@@ -33,6 +33,7 @@
 	sup = submodule update
 	untracked = ls-files --o --exclude-standard
 	empty = commit --allow-empty --only
+	touch = commit --amend --only --no-edit --allow-empty --date=now
 [push]
 	default = simple
 [fetch]
