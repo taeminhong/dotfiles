@@ -11,6 +11,9 @@ alias cdg='cd $(git root)'
 alias .net=dotnet
 alias csr=csharprepl
 
+# Aliases for common typos
+alias gti=git
+
 if command -v wslpath >/dev/null 2>&1
 then
     explorer () {
