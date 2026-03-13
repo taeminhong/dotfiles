@@ -62,6 +62,7 @@ cp -a .emacs.d/local/tmacs.el ~/.emacs.d/local
 
 mkdir -p ~/.local/bin
 cp -a .local/bin/git-fix.sh ~/.local/bin/git-fix
+cp -a .local/bin/git-lt.sh ~/.local/bin/git-lt
 
 # install vim-plug, a minimalist Vim plugin manager
 if test ! -e ~/.vim/autoload/plug.vim
