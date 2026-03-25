@@ -34,6 +34,7 @@
 	untracked = ls-files --o --exclude-standard
 	empty = commit --allow-empty --only
 	touch = commit --amend --only --no-edit --allow-empty --date=now
+	reset-author = commit --amend --only --reset-author --no-edit --allow-empty
 [push]
 	default = simple
 [fetch]
