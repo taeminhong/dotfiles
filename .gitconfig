@@ -33,6 +33,7 @@
 	sup = submodule update
 	untracked = ls-files --o --exclude-standard
 	empty = commit --allow-empty --only
+	reset-author = commit --amend --only --reset-author --no-edit --allow-empty
 [push]
 	default = simple
 [fetch]
