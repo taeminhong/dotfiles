@@ -542,6 +542,7 @@
 
 (use-package sql-mode
   :init
+  (setq sql-mysql-login-params '(server port user password database))
   (add-hook 'sql-mode-hook
             (lambda ()
               (setq indent-tabs-mode t)
