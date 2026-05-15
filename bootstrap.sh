@@ -63,6 +63,7 @@ mkdir -p ~/.ssh
 cp -a .ssh/config ~/.ssh
 
 mkdir -p ~/.local/bin
+cp -a .local/bin/aws-region.sh ~/.local/bin/aws-region
 
 mkdir -p ~/.aws/cli
 cp -a .aws/cli/alias ~/.aws/cli/alias
