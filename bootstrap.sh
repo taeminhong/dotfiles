@@ -65,6 +65,7 @@ cp -a .local/bin/sh-setup.sh ~/.local/bin/
 cp -a .local/bin/git-profile.sh ~/.local/bin/git-profile
 cp -a .local/bin/git-fix.sh ~/.local/bin/git-fix
 cp -a .local/bin/git-kickoff.sh ~/.local/bin/git-kickoff
+cp -a .local/bin/aws-region.sh ~/.local/bin/aws-region
 
 mkdir -p ~/.aws/cli
 cp -a .aws/cli/alias ~/.aws/cli/alias
