@@ -59,6 +59,9 @@ addpath PATH "$HOME/.cabal/bin"
 # systemd user bin directory
 addpath PATH "$HOME/.local/bin"
 
+export VOLTA_HOME="$HOME/.volta"
+addpath PATH "$VOLTA_HOME/bin"
+
 addpath C_INCLUDE_PATH     /opt/local/include
 addpath CPLUS_INCLUDE_PATH /opt/local/include
 addpath LIBRARY_PATH       /opt/local/lib

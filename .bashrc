@@ -83,7 +83,7 @@ if [[ ":$SHELLOPTS:" =~ :emacs: ]]; then
 fi
 
 # NVM
-if [ -d ~/.nvm ]; then
+if ! [ -d "$VOLTA_HOME" ] && [ -d ~/.nvm ]; then
     export NVM_DIR="$HOME/.nvm"
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
     # nvm bash_completion
