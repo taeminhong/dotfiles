@@ -104,7 +104,7 @@ fi
 test -f ~/.local/bin/aws_completer && complete -C "$_" aws
 
 # NVM
-if [ -d ~/.nvm ]; then
+if ! [ -d "$VOLTA_HOME" ] && [ -d ~/.nvm ]; then
     load_nvm() {
         unset -f load_nvm nvm node npm npx
         export NVM_DIR="$HOME/.nvm"
