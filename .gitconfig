@@ -35,6 +35,7 @@
 	empty = commit --allow-empty --only
 	touch = commit --amend --only --no-edit --allow-empty --date=now
 	reset-author = commit --amend --only --reset-author --no-edit --allow-empty
+	same = !"f() { test \"$(git rev-parse \"$1\")\" = \"$(git rev-parse \"${2:-HEAD}\")\"; }; f"
 [push]
 	default = simple
 [fetch]
