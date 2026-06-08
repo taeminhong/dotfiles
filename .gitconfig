@@ -33,6 +33,7 @@
 	sup = submodule update
 	untracked = ls-files --o --exclude-standard
 	empty = commit --allow-empty --only
+	same = !"f() { test \"$(git rev-parse \"$1\")\" = \"$(git rev-parse \"${2:-HEAD}\")\"; }; f"
 [push]
 	default = simple
 [fetch]
