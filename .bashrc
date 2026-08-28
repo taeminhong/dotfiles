@@ -98,7 +98,9 @@ if [ -d ~/.nvm ]; then
         [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
     }
 
-    node() { load_nvm; node "$@"; }
+    # In "Git for Windows", "node" is aliased to "winpty node.exe" by /etc/profile.d/aliases.sh.
+    # Prefix with '\' to avoid an syntax error.
+    \node() { load_nvm; node "$@"; }
     nvm() { load_nvm; nvm "$@"; }
     npm() { load_nvm; npm "$@"; }
     npx() { load_nvm; npx "$@"; }
