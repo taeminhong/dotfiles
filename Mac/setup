@@ -15,6 +15,9 @@ sed "s/IS_TERMINAL/[{ \
 # For more details see https://www.git-tower.com/blog/make-git-rebase-safe-on-osx/
 git config --global core.trustctime false
 
+vscode_dir="~/Library/Application Support/Code/User"
+mkdir -p "$vscode_dir" && cp vscode/settings.json "$vscode_dir"
+
 echo '
 
 # MacPorts bash-completion
