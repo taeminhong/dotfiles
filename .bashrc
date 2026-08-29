@@ -124,4 +124,7 @@ if [ -f ~/.nix-profile/etc/profile.d/nix.sh ]; then
     . ~/.nix-profile/etc/profile.d/nix.sh
 fi
 
-command -v direnv >/dev/null 2>&1 && eval "$(direnv hook bash)"
+if command -v direnv >/dev/null 2>&1
+then
+    eval "$(direnv hook bash)"
+fi
