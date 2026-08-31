@@ -54,7 +54,7 @@ case "$TERM" in
         PS1+="\[\e[34m\]\W\[\e[m\] \`__ps1_symbol \$ \[\e[31m\]!\[\e[m\]\` "
         ;;
     *)
-        PS1+="${SSH_CLIENT:\u@\h }\W \`__ps1_symbol \$ !\`"
+        PS1+="${SSH_CLIENT:+\u@\h }\W \`__ps1_symbol \$ !\`"
         ;;
 esac
 
