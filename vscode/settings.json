@@ -1,0 +1,30 @@
+{
+    "security.workspace.trust.untrustedFiles": "open",
+    "terminal.integrated.defaultProfile.windows": "Git Bash",
+    "trailing-spaces.trimOnSave": true,
+    "files.insertFinalNewline": true,
+    "debug.javascript.autoAttachFilter": "always",
+    "dotnet.automaticallyCreateSolutionInWorkspace": false,
+    "editor.acceptSuggestionOnCommitCharacter": false,
+    "remote.autoForwardPortsSource": "hybrid",
+    "js/ts.updateImportsOnFileMove.enabled": "always",
+    "terminal.integrated.allowChords": false,
+    "terminal.integrated.suggest.enabled": false,
+    "debug.breakpointsView.presentation": "tree",
+    "git.blame.editorDecoration.enabled": true,
+    "git.blame.statusBarItem.enabled": false,
+    "claudeCode.preferredLocation": "panel",
+    "terminal.integrated.allowedLinkSchemes": [
+        "file",
+        "http",
+        "https",
+        "mailto",
+        "vscode",
+        "vscode-insiders",
+        "docker-desktop"
+    ],
+    "terminal.integrated.commandsToSkipShell": [
+    "-workbench.action.quickOpen"
+    ],
+    "git.suggestSmartCommit": false
+}

@@ -2,6 +2,9 @@
 
 dos2unix -q ~/.gitconfig
 
+vscode_dir="$(cygpath "$APPDATA")/Code/User"
+mkdir -p "$vscode_dir" && cp vscode/settings.json "$vscode_dir"
+
 if command -v subl >/dev/null 2>&1
 then
     git config --global core.editor "subl -w"
