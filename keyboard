@@ -8,7 +8,7 @@
 XKBMODEL="pc105"
 XKBLAYOUT="us"
 XKBVARIANT="dvorak"
-XKBOPTIONS="ctrl:swap_lwin_lctl"
+XKBOPTIONS="ctrl:swap_lwin_lctl,shift:both_capslock"
 
 # If you don't want to use the XKB layout on the console, you can
 # specify an alternative keymap.  Make sure it will be accessible
@@ -21,3 +21,7 @@ XKBOPTIONS="ctrl:swap_lwin_lctl"
 # sudo dpkg-reconfigure keyboard-configuration
 #
 # This will take effect on the virtual consoles as well as in the graphic desktop.
+
+# If you're using Ubuntu, run following commonds
+#
+# gsettings set org.gnome.desktop.input-sources xkb-options "['ctrl:swap_lwin_lctl', 'shift:both_capslock']"
