@@ -70,6 +70,7 @@ cp -a .local/bin/git-fix.sh ~/.local/bin/git-fix
 cp -a .local/bin/git-kickoff.sh ~/.local/bin/git-kickoff
 cp -a .local/bin/aws-region.sh ~/.local/bin/aws-region
 cp -a .local/bin/git-lt.sh ~/.local/bin/git-lt
+cp -a .local/bin/git-claude-reword.sh ~/.local/bin/git-claude-reword
 
 mkdir -p ~/.aws/cli
 cp -a .aws/cli/alias ~/.aws/cli/alias
