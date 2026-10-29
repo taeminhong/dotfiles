@@ -15,6 +15,7 @@
   (-first (-compose 'executable-find 'car)
           '(("clip.exe")
             ("pbcopy")
+            ("wl-copy")
             ("xsel" "--clipboard")
             ("xclip" "-sel" "clip"))))
 
