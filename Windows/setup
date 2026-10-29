@@ -20,3 +20,9 @@ then
     git config --global mergetool.keepBackup false
     git config --global mergetool.tortoisemerge.cmd "TortoiseMerge -base \$BASE -theirs \$REMOTE -mine \$LOCAL -merged \$MERGED"
 fi
+
+if command -v autohotkey >/dev/null 2>&1
+then
+    appdata=$(cygpath -u "$APPDATA")
+    cp "$(dirname "$0")/hangul.ahk" "$appdata/Microsoft/Windows/Start Menu/Programs/Startup"
+fi
