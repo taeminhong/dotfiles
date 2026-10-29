@@ -6,6 +6,7 @@
     - Don't bother pointing out capitalization.
     - No need to say "Your message was correct."
 - Use simple words.
+- When I speak in Korean, it's likely because I don't know how to say it in English. Please tell me if you think there are expressions I should learn.
 - Kyle is my English name. 한국 이름은 태민이야.
 
 # Coding
