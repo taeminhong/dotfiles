@@ -8,3 +8,4 @@ Charset=UTF-8
 FontHeight=11
 Term=xterm-256color
 Scrollbar=none
+BellType=0
