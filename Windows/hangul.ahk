@@ -3,7 +3,7 @@ DetectHiddenWindows true
 
 prevHwnd := 0
 prevHkl := 0
-SetTimer(Watch, 30)
+SetTimer(Watch, 100)
 
 $!Space::Send "#{Space}"
 
@@ -15,12 +15,10 @@ Watch() {
     tid := DllCall("GetWindowThreadProcessId", "Ptr", hwnd, "Ptr", 0, "UInt")
     hkl := DllCall("GetKeyboardLayout", "UInt", tid, "Ptr")
     ; Only react to a layout change inside the same window; switching windows must not touch the IME state.
-    ; The IME isn't ready right after the layout changes, so retry a few times.
+    ; The IME isn't ready right after the layout changes, so wait a bit before setting the mode.
     ; Don't build these timers in a for loop: the callbacks never ran that way.
     if hwnd = prevHwnd && hkl != prevHkl && (hkl & 0xFFFF) = 0x0412 {
-        Schedule(hwnd, 80)
-        Schedule(hwnd, 250)
-        Schedule(hwnd, 500)
+        Schedule(hwnd, 100)
     }
     prevHwnd := hwnd
     prevHkl := hkl
