@@ -21,3 +21,7 @@
     - The code is complex: name the algorithm and link the doc/thread it's based on.
     - There's a pitfall or something easily misread.
 - Comments are warning signs, not narration.
+
+# Git
+
+- Don't add yourself as co-author.
