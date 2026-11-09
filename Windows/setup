@@ -20,3 +20,11 @@ then
     git config --global mergetool.keepBackup false
     git config --global mergetool.tortoisemerge.cmd "TortoiseMerge -base \$BASE -theirs \$REMOTE -mine \$LOCAL -merged \$MERGED"
 fi
+
+if ! sc query ssh-agent | grep -q 'STATE *: *4 '
+then
+    echo "ssh-agent is not running.
+Run as administrator:
+    Start-Service ssh-agent.
+    Get-Service ssh-agent | Set-Service -StartupType Automatic"
+fi

@@ -69,4 +69,10 @@ if [ -f ~/.nix-profile/etc/profile.d/nix.sh ]; then
     . ~/.nix-profile/etc/profile.d/nix.sh
 fi
 
+if [ -z "$SSH_AUTH_SOCK" ] &&
+       [ -x ~/.local/bin/wsl2-ssh-agent ] &&
+       sc.exe query ssh-agent 2>/dev/null | grep -q 'STATE *: *4 '; then
+    eval "$(~/.local/bin/wsl2-ssh-agent)"
+fi
+
 bindkey -M emacs "^[/" redo
