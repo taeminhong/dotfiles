@@ -1,5 +1,38 @@
 #!/bin/sh
 
+install_wsl2_ssh_agent () {
+    # https://github.com/mame/wsl2-ssh-agent
+    version=v0.9.7
+    case "$(uname -m)" in
+        x86_64)
+            asset=wsl2-ssh-agent
+            sha256=281c64f6079598de1a455292d533f3ae21837980a3d3012074bc14ad695325d8
+        ;;
+        aarch64)
+            asset=wsl2-ssh-agent-arm64
+            sha256=e9cb0347a72ca68a511e48779080b80a22af1bf670e5a52c9f35f95951ce5221
+        ;;
+        *) return ;;
+    esac
+
+    if test -f "$1" && test -x "$1" && echo "$sha256  $1" | sha256sum -c --status
+    then
+        return
+    fi
+
+    printf "Downloading wsl2-ssh-agent $version\t"
+    mkdir -p "$(dirname "$1")"
+    tmp="$1.tmp.$$"
+    if curl -fsSL -o "$tmp" "https://github.com/mame/wsl2-ssh-agent/releases/download/$version/$asset" &&
+        echo "$sha256  $tmp" | sha256sum -c --status
+    then
+        chmod 755 "$tmp" && mv -f "$tmp" "$1" && echo "Done"
+    else
+        rm -f "$tmp"
+        echo "Failed to install wsl2-ssh-agent" >&2
+    fi
+}
+
 vscode_dir=~/.config/Code/User
 mkdir -p "$vscode_dir" && cp vscode/settings.json "$vscode_dir"
 
@@ -9,3 +42,8 @@ then
 fi
 
 touch ~/.hushlogin
+
+if uname -r | grep -qi wsl2
+then
+    install_wsl2_ssh_agent "$HOME/.local/bin/wsl2-ssh-agent"
+fi

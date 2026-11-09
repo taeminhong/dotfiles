@@ -176,3 +176,9 @@ if command -v direnv >/dev/null 2>&1
 then
     eval "$(direnv hook bash)"
 fi
+
+if [ -z "$SSH_AUTH_SOCK" ] &&
+       [ -x ~/.local/bin/wsl2-ssh-agent ] &&
+       sc.exe query ssh-agent 2>/dev/null | grep -q 'STATE *: *4 '; then
+    eval "$(~/.local/bin/wsl2-ssh-agent)"
+fi
