@@ -32,6 +32,7 @@
   (-first (-compose 'executable-find 'car)
           '(("clip.exe")
             ("pbcopy")
+            ("wl-copy")
             ("xsel" "--clipboard")
             ("xclip" "-sel" "clip"))))
 
@@ -310,7 +311,8 @@ arguments, like (\"xsel\" \"--clipboard\")."
 (defun taemin-clipboard-copy (text)
   "Copy TEXT in the system clipboard using
 'taemin-clipboard-copy-command."
-  (if taemin-clipboard-copy-command
+  (if (and taemin-clipboard-copy-command
+           (not (display-graphic-p)))
       (taemin-pipe-text text taemin-clipboard-copy-command)
     (gui-select-text text)))
 
