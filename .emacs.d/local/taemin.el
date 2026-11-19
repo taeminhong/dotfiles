@@ -28,14 +28,6 @@
       (with-current-buffer buffer
         (use-local-map taemin-terminal-sentinel-map)))))
 
-(defvar taemin-clipboard-copy-command
-  (-first (-compose 'executable-find 'car)
-          '(("clip.exe")
-            ("pbcopy")
-            ("wl-copy")
-            ("xsel" "--clipboard")
-            ("xclip" "-sel" "clip"))))
-
 (defvar taemin-makefile-regex-alist
   '(("^make" . "^[Mm]akefile\\'")
     ("^cabal" . "\\.cabal\\'")))
@@ -309,11 +301,10 @@ arguments, like (\"xsel\" \"--clipboard\")."
     (process-send-eof proc)))
 
 (defun taemin-clipboard-copy (text)
-  "Copy TEXT in the system clipboard using
-'taemin-clipboard-copy-command."
-  (if (and taemin-clipboard-copy-command
-           (not (display-graphic-p)))
-      (taemin-pipe-text text taemin-clipboard-copy-command)
+  "Copy TEXT to the system clipboard using the clipcopy script."
+  (if (and (not (display-graphic-p))
+           (executable-find "clipcopy"))
+      (taemin-pipe-text text '("clipcopy"))
     (gui-select-text text)))
 
 (provide 'taemin)
